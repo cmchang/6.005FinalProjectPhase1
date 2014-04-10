@@ -17,9 +17,9 @@ public class Board {
         this.xlength = 20;
         this.ylength = 20;
         this.framerate = 1;
-        walls.add(new LineSegment(0, 1, xlength+2, 1));
+        walls.add(new LineSegment(0, 0, xlength+2, 0));
         walls.add(new LineSegment(0, ylength+1, xlength+2, ylength+1));
-        walls.add(new LineSegment(1, 0, 1, ylength+2));
+        walls.add(new LineSegment(0, 0, 0, ylength+2));
         walls.add(new LineSegment(xlength+1, 0, xlength+1, ylength+2));
     }
     
