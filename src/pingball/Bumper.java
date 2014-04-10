@@ -3,6 +3,12 @@ package pingball;
 public class Bumper implements Gadget {
 
     @Override
+    public String getName() {
+        // TODO Auto-generated method stub
+        return null;
+    }
+    
+    @Override
     public String getType() {
         // TODO Auto-generated method stub
         return null;
@@ -15,9 +21,8 @@ public class Bumper implements Gadget {
     }
 
     @Override
-    public String getAction() {
+    public void getAction() {
         // TODO Auto-generated method stub
-        return null;
     }
 
     @Override
@@ -30,6 +35,12 @@ public class Bumper implements Gadget {
     public void reflectBall(Ball ball) {
         // TODO Auto-generated method stub
 
+    }
+
+    @Override
+    public void trigger() {
+        // TODO Auto-generated method stub
+        
     }
 
 }
