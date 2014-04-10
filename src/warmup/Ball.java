@@ -1,48 +1,52 @@
 package warmup;
+
 import physics.Angle;
 import physics.Circle;
 import physics.Vect;
-import physics.LineSegment;
-import physics.Geometry;
 
 public class Ball {
-    private Circle ball;
-    private Vect velocity;
     
-    public Ball(double posX, double posY, Angle direction, double speed){
-        ball = new Circle(posX, posY, .1);
-        velocity = new Vect(direction, speed);
+    private Vect move;
+    private Circle circle;
+    
+    public Ball(double xIn, double yIn, Angle directionIn, double speedIn) {
+        this.setCircle(new Circle(xIn, yIn, .1));
+        this.setMove(new Vect(directionIn, speedIn));
     }
     
-    public void timeStep(){
-        double posX = ball.getCenter().x() + velocity.x()*velocity.length();
-        double posY = ball.getCenter().y() + velocity.y()*velocity.length();
-        ball = new Circle(posX, posY, 0.1);
+    public Ball(Circle circleIn, Vect vectIn) {
+        this.circle = circleIn;
+        this.move = vectIn;
     }
-    //wallSide: 0 = top, 1 = right, 2 = bottom, 3 = left
-    public void collision(LineSegment obstruction){
-        velocity = Geometry.reflectWall(obstruction, velocity);
+
+    public int getX() {
+        return (int) circle.getCenter().x();
     }
-    
-    public double getPreciseLocX(){
-        return ball.getCenter().x();
+
+    public int getY() {
+        return (int) circle.getCenter().y();
     }
-    
-    public double getPreciseLocY(){
-        return ball.getCenter().y();
+
+    public Circle getCircle() {
+        return circle;
     }
-    
-    public int getRoundedLocX(){
-        return (int)ball.getCenter().x();
+
+    public void setCircle(Circle circle) {
+        this.circle = circle;
     }
-    
-    public int getRoundedLocY(){
-        return (int)ball.getCenter().y();
-    }    
-    
-    public String getBallInfo(){
-        
-        return "Ball position: " + ball.getCenter().x()+", " + ball.getCenter().y() +
-               "\nBall velocity: " + velocity.angle() + ", " + velocity.length();
+
+    public Vect getMove() {
+        return move;
     }
+
+    public void setMove(Vect move) {
+        this.move = move;
+    }
+
+    public void move(double minTime) {
+        double x = circle.getCenter().x() + minTime * move.dot(move.X_HAT) * move.length() * .01;
+        double y = circle.getCenter().y() + minTime * move.dot(move.Y_HAT) * move.length() * .01;
+        this.setCircle(new Circle(x, y, .1));
+    }
+
 }
