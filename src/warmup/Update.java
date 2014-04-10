@@ -9,7 +9,7 @@ class Update implements Runnable {
     
     Update(Board boardIn){
         board = boardIn;
-        minTime = 1.0;
+        minTime = 0.5;
     }
     
     public void run() {
@@ -17,7 +17,7 @@ class Update implements Runnable {
           while(true) {
               double[] times = new double[board.balls.size()];
               int[] close = new int[board.balls.size()];
-              Thread.sleep(2);
+              Thread.sleep(1);
               for (int i = 0; i < board.balls.size(); i ++) {
                   times[i] = 10000.0;
                   close[i] = -1;

@@ -10,7 +10,7 @@ public class Ball {
     private Circle circle;
     
     public Ball(double xIn, double yIn, Angle directionIn, double speedIn) {
-        this.setCircle(new Circle(xIn, yIn, .1));
+        this.setCircle(new Circle(xIn, yIn, .01));
         this.setMove(new Vect(directionIn, speedIn));
     }
     
@@ -44,8 +44,8 @@ public class Ball {
     }
 
     public void move(double minTime) {
-        double x = circle.getCenter().x() + minTime * move.dot(move.X_HAT) * move.length() * .01;
-        double y = circle.getCenter().y() + minTime * move.dot(move.Y_HAT) * move.length() * .01;
+        double x = circle.getCenter().x() + minTime * move.dot(move.X_HAT) * move.length() * .001;
+        double y = circle.getCenter().y() + minTime * move.dot(move.Y_HAT) * move.length() * .001;
         this.setCircle(new Circle(x, y, .1));
     }
 

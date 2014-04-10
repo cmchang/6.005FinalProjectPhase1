@@ -1,9 +1,6 @@
 package warmup;
-import java.util.ArrayList;
-
 import physics.Angle;
 
-import physics.Angle;
 
 /**
  * TODO: put documentation for your class here
