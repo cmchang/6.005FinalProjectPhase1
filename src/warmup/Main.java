@@ -1,7 +1,4 @@
 package warmup;
-import java.util.ArrayList;
-
-import physics.Angle;
 
 import physics.Angle;
 
