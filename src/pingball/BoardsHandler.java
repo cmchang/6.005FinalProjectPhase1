@@ -8,4 +8,8 @@ public class BoardsHandler {
  * It will handle shared walls between different boards.
  * 
  */
+ 
+ public BoardsHandler() {
+     
+ }
 }
