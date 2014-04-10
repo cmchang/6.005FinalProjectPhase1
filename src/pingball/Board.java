@@ -1,6 +1,7 @@
 package pingball;
 
 public class Board {
-    //same as in warm-up
-    //except walls --> gadgets
+    // similar as in warm-up
+    // except walls --> gadgets
+    // the BoardsHandler will keep track of all the wall line segments, no longer stored here
 }
