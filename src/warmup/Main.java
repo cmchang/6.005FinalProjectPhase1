@@ -13,8 +13,11 @@ public class Main {
     public static void main(String[] args) {
         Board board = new Board();
         Angle start = new Angle(2.0);
+        Angle start2 = new Angle(3.0);
         Ball ball = new Ball(5.0, 5.0, start, 1.0);
+        Ball ball2 = new Ball(3.0, 2.0, start2, 1.0);
         board.add(ball);
+        board.add(ball2);
         Runnable r = new Update(board);
         new Thread(r).start();
         board.animate();
