@@ -1,4 +1,7 @@
 package warmup;
+import java.util.ArrayList;
+
+import physics.Angle;
 
 import physics.Angle;
 
@@ -11,6 +14,7 @@ public class Main {
      * TODO: describe your main function's command line arguments here
      */
     public static void main(String[] args) {
+
         Board board = new Board();
         Angle start = new Angle(2.0);
         Angle start2 = new Angle(3.0);
@@ -22,5 +26,7 @@ public class Main {
         new Thread(r).start();
         board.animate();
     }
+    
+    
     
 }
