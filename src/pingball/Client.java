@@ -43,7 +43,6 @@ public class Client implements Runnable{
         board.add(ball);
         board.add(ball2);
         this.socket = socket;
-//        this.boardshandler = board;
         this.lock = lock;
         Client.connections = connectionsIn;
     }
@@ -56,9 +55,9 @@ public class Client implements Runnable{
             e.printStackTrace();
         }  finally { 
             try {
-                Runnable r = new Update(board);
-                new Thread(r).start();
-                board.animate(20);
+//                Runnable r = new Update(board);
+//                new Thread(r).start();
+//                board.animate(20);
                 socket.close();
             } catch (IOException e) {
                 e.printStackTrace();
@@ -73,17 +72,19 @@ public class Client implements Runnable{
      * @throws IOException if connection has an error or terminates unexpectedly
      */
     private void handleConnection(Socket socket) throws IOException {        
-        
         BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
         PrintWriter out = new PrintWriter(socket.getOutputStream(), true);
         try {
-            for (String line = in.readLine(); line != null; line = in.readLine()) {
-                String output = "TODO";
-                if (output != null) {
-                    // TODO FINISH
-                    out.flush();
-                }                      
-            }            
+            Runnable r = new Update(board);
+            new Thread(r).start();
+            board.animate(out, 20);
+//            for (String line = in.readLine(); line != null; line = in.readLine()) {
+//                String output = "TODO";
+//                if (output != null) {
+//                    out.println(output);
+//                    out.flush();
+//                }                      
+//            }            
         } finally {
             out.close();
             in.close();

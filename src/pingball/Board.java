@@ -1,5 +1,6 @@
 package pingball;
 
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -13,12 +14,14 @@ public class Board {
     
     private List<Ball> balls = new ArrayList<Ball>();
     private String name;
+    int xlength;
+    int ylength;
     List<LineSegment> walls = new ArrayList<LineSegment>();
     List<Gadget> objects = new ArrayList<Gadget>();
 
     public Board() {
-        int xlength = 20;
-        int ylength = 20;
+        xlength = 20;
+        ylength = 20;
         walls.add(new LineSegment(0, 0, xlength+2, 0));
         walls.add(new LineSegment(0, ylength+1, xlength+2, ylength+1));
         walls.add(new LineSegment(0, 0, 0, ylength+2));
@@ -53,18 +56,39 @@ public class Board {
     
     @Override
     public String toString() {
-        return null;
+        StringBuilder output = new StringBuilder();
+        char[][] field = new char[xlength+2][ylength+2];
+        for (int i = 0; i < xlength+2; i++) {
+            for (int j = 0; j < ylength+2; j++) {
+                if (i == 0 || i == 21 || j == 0 || j == 21 ) {
+                    field[i][j] = '.';
+                } else {
+                    field[i][j] = ' ';
+                }
+            }
+        }
+        for (Ball b: balls) {
+            field[b.getX() + 1][b.getY() + 1] = '*';
+        }
+        for (int i = 0; i < xlength+2; i++) {
+            for (int j = 0; j < ylength+2; j++) {
+                output.append(field[i][j]);
+            }
+            output.append('\n');
+        }
+        return output.toString();
     }
     
     /**
      * observer, animate the board (ie print out repeatly
      * at specified framerate
      */
-    public void animate(int framerate) {
+    public void animate(PrintWriter out, int framerate) {
         try {
             while (true) {
                 long startTime = System.currentTimeMillis();
-                System.out.println(this.toString());
+                out.println(this.toString());
+                out.flush();
                 long endTime = System.currentTimeMillis();
                 long duration = endTime - startTime;
                 Thread.sleep(1000/framerate - duration);
