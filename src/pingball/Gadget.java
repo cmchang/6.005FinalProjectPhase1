@@ -14,8 +14,18 @@ public interface Gadget {
      */
     
     /**
+     * Get the unique name/ID of the gadget.
+     * @return the name
+     */
+    public String getName();
+    
+    /**
      * Returns the name of the type of Gadget created
      * @return a String indicating the type
+     * 
+     * The returned String will can be:
+     *      "flipper", "bumper", "absorber"
+     * 
      */
     public String getType();
     
@@ -26,10 +36,10 @@ public interface Gadget {
     public double getTimeToCollision(Ball ball);
     
     /**
-     * This method returns the type of action will occur in response to a ball collision
-     * @return the action
+     * This method returns the type of action will occur in response to a ball collision.
+     * This method will execute the necessary action. 
      */
-    public String getAction();
+    public void getAction();
     
     /**
      * This method returns the coefficient of reflection of the corresponding gadget
@@ -44,4 +54,10 @@ public interface Gadget {
      */
     public void reflectBall(Ball ball);
         
+    /**
+     * Trigger this gadget.  Called when a ball collides with this gadget.
+     */
+    
+    public void trigger();
+    
 }
