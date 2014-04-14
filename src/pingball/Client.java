@@ -6,6 +6,10 @@ import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
 
+import physics.Angle;
+import physics.Circle;
+import physics.Vect;
+
 /**
  * The individual clients that are connecting to the server
  * 
@@ -26,11 +30,22 @@ public class Client implements Runnable{
     public static BoardsHandler connections = new BoardsHandler(); //global variable. even though its public, its protected by the lock
 
     /** TODO */
-    Client(Socket socket, Board board, Object lock, BoardsHandler connectionsIn){
+    Client(Socket socket, Object lock, BoardsHandler connectionsIn){
+        this.board = new Board();
+        Angle start = new Angle(2.0);
+        Angle start2 = new Angle(3.0);
+        Circle cir1 = new Circle(5.0, 5.0, .01);
+        Circle cir2 = new Circle(2.0, 2.0, .01);
+        Vect v1 = new Vect(start, 1.0);
+        Vect v2 = new Vect(start2, 1.5);
+        Ball ball = new Ball(cir1, v1);
+        Ball ball2 = new Ball(cir2, v2);
+        board.add(ball);
+        board.add(ball2);
         this.socket = socket;
-        this.board = board;
+//        this.boardshandler = board;
         this.lock = lock;
-        this.connections = connectionsIn;
+        Client.connections = connectionsIn;
     }
     /** TODO */
     public void run() {
@@ -41,6 +56,9 @@ public class Client implements Runnable{
             e.printStackTrace();
         }  finally { 
             try {
+                Runnable r = new Update(board);
+                new Thread(r).start();
+                board.animate(20);
                 socket.close();
             } catch (IOException e) {
                 e.printStackTrace();
@@ -65,10 +83,7 @@ public class Client implements Runnable{
                     // TODO FINISH
                     out.flush();
                 }                      
-            }        
-        // if we get here, either line is null(server is closed) 
-        // or we hit boom in non-debug mode or bye was called
-            
+            }            
         } finally {
             out.close();
             in.close();
