@@ -1,46 +1,69 @@
 package pingball;
 
 public class Absorber implements Gadget {
-
-    @Override
-    public String getName() {
-        // TODO Auto-generated method stub
-        return null;
+    
+    private final String name;
+    private final int x;
+    private final int y;
+    private final int width;
+    private final int height;
+    
+    private Ball[] absorbed = new Ball[1];
+    
+    /**
+     * width and height must be positive integers <= 20
+     * @param name
+     * @param x
+     * @param y
+     * @param width
+     * @param height
+     */
+    public Absorber(String name, int x, int y, int width, int height) {
+        this.name = name;
+        this.x = x;
+        this.y = y;
+        this.width = width;
+        this.height = height;
     }
     
-    @Override
+    public String getName() {
+        return name;
+    }
+    
     public String getType() {
-        // TODO Auto-generated method stub
-        return null;
+        return "absorber";
     }
 
-    @Override
     public double getTimeToCollision(Ball ball) {
         // TODO Auto-generated method stub
         return 0;
     }
 
-    @Override
     public void getAction() {
         // TODO Auto-generated method stub
     }
 
-    @Override
     public double getCoefficient() {
         // TODO Auto-generated method stub
         return 0;
     }
 
-    @Override
+   
     public void reflectBall(Ball ball) {
-        // TODO Auto-generated method stub
+        // doesn't reflectBall. ball is captured
 
     }
 
-    @Override
     public void trigger() {
-        // TODO Auto-generated method stub
-        
+        action();        
+    }
+    
+    public void action(){
+        if (absorbed.length == 1){
+            //shoot ball straight upwards at 50 L/sec
+        } else {
+            //store ball in bottom right hand corner -> .25L from bottom and .25L from right is where ball center is
+        }
     }
 
 }
