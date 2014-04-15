@@ -36,8 +36,8 @@ public class Client implements Runnable{
         Angle start2 = new Angle(3.0);
         Circle cir1 = new Circle(5.0, 5.0, .01);
         Circle cir2 = new Circle(2.0, 2.0, .01);
-        Vect v1 = new Vect(start, 1.0);
-        Vect v2 = new Vect(start2, 1.5);
+        Vect v1 = new Vect(start, 2.0);
+        Vect v2 = new Vect(start2, 3.0);
         Ball ball = new Ball(cir1, v1);
         Ball ball2 = new Ball(cir2, v2);
         board.add(ball);
@@ -55,9 +55,6 @@ public class Client implements Runnable{
             e.printStackTrace();
         }  finally { 
             try {
-//                Runnable r = new Update(board);
-//                new Thread(r).start();
-//                board.animate(20);
                 socket.close();
             } catch (IOException e) {
                 e.printStackTrace();

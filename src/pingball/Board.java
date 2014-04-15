@@ -107,7 +107,7 @@ public class Board {
     }
 
     public List<Ball> getBalls() {
-        return balls;
+        return this.balls;
     }
 
     public void setBalls(List<Ball> balls) {
