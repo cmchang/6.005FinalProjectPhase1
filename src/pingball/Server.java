@@ -55,6 +55,11 @@ public class Server {
         }
     }
     
+    /**
+     * Instantiate a pingball server
+     * @param args
+     * @throws Exception
+     */
     public static void main(String[] args) throws Exception {
         int port = 4444; // default port
         Queue<String> arguments = new LinkedList<String>(Arrays.asList(args));
@@ -65,6 +70,11 @@ public class Server {
         }
     }
     
+    /**
+     * Runs a new server
+     * @param port
+     * @throws Exception
+     */
     public static void runPingballServer(int port) throws Exception {
         BoardsHandler handler = new BoardsHandler();
         Server server = new Server(port);        

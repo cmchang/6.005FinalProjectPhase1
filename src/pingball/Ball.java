@@ -6,10 +6,10 @@ import physics.Vect;
 public class Ball {
     //same as in warmup
     
+    // move is the vector of the balls movement
+    // circle is the shape representing the ball
     private Vect move;
-    private Circle circle; // 
-    
-    //methods:
+    private Circle circle;
     
     /**
      * Constructor
@@ -44,6 +44,7 @@ public class Ball {
     public Circle getCircle() {
         return circle; // should this be a copy?
     }
+    
     /**
      * Sets the circle defining the ball location with the parameter passed in
      * @param circle A Circle object that defines ball location
@@ -75,6 +76,6 @@ public class Ball {
     public void move(double stepSize) {
         double x = circle.getCenter().x() + stepSize * move.dot(move.X_HAT) * move.length() * .001;
         double y = circle.getCenter().y() + stepSize * move.dot(move.Y_HAT) * move.length() * .001;
-        this.setCircle(new Circle(x, y, .1));
+        this.setCircle(new Circle(x, y, .01));
     }
 }
