@@ -7,7 +7,7 @@ public class Ball {
     //same as in warmup
     
     private Vect move;
-    private Circle circle;
+    private Circle circle; // 
     
     //methods:
     
@@ -21,26 +21,49 @@ public class Ball {
         this.move = vectIn;
     }
     
+    /** 
+     * Gets the X location of the ball
+     * @return returns the X coordinate of the center of the ball 
+     */
     public int getX() {
         return (int) circle.getCenter().x();
     }
-
+    
+    /** 
+     * Gets the Y location of the ball
+     * @return returns the Y coordinate of the center of the ball 
+     */
     public int getY() {
         return (int) circle.getCenter().y();
     }
-
+    
+    /** 
+     * Gets the circle defining ball location
+     * @return the circle that represents the ball location
+     */
     public Circle getCircle() {
-        return circle;
+        return circle; // should this be a copy?
     }
-
+    /**
+     * Sets the circle defining the ball location with the parameter passed in
+     * @param circle A Circle object that defines ball location
+     */
     public void setCircle(Circle circle) {
         this.circle = circle;
     }
-
+    
+    /**
+     * Gets the vector defining ball velocity
+     * @return the vector that represents ball velocity
+     */
     public Vect getMove() {
         return move;
     }
-
+    
+    /**
+     * Sets the vector defining theball movement with the parameter passed in
+     * @param move A Vector that defines ball movement
+     */
     public void setMove(Vect move) {
         this.move = move;
     }

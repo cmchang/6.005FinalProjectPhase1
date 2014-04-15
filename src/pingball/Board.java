@@ -7,6 +7,10 @@ import java.util.List;
 import physics.LineSegment;
 import pingball.Ball;
 
+/**
+ * Representation of all the walls, gadgets and balls on a single Pingball board. Each client plays on a single board.
+ *
+ */
 public class Board {
     // similar as in warm-up
     // except walls --> gadgets
@@ -18,7 +22,14 @@ public class Board {
     int ylength;
     List<LineSegment> walls = new ArrayList<LineSegment>();
     List<Gadget> objects = new ArrayList<Gadget>();
-
+    
+    final double friction1 = 0.025; // will need some init methods to set up constants based on board parsing. or make not final
+    final double friction2 = 0.025; 
+    final double gravity = 25.0;
+    
+    /**
+     * initialize the walls of a board. As a default, boards are of size 20L by 20L
+     */
     public Board() {
         xlength = 20;
         ylength = 20;
@@ -45,7 +56,7 @@ public class Board {
     }
     
     /**
-     * mutator, remove a given ball from the baord
+     * mutator, remove a given ball from the board
      */
     private void removeBall(Ball ball) {}
     
@@ -105,11 +116,18 @@ public class Board {
     public void addBall(Ball ball) {
         getBalls().add(ball);
     }
-
+    
+    /**
+     * Returns the list of Balls that it has
+     * @return the list of Balls contained in the Board
+     */
     public List<Ball> getBalls() {
         return this.balls;
     }
-
+    /**
+     * Sets a the list of Balls currently contained in the board with the list passed in
+     * @param balls a list of balls contained in the board
+     */
     public void setBalls(List<Ball> balls) {
         this.balls = balls;
     }

@@ -1,6 +1,8 @@
 package pingball;
 
 import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
 
 public class FileParser {
     // Reads in a given file, creates corresponding board
@@ -64,7 +66,17 @@ public class FileParser {
      * @return new Absorber object
      */
     private Absorber createAbsorber(String text){
-        return new Absorber();
+        String name = null;
+        int x= -9999;
+        int y = -9999;
+        int height=-9999;
+        int width=-9999;
+        List<Gadget> connectedGadgets = new ArrayList<Gadget>();
+        if (connectedGadgets.size()>0) {
+            return new Absorber(name, x, y, height, width, connectedGadgets);
+        } else {
+            return new Absorber(name, x, y, height, width);
+        }
     }
     
 }
