@@ -12,11 +12,15 @@ class Update implements Runnable {
     double mu2 = board.friction2;
     double deltaT = minTime/1000;
     
+    /**
+     * Constructor for Update class
+     * @param boardIn board to update
+     */
     Update(Board boardIn){
         board = boardIn;
-        minTime = 0.5;
-        
+        minTime = 0.5; 
     }
+    
     /**
      * Runnable method of the Update class which starts when the thread is started.
      * This method updates the location of the ball every timestep.

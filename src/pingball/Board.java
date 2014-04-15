@@ -14,7 +14,7 @@ import pingball.Ball;
 public class Board {
     // similar as in warm-up
     // except walls --> gadgets
-    // the BoardsHandler will keep track of all the wall line segments, no longer stored here
+    // the BoardsHandler will keep track of the relationships between wall line segments
     
     private List<Ball> balls = new ArrayList<Ball>();
     private String name;
@@ -124,6 +124,7 @@ public class Board {
     public List<Ball> getBalls() {
         return this.balls;
     }
+    
     /**
      * Sets a the list of Balls currently contained in the board with the list passed in
      * @param balls a list of balls contained in the board

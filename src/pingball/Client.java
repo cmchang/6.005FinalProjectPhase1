@@ -29,7 +29,12 @@ public class Client implements Runnable{
     private final Object lock;
     public static BoardsHandler connections = new BoardsHandler(); //global variable. even though its public, its protected by the lock
 
-    /** TODO */
+    /**
+     * Instantiate a new client
+     * @param socket the port it is connecting on
+     * @param lock the lock protecting the global variable connectionsIn
+     * @param connectionsIn boardHandler with all the relationships between boards
+     */
     Client(Socket socket, Object lock, BoardsHandler connectionsIn){
         this.board = new Board();
         Angle start = new Angle(2.0);
@@ -46,7 +51,10 @@ public class Client implements Runnable{
         this.lock = lock;
         Client.connections = connectionsIn;
     }
-    /** TODO */
+    
+    /**
+     * Function that runs a specific client
+     */
     public void run() {
         // handle the client
         try {
@@ -74,14 +82,7 @@ public class Client implements Runnable{
         try {
             Runnable r = new Update(board);
             new Thread(r).start();
-            board.animate(out, 20);
-//            for (String line = in.readLine(); line != null; line = in.readLine()) {
-//                String output = "TODO";
-//                if (output != null) {
-//                    out.println(output);
-//                    out.flush();
-//                }                      
-//            }            
+            board.animate(out, 20);        
         } finally {
             out.close();
             in.close();
