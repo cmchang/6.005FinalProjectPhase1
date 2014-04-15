@@ -6,6 +6,10 @@ import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
 
+import physics.Angle;
+import physics.Circle;
+import physics.Vect;
+
 /**
  * The individual clients that are connecting to the server
  * 
@@ -25,14 +29,32 @@ public class Client implements Runnable{
     private final Object lock;
     public static BoardsHandler connections = new BoardsHandler(); //global variable. even though its public, its protected by the lock
 
-    /** TODO */
-    Client(Socket socket, Board board, Object lock, BoardsHandler connectionsIn){
+    /**
+     * Instantiate a new client
+     * @param socket the port it is connecting on
+     * @param lock the lock protecting the global variable connectionsIn
+     * @param connectionsIn boardHandler with all the relationships between boards
+     */
+    Client(Socket socket, Object lock, BoardsHandler connectionsIn){
+        this.board = new Board();
+        Angle start = new Angle(2.0);
+        Angle start2 = new Angle(3.0);
+        Circle cir1 = new Circle(5.0, 5.0, .01);
+        Circle cir2 = new Circle(2.0, 2.0, .01);
+        Vect v1 = new Vect(start, 2.0);
+        Vect v2 = new Vect(start2, 3.0);
+        Ball ball = new Ball(cir1, v1);
+        Ball ball2 = new Ball(cir2, v2);
+        board.add(ball);
+        board.add(ball2);
         this.socket = socket;
-        this.board = board;
         this.lock = lock;
-        this.connections = connectionsIn;
+        Client.connections = connectionsIn;
     }
-    /** TODO */
+    
+    /**
+     * Function that runs a specific client
+     */
     public void run() {
         // handle the client
         try {
@@ -55,20 +77,12 @@ public class Client implements Runnable{
      * @throws IOException if connection has an error or terminates unexpectedly
      */
     private void handleConnection(Socket socket) throws IOException {        
-        
         BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
         PrintWriter out = new PrintWriter(socket.getOutputStream(), true);
         try {
-            for (String line = in.readLine(); line != null; line = in.readLine()) {
-                String output = "TODO";
-                if (output != null) {
-                    // TODO FINISH
-                    out.flush();
-                }                      
-            }        
-        // if we get here, either line is null(server is closed) 
-        // or we hit boom in non-debug mode or bye was called
-            
+            Runnable r = new Update(board);
+            new Thread(r).start();
+            board.animate(out, 20);        
         } finally {
             out.close();
             in.close();

@@ -55,7 +55,7 @@ public class Board {
             }
         }
         for (Ball b: balls) {
-            field[b.getX() + 1][b.getY() + 1] = '0';
+            field[b.getX() + 1][b.getY() + 1] = '*';
         }
         for (int i = 0; i < xlength+2; i++) {
             for (int j = 0; j < ylength+2; j++) {

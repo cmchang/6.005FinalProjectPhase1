@@ -1,6 +1,14 @@
 package pingball;
 
 import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
+
+import physics.Angle;
+import physics.Circle;
+import physics.Vect;
+import pingball.Bumper.Type;
+import pingball.Flipper.Side;
 
 public class FileParser {
     // Reads in a given file, creates corresponding board
@@ -34,7 +42,15 @@ public class FileParser {
      * @return new Ball object
      */
     private Ball createBall(String text){
-        return new Ball(null, null);
+        double x = -9999;
+        double y = -9999;
+        double r = -9999;
+        Circle circleIn = new Circle(x,y,r);
+        
+        double xVel = -9999;
+        double yVel = -9999;
+        Vect vectIn = new Vect(xVel,yVel);
+        return new Ball(circleIn, vectIn);
     }
     
     /**
@@ -44,7 +60,14 @@ public class FileParser {
      * @return new Bumper object
      */
     private Bumper createBumper(String text){
-        return new Bumper();
+        String name = null;
+        int x = -9999;
+        int y = -9999;
+        Type type = Type.TRIANGLE;
+        int orientation = 0;
+        
+        new Bumper(name,x,y,Type.SQUARE);
+        return new Bumper(name, x, y, type, orientation);
     }
     
     /**
@@ -54,7 +77,19 @@ public class FileParser {
      * @return new Flipper object
      */
     private Flipper createFlipper(String text){
-        return new Flipper();
+        String name = null;
+        int x= -9999;
+        int y = -9999;
+        int orientation = -9999;
+        Side side = Side.LEFT;
+        int state = 0;
+        
+        List<Gadget> connectedGadgets = new ArrayList<Gadget>();
+        if (connectedGadgets.size()>0) {
+            return new Flipper(name, x, y, orientation, side, state, connectedGadgets);
+        } else {
+            return new Flipper(name, x, y, orientation, side, state);
+        }
     }
     
     /**
@@ -64,7 +99,18 @@ public class FileParser {
      * @return new Absorber object
      */
     private Absorber createAbsorber(String text){
-        return new Absorber();
+        String name = null;
+        int x= -9999;
+        int y = -9999;
+        int height=-9999;
+        int width=-9999;
+        
+        List<Gadget> connectedGadgets = new ArrayList<Gadget>();
+        if (connectedGadgets.size()>0) {
+            return new Absorber(name, x, y, height, width, connectedGadgets);
+        } else {
+            return new Absorber(name, x, y, height, width);
+        }
     }
     
 }
