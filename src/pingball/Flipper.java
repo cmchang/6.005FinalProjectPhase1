@@ -9,7 +9,16 @@ import physics.LineSegment;
 import physics.Vect;
 
 /**
- * represents the Flipper object within the board
+ * represents the Flipper object within the board. Flipper is of length 2L
+ * 
+ * Rep invar: 
+ * -when its not rotating, state must be 0, 90, or -90
+ * -finalWall should be null when its not rotating
+ * -orientation should be 0,90,180 or 270
+ * -side has to be Side.LEFT or Side.RIGHT
+ * -x and y have to be such that the flipper doesnt go off the board
+ * 
+ * 
  *
  */
 public class Flipper implements Gadget {
@@ -19,20 +28,25 @@ public class Flipper implements Gadget {
     private double angularVelocity;
     
     
-    /** orientation can be anything -- rotates the initial everything*/
+    /** orientation can be 0,90,180 or 270 -- rotates the initial everything*/
     private int orientation;
     
     /** must be either right or left */
-    private final Status status;
+    private final Side side;
     
-    /** state is either 0 or 90*/
-    private final int state;
+    /** state is between 0 and 90 for left bumper. 
+     * state is between -90 and 0 for right bumper.
+     */
+    private int state;
     
+    /** defined by x1,y1 -> x2,y2 where p1 is the pivot point*/
     LineSegment wall;
     
     /**list of objects that react when this is triggered */
     List<Gadget> gizmos = new ArrayList<Gadget>();
     
+    /** finalWall should be null when we are not rotating. This LineSegment is to ensure we are exactly at 90 degrees*/
+    private LineSegment finalWall = null;
     
     
     /**
@@ -44,32 +58,32 @@ public class Flipper implements Gadget {
      * @param leftOrRight
      * @param state
      */
-    public Flipper(String name,int x,int y,int orientation, Status leftOrRight, int state){
+    public Flipper(String name,int x,int y,int orientation, Side leftOrRight, int state){
         this.name = name;
         this.x = x;
         this.y = y;
         this.orientation = orientation;
-        this.status = leftOrRight;
+        this.side = leftOrRight;
         this.state = state;
            
         this.angularVelocity = 0;
         
         switch (orientation) {
         case 0:
-            if (status.equals(Status.LEFT)) wall = new LineSegment(x,y, x,y+2);
-            if (status.equals(Status.RIGHT)) wall = new LineSegment(x+2,y, x+2,y+2);
+            if (side.equals(Side.LEFT)) wall = new LineSegment(x,y, x,y+2);
+            if (side.equals(Side.RIGHT)) wall = new LineSegment(x+2,y, x+2,y+2);
             break;
         case 90:
-            if (status.equals(Status.LEFT)) wall = new LineSegment(x+2,y, x,y);
-            if (status.equals(Status.RIGHT)) wall = new LineSegment(x+2,y+2, x,y+2);
+            if (side.equals(Side.LEFT)) wall = new LineSegment(x+2,y, x,y);
+            if (side.equals(Side.RIGHT)) wall = new LineSegment(x+2,y+2, x,y+2);
             break;
         case 180:
-            if (status.equals(Status.LEFT)) wall = new LineSegment(x+2,y+2, x+2,y);
-            if (status.equals(Status.RIGHT)) wall = new LineSegment(x,y+2, x,y);
+            if (side.equals(Side.LEFT)) wall = new LineSegment(x+2,y+2, x+2,y);
+            if (side.equals(Side.RIGHT)) wall = new LineSegment(x,y+2, x,y);
             break;
         case 270:
-            if (status.equals(Status.LEFT)) wall = new LineSegment(x,y+2, x+2,y+2);
-            if (status.equals(Status.RIGHT)) wall = new LineSegment(x,y, x+2,y);
+            if (side.equals(Side.LEFT)) wall = new LineSegment(x,y+2, x+2,y+2);
+            if (side.equals(Side.RIGHT)) wall = new LineSegment(x,y, x+2,y);
             break;
         default:
             System.err.println("Invalid orientation");
@@ -77,7 +91,41 @@ public class Flipper implements Gadget {
         } 
     }
     
-    public enum Status { LEFT, RIGHT};
+    public Flipper(String name,int x,int y,int orientation, Side leftOrRight, int state, List<Gadget> gizmos){
+        this.name = name;
+        this.x = x;
+        this.y = y;
+        this.orientation = orientation;
+        this.side = leftOrRight;
+        this.state = state;
+        this.gizmos = gizmos;
+           
+        this.angularVelocity = 0;
+        
+        switch (orientation) {
+        case 0:
+            if (side.equals(Side.LEFT)) wall = new LineSegment(x,y, x,y+2);
+            if (side.equals(Side.RIGHT)) wall = new LineSegment(x+2,y, x+2,y+2);
+            break;
+        case 90:
+            if (side.equals(Side.LEFT)) wall = new LineSegment(x+2,y, x,y);
+            if (side.equals(Side.RIGHT)) wall = new LineSegment(x+2,y+2, x,y+2);
+            break;
+        case 180:
+            if (side.equals(Side.LEFT)) wall = new LineSegment(x+2,y+2, x+2,y);
+            if (side.equals(Side.RIGHT)) wall = new LineSegment(x,y+2, x,y);
+            break;
+        case 270:
+            if (side.equals(Side.LEFT)) wall = new LineSegment(x,y+2, x+2,y+2);
+            if (side.equals(Side.RIGHT)) wall = new LineSegment(x,y, x+2,y);
+            break;
+        default:
+            System.err.println("Invalid orientation");
+            break;
+        } 
+    }
+    
+    public enum Side { LEFT, RIGHT};
     
     public String getName() {
         return name;
@@ -92,11 +140,11 @@ public class Flipper implements Gadget {
         double timeLine = 10000.0;
         
         // not sure if this rotation code is doing what i want. I think its right though.
-        if (status.equals(Status.LEFT)){
+        if (side.equals(Side.LEFT)){
             timeLine = Geometry.timeUntilRotatingWallCollision(wall, 
                     new Vect(x,y).rotateBy(new Angle(((double) orientation)/180.0*Math.PI)), 
                     angularVelocity, ball.getCircle(), ball.getMove());
-        } else if (status.equals(Status.RIGHT)) { 
+        } else if (side.equals(Side.RIGHT)) { 
             timeLine = Geometry.timeUntilRotatingWallCollision(wall, 
                     new Vect(x+2,y).rotateBy(new Angle(((double) orientation)/180.0*Math.PI)), 
                     angularVelocity, ball.getCircle(), ball.getMove());
@@ -108,30 +156,110 @@ public class Flipper implements Gadget {
         return time;
     }
 
-    public void action() {
-        // TODO Auto-generated method stub
+    public void action() { 
+        //won't work action until its done rotating
+        if (state == 90|state == -90|state == 0) {
+            if (side.equals(Side.LEFT) && state < 45){ // in the 0 degrees position
+                finalWall = Geometry.rotateAround(wall, new Vect(x,y).rotateBy(new Angle(((double) orientation)/180.0*Math.PI))
+                        , new Angle(90.0 /180.0*Math.PI));
+                angularVelocity = 1080;            
+            
+            } else if (side.equals(Side.LEFT) && state > 45){ // in the 90 degrees position
+                finalWall = Geometry.rotateAround(wall, new Vect(x,y).rotateBy(new Angle(((double) orientation)/180.0*Math.PI))
+                        , new Angle(-90.0 /180.0*Math.PI));
+                angularVelocity = -1080;            
+            
+            } else if (side.equals(Side.RIGHT) && state > -45){ // in the 0 degrees position
+                finalWall = Geometry.rotateAround(wall, new Vect(x+2,y).rotateBy(new Angle(((double) orientation)/180.0*Math.PI))
+                        , new Angle(-90.0 /180.0*Math.PI));
+                angularVelocity = -1080;
+                
+            } else if (side.equals(Side.RIGHT) && state < -45){ // in the -90 degrees position
+                finalWall = Geometry.rotateAround(wall, new Vect(x+2,y).rotateBy(new Angle(((double) orientation)/180.0*Math.PI))
+                        , new Angle(90.0 /180.0*Math.PI));
+                angularVelocity = 1080;
+                
+            }
+        }
+        
         
     }
 
     public double getCoefficient() {
-        // TODO Auto-generated method stub
-        return 0;
+        return 0.95;
     }
 
     public void reflectBall(Ball ball) {
-        // TODO Auto-generated method stub
-        
+        if (side.equals(Side.LEFT)){
+            Vect newVect = Geometry.reflectRotatingWall(wall, new Vect(x,y).rotateBy(new Angle(((double) orientation)/180.0*Math.PI)), 
+                    angularVelocity, ball.getCircle(), ball.getMove(), getCoefficient());
+            ball.setMove(newVect);
+        } else if (side.equals(Side.RIGHT)){
+            Vect newVect = Geometry.reflectRotatingWall(wall, new Vect(x+2,y).rotateBy(new Angle(((double) orientation)/180.0*Math.PI)), 
+                    angularVelocity, ball.getCircle(), ball.getMove(), getCoefficient());
+            ball.setMove(newVect);
+        }                    
     }
 
     public void trigger() {
-        // TODO Auto-generated method stub
-        
+        action();
+        for (Gadget gizmo:gizmos){
+            gizmo.action();
+        }       
     }
 
     public void trigger(Ball ball) {
-        // TODO Auto-generated method stub
+        System.err.println("Flipper doesn't need a ball passed in for the trigger. This method shouldnt be called");        
+    }
+    
+    public void move(double stepSize) {
+        // .001 is millisecond conversion
+
+        Vect newP2 = Geometry.rotateAround(wall.p2(), wall.p1(), new Angle(angularVelocity*stepSize*.001));
+        wall = new LineSegment(wall.p1().x(),wall.p1().y(), newP2.x(),newP2.y());        
+        state += angularVelocity*stepSize*.001;
+        
+        updateVelocity();
+    }
+    
+    /**
+     * Assures that the flipper stops when it is supposed to and sets the state and wall to exactly what its supposed to be
+     * 
+     * Changes the velocity to 0 when it gets too far.
+     */
+    private void updateVelocity() {
+        if (side.equals(Side.LEFT)){
+            if (state>=90 && angularVelocity > 0){ // moving counterclockwise, away from start
+                state = 90;
+                angularVelocity = 0;   
+                wall = new LineSegment(finalWall.p1(),finalWall.p2());
+                finalWall = null;
+            } else if (state <= 0 && angularVelocity < 0){ //moving clockwise, towards start
+                state = 0;
+                angularVelocity = 0;
+                wall = new LineSegment(finalWall.p1(),finalWall.p2());
+                finalWall = null;
+            }
+        } else if (side.equals(Side.RIGHT)){
+            if (state<=-90 && angularVelocity < 0){ //moving clockwise, away from start
+                angularVelocity = 0;
+                state = -90;
+                wall = new LineSegment(finalWall.p1(),finalWall.p2());
+                finalWall = null;
+            } else if (state >= 0 && angularVelocity > 0){ // moving counterclockwise, towards start
+                angularVelocity = 0;
+                state = 0;
+                wall = new LineSegment(finalWall.p1(),finalWall.p2());
+                finalWall = null;
+            }
+        }
         
     }
-
+    /** returns the location of the flipper, which is a singular line segment. but it is in a list for ease of use with diff gadgets*/
+    public List<LineSegment> getPosition(){
+        List<LineSegment> position = new ArrayList<LineSegment>();
+        position.add(wall);
+        return position;
+    }
    
 }

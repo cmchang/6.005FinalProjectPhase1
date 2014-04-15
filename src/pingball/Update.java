@@ -21,6 +21,8 @@ class Update implements Runnable {
      * Runnable method of the Update class which starts when the thread is started.
      * This method updates the location of the ball every timestep.
      * 
+     * Also updates the location of the flippers.
+     * 
      * Determines when balls collide with objects and appropriately reflects the ball in the case that it does.
      * Updates the ball location based on its velocity, while accounting for friction and gravity.
      */
@@ -63,6 +65,7 @@ class Update implements Runnable {
                           if (closerObj.getType().equals("absorber")){
                               closerObj.trigger(board.getBalls().get(k)); //trigger method should be generated right here...
                           } else {
+                              closerObj.reflectBall(board.getBalls().get(k));
                               closerObj.trigger();
                           }
                       }
@@ -79,8 +82,15 @@ class Update implements Runnable {
                   Vect frictGravVect = new Vect(new Angle(xComp, yComp)).times(magnitude);                  
                   
                   board.getBalls().get(i).setMove(frictGravVect);                  
-                  board.getBalls().get(i).move(minTime);
+                  board.getBalls().get(i).move(minTime);                  
                   
+              }
+              
+              //move the flippers
+              for (Gadget flipper:board.objects){
+                  if (flipper.getType().equals("flipper")){
+                      ((Flipper) flipper).move(minTime);
+                  }
               }
           }
       } catch (InterruptedException e) {

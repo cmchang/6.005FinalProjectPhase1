@@ -82,12 +82,10 @@ public class Absorber implements Gadget {
 
     public double getTimeToCollision(Ball ball) {        
         double time = 10000.0;
-        int close = -1; 
         for (int j = 0; j < walls.size(); j++) {                                              
             double timeLine = Geometry.timeUntilWallCollision(walls.get(j), ball.getCircle(), ball.getMove());
             if (timeLine < time) {
                 time = timeLine;
-                close = j; // wall that its going to hit
             }
         }
         if (time == 10000.0) System.err.println("error in getting time for ball to hit absorber");
@@ -155,6 +153,9 @@ public class Absorber implements Gadget {
         
     }
     
-
+    /** returns the walls, which are line segments, of the absorber*/
+    public List<LineSegment> getPosition(){
+        return walls;
+    }
 
 }

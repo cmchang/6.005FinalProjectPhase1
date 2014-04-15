@@ -4,6 +4,8 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
+import pingball.Flipper.Side;
+
 public class FileParser {
     // Reads in a given file, creates corresponding board
     
@@ -56,7 +58,19 @@ public class FileParser {
      * @return new Flipper object
      */
     private Flipper createFlipper(String text){
-        return new Flipper();
+        String name = null;
+        int x= -9999;
+        int y = -9999;
+        int orientation = -9999;
+        Side side = Side.LEFT;
+        int state = 0;
+        
+        List<Gadget> connectedGadgets = new ArrayList<Gadget>();
+        if (connectedGadgets.size()>0) {
+            return new Flipper(name, x, y, orientation, side, state, connectedGadgets);
+        } else {
+            return new Flipper(name, x, y, orientation, side, state);
+        }
     }
     
     /**
@@ -71,6 +85,7 @@ public class FileParser {
         int y = -9999;
         int height=-9999;
         int width=-9999;
+        
         List<Gadget> connectedGadgets = new ArrayList<Gadget>();
         if (connectedGadgets.size()>0) {
             return new Absorber(name, x, y, height, width, connectedGadgets);
