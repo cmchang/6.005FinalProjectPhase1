@@ -11,7 +11,9 @@ import physics.Vect;
 
 /**
  * Represents the absorber object within the board.
- *
+ *  
+ * Rep Invar:
+ * -absorbed ball is null when there is nothing in there.
  */
 public class Absorber implements Gadget {
     
@@ -118,7 +120,7 @@ public class Absorber implements Gadget {
         // doesn't reflectBall. ball is captured
         if (absorbedBall != null) {            
             if (!ballIsInside()) absorbedBall = null; //check if ball is inside the absorber (could've already been moving)
-            action();
+            action(); 
             return;
         }
         
@@ -129,7 +131,7 @@ public class Absorber implements Gadget {
     }
     
     public void trigger(){
-        
+        System.err.println("Must pass in a ball to trigger for Absorber");
     }
     
     public void trigger(Ball ball){

@@ -4,6 +4,10 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
+import physics.Angle;
+import physics.Circle;
+import physics.Vect;
+import pingball.Bumper.Type;
 import pingball.Flipper.Side;
 
 public class FileParser {
@@ -38,7 +42,15 @@ public class FileParser {
      * @return new Ball object
      */
     private Ball createBall(String text){
-        return new Ball(null, null);
+        double x = -9999;
+        double y = -9999;
+        double r = -9999;
+        Circle circleIn = new Circle(x,y,r);
+        
+        double xVel = -9999;
+        double yVel = -9999;
+        Vect vectIn = new Vect(xVel,yVel);
+        return new Ball(circleIn, vectIn);
     }
     
     /**
@@ -48,7 +60,14 @@ public class FileParser {
      * @return new Bumper object
      */
     private Bumper createBumper(String text){
-        return new Bumper();
+        String name = null;
+        int x = -9999;
+        int y = -9999;
+        Type type = Type.TRIANGLE;
+        int orientation = 0;
+        
+        new Bumper(name,x,y,Type.SQUARE);
+        return new Bumper(name, x, y, type, orientation);
     }
     
     /**
