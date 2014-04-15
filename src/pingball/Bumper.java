@@ -21,7 +21,7 @@ public class Bumper implements Gadget {
     }
 
     @Override
-    public void getAction() {
+    public void action() {
         // TODO Auto-generated method stub
     }
 

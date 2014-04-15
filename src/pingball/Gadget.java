@@ -39,7 +39,7 @@ public interface Gadget {
      * This method returns the type of action will occur in response to a ball collision.
      * This method will execute the necessary action. 
      */
-    public void getAction();
+    public void action();
     
     /**
      * This method returns the coefficient of reflection of the corresponding gadget
@@ -59,5 +59,11 @@ public interface Gadget {
      */
     
     public void trigger();
+    
+    /**
+     * Trigger this gadget. Called when a ball collides with this gadget.
+     * @param ball ball that collides with the gadget
+     */
+    public void trigger(Ball ball);
     
 }

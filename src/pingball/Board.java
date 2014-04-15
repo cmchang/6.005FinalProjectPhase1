@@ -6,6 +6,10 @@ import java.util.List;
 import physics.LineSegment;
 import pingball.Ball;
 
+/**
+ * Representation of all the walls, gadgets and balls on a single Pingball board. Each client plays on a single board.
+ *
+ */
 public class Board {
     // similar as in warm-up
     // except walls --> gadgets
@@ -19,7 +23,10 @@ public class Board {
     final double friction1 = 0.025; // will need some init methods to set up constants based on board parsing. or make not final
     final double friction2 = 0.025; 
     final double gravity = 25.0;
-
+    
+    /**
+     * initialize the walls of a board. As a default, boards are of size 20L by 20L
+     */
     public Board() {
         int xlength = 20;
         int ylength = 20;
