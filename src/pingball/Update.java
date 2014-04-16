@@ -1,8 +1,12 @@
 package pingball;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+
 import physics.Angle;
 import physics.Geometry;
 import physics.Vect;
+import pingball.BoardsHandler.Orientation;
 
 class Update implements Runnable {
     private Board board;    
@@ -10,15 +14,21 @@ class Update implements Runnable {
     double mu2;//  = board.friction2;
     double deltaT = (long) (1.0 / 1000.0);
     double minTime = deltaT * 10;
+    private BufferedReader in;
+    private Object lock;
+    private BoardsHandler connectionsIn;
     
     /**
      * Constructor for Update class
      * @param boardIn board to update
      */
-    Update(Board boardIn){
+    Update(Board boardIn, BufferedReader in, Object lock, BoardsHandler connectionsIn){
         board = boardIn;
         mu = board.friction1;
         mu2 = board.friction2;
+        this.in = in;
+        this.lock = lock;
+        this.connectionsIn = connectionsIn;
     }
     
     /**
@@ -33,7 +43,25 @@ class Update implements Runnable {
     public void run() {
        try {
           while(true) {
-
+              
+              // read userInputs and start new boardConnections if necessary
+              String userInput="";              
+              try {
+                userInput = in.readLine();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+              String[] cmds = userInput.split(" ");
+              if (cmds.length==3){
+                  Orientation o = null;
+                  if (cmds[0].equals("v")) o = Orientation.VERTICAL;
+                  if (cmds[0].equals("h")) o = Orientation.HORIZONTAL;
+                  synchronized(lock){
+                      connectionsIn.addConnection(cmds[1], cmds[2], o);
+                  }
+              }
+              
+              
               
               Gadget closerObj = null;
               Thread.sleep((long) deltaT); 
