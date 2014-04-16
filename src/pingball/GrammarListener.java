@@ -9,6 +9,9 @@ public interface GrammarListener extends ParseTreeListener {
 	void enterFriction1(GrammarParser.Friction1Context ctx);
 	void exitFriction1(GrammarParser.Friction1Context ctx);
 
+	void enterTrigger(GrammarParser.TriggerContext ctx);
+	void exitTrigger(GrammarParser.TriggerContext ctx);
+
 	void enterOrientation(GrammarParser.OrientationContext ctx);
 	void exitOrientation(GrammarParser.OrientationContext ctx);
 
@@ -36,6 +39,9 @@ public interface GrammarListener extends ParseTreeListener {
 	void enterBoard(GrammarParser.BoardContext ctx);
 	void exitBoard(GrammarParser.BoardContext ctx);
 
+	void enterFire(GrammarParser.FireContext ctx);
+	void exitFire(GrammarParser.FireContext ctx);
+
 	void enterFriction2(GrammarParser.Friction2Context ctx);
 	void exitFriction2(GrammarParser.Friction2Context ctx);
 
@@ -44,6 +50,9 @@ public interface GrammarListener extends ParseTreeListener {
 
 	void enterXLoc(GrammarParser.XLocContext ctx);
 	void exitXLoc(GrammarParser.XLocContext ctx);
+
+	void enterAction(GrammarParser.ActionContext ctx);
+	void exitAction(GrammarParser.ActionContext ctx);
 
 	void enterObjectType(GrammarParser.ObjectTypeContext ctx);
 	void exitObjectType(GrammarParser.ObjectTypeContext ctx);

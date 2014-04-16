@@ -46,21 +46,13 @@ public class Board {
      * Check the boundary condition of the wall
      * @return boolean of whether to reflect or pass ball
      */
-    private boolean checkBoundry() {
-        return false;
+    private boolean checkBoundry(Wall wall) {
+        return (wall.visible.equals(Visibility.INVISIBLE));
     }
     
     public String name(){
         return name;
     }
-    /**
-     * mutator, add a given ball to the board
-     * @param ball
-     */
-    public void add(Ball ball) {
-        balls.add(ball);
-    }
-    
     /**
      * mutator, remove a given ball from the board
      */
@@ -131,7 +123,7 @@ public class Board {
      * @param ball
      */
     public void addBall(Ball ball) {
-        getBalls().add(ball);
+        balls.add(ball);
     }
     
     /**
