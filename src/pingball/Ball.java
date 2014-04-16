@@ -78,8 +78,8 @@ public class Ball {
      * @param stepSize
      */
     public void move(double stepSize) {
-        double x = circle.getCenter().x() + stepSize * move.dot(move.X_HAT) * move.length() * .001;
-        double y = circle.getCenter().y() + stepSize * move.dot(move.Y_HAT) * move.length() * .001;
+        double x = circle.getCenter().x() + stepSize * move.dot(move.X_HAT) * move.length();
+        double y = circle.getCenter().y() + stepSize * move.dot(move.Y_HAT) * move.length();
         this.setCircle(new Circle(x, y, .01));
     }
 }

@@ -41,8 +41,8 @@ public class Client implements Runnable{
         Angle start2 = new Angle(3.0);
         Circle cir1 = new Circle(5.0, 5.0, .01);
         Circle cir2 = new Circle(2.0, 2.0, .01);
-        Vect v1 = new Vect(start, 2.0);
-        Vect v2 = new Vect(start2, 3.0);
+        Vect v1 = new Vect(start, 10.0);
+        Vect v2 = new Vect(start2, 10.0);
         Ball ball = new Ball(cir1, v1);
         Ball ball2 = new Ball(cir2, v2);
         board.addBall(ball);

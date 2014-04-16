@@ -11,6 +11,7 @@ import java.util.Queue;
 import physics.Angle;
 import physics.Circle;
 import physics.Vect;
+import pingball.BoardsHandler.Orientation;
 
 public class Server {
     /**
@@ -27,7 +28,8 @@ public class Server {
         
     private final ServerSocket serverSocket;      
     private final Object lock = new Object(); //used to protect global variable thread safety
-    public static BoardsHandler connections = new BoardsHandler(); // global variable protected by the lock
+    public static BoardsHandler boardHandler = new BoardsHandler(); // global variable protected by the lock
+        
     
     /**
      * Make a PingBallServer that listens for connections on port.
@@ -49,10 +51,11 @@ public class Server {
         // block until a client connects. when a client connects, run it in a new thread
         while (true){   
             Socket socket = serverSocket.accept();
-            Thread client = new Thread(new Client(socket, lock, connections));           
+            Thread client = new Thread(new Client(socket, lock, boardHandler));           
             // handle the client    
             client.start();
         }
+        
     }
     
     /**
