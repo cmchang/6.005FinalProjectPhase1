@@ -1,7 +1,5 @@
 package pingball;
 
-import java.util.Stack;
-
 import org.antlr.v4.runtime.ANTLRInputStream;
 import org.antlr.v4.runtime.CharStream;
 import org.antlr.v4.runtime.CommonTokenStream;
@@ -38,49 +36,17 @@ public class GrammarFactory {
 
         // debugging option #3: walk the tree with a listener
 //        new ParseTreeWalker().walk(new PrintEverythingListener(), tree);
+        
         // Finally, construct an Expression value by walking over the parse tree.
-//        ParseTreeWalker walker = new ParseTreeWalker();
-//        GrammarCreatorListener listener = new GrammarCreatorListener();
-//        walker.walk(listener, tree);
+        ParseTreeWalker walker = new ParseTreeWalker();
+        BoardCreatorListener listener = new BoardCreatorListener();
+        walker.walk(listener, tree);
 
         // return the Expression value that the listener created
 //        return listener.getGrammar();
         return null;
     }
     
-//    private static class GrammarCreatorListener extends GrammarBaseListener {
-//        private Stack<Grammar> stack = new Stack<>();
-//        
-//        @Override
-//        public void exitBoard(GrammarParser.BoardContext ctx) {
-////            Grammar literal; //= new BooleanLiteral(ctx.start.getType() == GrammarLexer.TRUE);
-////            stack.push(literal);
-//        }
-//        
-//        @Override
-//        public void exitObject(GrammarParser.ObjectContext ctx) {
-////            if (ctx.AND() != null) {
-////                // we matched the AND rule
-////                Grammar right = stack.pop();
-////                Grammar left = stack.pop();
-////                //Grammar and = new And(left, right);
-////                stack.push(and);
-////            } else {
-////                // do nothing, because we just matched a literal and its BooleanLiteral is already on the stack
-////            }
-//        }
-//        
-//        @Override
-//        public void exitComment(GrammarParser.CommentContext ctx) {
-//            // do nothing, because the top of the stack should have the node already in it
-////            assert stack.size() == 1;
-//        }
-//        
-//        public Grammar getGrammar() {
-//            return stack.get(0);
-//        }
-//    }
-//    
 //
 //    static class PrintEverythingListener extends GrammarBaseListener {
 //        public void enterBoard(GrammarParser.BoardContext ctx) { System.err.println("entering Board " + ctx.getText()); }

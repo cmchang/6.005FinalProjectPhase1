@@ -9,11 +9,11 @@ import org.antlr.v4.runtime.tree.TerminalNode;
 import org.antlr.v4.runtime.tree.ErrorNode;
 
 public class GrammarBaseListener implements GrammarListener {
-	@Override public void enterOrientation(GrammarParser.OrientationContext ctx) { }
-	@Override public void exitOrientation(GrammarParser.OrientationContext ctx) { }
-
 	@Override public void enterYLoc(GrammarParser.YLocContext ctx) { }
 	@Override public void exitYLoc(GrammarParser.YLocContext ctx) { }
+
+	@Override public void enterOrientation(GrammarParser.OrientationContext ctx) { }
+	@Override public void exitOrientation(GrammarParser.OrientationContext ctx) { }
 
 	@Override public void enterBoardInfo(GrammarParser.BoardInfoContext ctx) { }
 	@Override public void exitBoardInfo(GrammarParser.BoardInfoContext ctx) { }
@@ -44,9 +44,6 @@ public class GrammarBaseListener implements GrammarListener {
 
 	@Override public void enterXLoc(GrammarParser.XLocContext ctx) { }
 	@Override public void exitXLoc(GrammarParser.XLocContext ctx) { }
-
-	@Override public void enterVelocity(GrammarParser.VelocityContext ctx) { }
-	@Override public void exitVelocity(GrammarParser.VelocityContext ctx) { }
 
 	@Override public void enterComment(GrammarParser.CommentContext ctx) { }
 	@Override public void exitComment(GrammarParser.CommentContext ctx) { }

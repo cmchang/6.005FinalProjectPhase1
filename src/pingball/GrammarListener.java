@@ -6,11 +6,11 @@ import org.antlr.v4.runtime.tree.*;
 import org.antlr.v4.runtime.Token;
 
 public interface GrammarListener extends ParseTreeListener {
-	void enterOrientation(GrammarParser.OrientationContext ctx);
-	void exitOrientation(GrammarParser.OrientationContext ctx);
-
 	void enterYLoc(GrammarParser.YLocContext ctx);
 	void exitYLoc(GrammarParser.YLocContext ctx);
+
+	void enterOrientation(GrammarParser.OrientationContext ctx);
+	void exitOrientation(GrammarParser.OrientationContext ctx);
 
 	void enterBoardInfo(GrammarParser.BoardInfoContext ctx);
 	void exitBoardInfo(GrammarParser.BoardInfoContext ctx);
@@ -41,9 +41,6 @@ public interface GrammarListener extends ParseTreeListener {
 
 	void enterXLoc(GrammarParser.XLocContext ctx);
 	void exitXLoc(GrammarParser.XLocContext ctx);
-
-	void enterVelocity(GrammarParser.VelocityContext ctx);
-	void exitVelocity(GrammarParser.VelocityContext ctx);
 
 	void enterComment(GrammarParser.CommentContext ctx);
 	void exitComment(GrammarParser.CommentContext ctx);
