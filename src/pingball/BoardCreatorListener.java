@@ -13,8 +13,10 @@ public class BoardCreatorListener extends GrammarBaseListener{
    
    public static Board getBoard(){
        for(Gadget gadget: gadgets) board.addGadget(gadget);
-       
        for(Ball ball: balls) board.addBall(ball);
+       
+       System.out.println("There are " + balls.size() + " balls and " + gadgets.size() + " gadgets in this board.");
+       
        return board;
    }
     
@@ -30,6 +32,7 @@ public class BoardCreatorListener extends GrammarBaseListener{
     
     @Override
     public void exitObject(GrammarParser.ObjectContext ctx) {
+        System.out.println("OBJECT");
         ArrayList<Double> doubleContent = new ArrayList<Double>();
         String ObjectType = ctx.getChild(0).getChild(0).toString();
         String ObjectName = ctx.getChild(1).getChild(0).toString();

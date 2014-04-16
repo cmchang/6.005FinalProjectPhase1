@@ -1,5 +1,9 @@
 package pingball;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+
 import org.antlr.v4.runtime.ANTLRInputStream;
 import org.antlr.v4.runtime.CharStream;
 import org.antlr.v4.runtime.CommonTokenStream;
@@ -14,7 +18,8 @@ public class GrammarFactory {
      * @param input string representing a conjunctive boolean expression
      * @return Expression corresponding to the input
      */
-    public static Board parse(String input) {
+    public static Board parse(File file) {
+        String input = FileToString(file);
         // Create a stream of tokens using the lexer.
         CharStream stream = new ANTLRInputStream(input);
         GrammarLexer lexer = new GrammarLexer(stream);
@@ -43,6 +48,30 @@ public class GrammarFactory {
         walker.walk(listener, tree);
 
         return BoardCreatorListener.getBoard();
+    }
+    
+    public static String FileToString(File file){
+        String textString = "";
+
+        //read in file
+        BufferedReader reader;
+        try {
+            reader = new BufferedReader(new FileReader(file));
+          //add all lines to linesInFile
+            String line = reader.readLine();
+            while (line != null) {
+                textString += line + "\n";
+                line = reader.readLine();
+            }
+            reader.close();
+        }catch (Exception e) {
+            e.printStackTrace();
+            throw new RuntimeException("Couldn't read in file.");
+        } 
+        
+        System.out.println(textString);
+        
+        return textString;
     }
 
 }
