@@ -54,15 +54,11 @@ public class FileParser {
      * @param text from File
      * @return new Bumper object
      */
-    public static Bumper createBumper(String text){
-        String name = null;
-        int x = -9999;
-        int y = -9999;
-        Type type = Type.TRIANGLE;
-        int orientation = 0;
+    public static Bumper createBumper(Type type, String name, int xLoc, int yLoc, int orientation){
+//        new Bumper(name,x,y,Type.SQUARE);
         
-        new Bumper(name,x,y,Type.SQUARE);
-        return new Bumper(name, x, y, type, orientation);
+        //add switch case for each constructor
+        return new Bumper(type, name, xLoc, yLoc, orientation);
     }
     
     /**

@@ -2,6 +2,8 @@ package pingball;
 
 import java.util.ArrayList;
 
+import pingball.Bumper.Type;
+
 public class BoardCreatorListener extends GrammarBaseListener{
    
     @Override
@@ -27,11 +29,20 @@ public class BoardCreatorListener extends GrammarBaseListener{
             FileParser.createBall(ObjectName, doubleContent.get(0), doubleContent.get(1), doubleContent.get(2), doubleContent.get(3));
             break;
         case "squareBumper":
+            FileParser.createBumper(Type.SQUARE, ObjectName, doubleContent.get(0).intValue(), doubleContent.get(1).intValue(), 0);
+            break;
         case "circleBumper":
+            FileParser.createBumper(Type.CIRCLE, ObjectName, doubleContent.get(0).intValue(), doubleContent.get(1).intValue(), 0);
+            break;
         case "triangleBumper":
+            FileParser.createBumper(Type.TRIANGLE, ObjectName, doubleContent.get(0).intValue(), doubleContent.get(1).intValue(), doubleContent.get(2).intValue());
+            break;
         case "leftFlipper":
+            break;
         case "rightFlipper":
+            break;
         case "absorber":
+            break;
         }
         
         
