@@ -13,8 +13,10 @@ public class BoardCreatorListener extends GrammarBaseListener{
    
    public static Board getBoard(){
        for(Gadget gadget: gadgets) board.addGadget(gadget);
-       
        for(Ball ball: balls) board.addBall(ball);
+       
+       System.out.println("There are " + balls.size() + " balls and " + gadgets.size() + " gadgets in this board.");
+       
        return board;
    }
     

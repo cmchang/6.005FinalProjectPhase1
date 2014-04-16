@@ -45,8 +45,8 @@ public class Client implements Runnable{
         Vect v2 = new Vect(start2, 10.0);
         Ball ball = new Ball(cir1, v1);
         Ball ball2 = new Ball(cir2, v2);
-        board.add(ball);
-        board.add(ball2);
+        board.addBall(ball);
+        board.addBall(ball2);
         this.socket = socket;
         this.lock = lock;
         Client.connections = connectionsIn;
