@@ -42,18 +42,13 @@ public class BoardsHandler {
     
     public class Connection{
         String name;
-        Boundary boundary;
-        private Board otherBoard;
+        Boundary boundary;        
         
-        Connection(String name, Boundary boundary, Board otherBoard){
+        Connection(String name, Boundary boundary){
             this.name = name;
-            this.boundary = boundary;
-            this.otherBoard = otherBoard;
+            this.boundary = boundary;            
         }
         
-        public Board getOtherBoard(){
-            return otherBoard;
-        }
     }
     
 //    private HashMap<String, List<Connection>> parseConnections(HashMap<String, List<String>> connections) {
@@ -88,43 +83,43 @@ public class BoardsHandler {
     public enum Orientation {HORIZONTAL,VERTICAL};
     
     /** board1 has to be left or top; board2 has to be right or bottom*/
-//    public void addConnection(String board1, String board2, Orientation o){
-//        List<Connection> c1 = new ArrayList<Connection>();
-//        List<Connection> c2 = new ArrayList<Connection>();
-//        if (o.equals(Orientation.HORIZONTAL)) {                                    
-//            if (!map.get(board1).isEmpty()) c1.addAll(map.get(board1));
-//            for (Connection existing:c1){
-//                if (existing.name.equals(board2)) c1.remove(existing); // boards can be overridden in terms of connectivity 
-//            }            
-//            c1.add(new Connection(board2,Boundary.BOTTOM));            
-//            map.put(board1, c1);
-//            
-//            
-//            if (!map.get(board2).isEmpty()) c2.addAll(map.get(board2));
-//            for (Connection existing:c2){
-//                if (existing.name.equals(board1)) c2.remove(existing); // boards can be overridden in terms of connectivity 
-//            }            
-//            c2.add(new Connection(board1,Boundary.TOP));
-//            map.put(board2, c2);
-//        
-//        } else if (o.equals(Orientation.VERTICAL)){
-//            
-//            if (!map.get(board1).isEmpty()) c1.addAll(map.get(board1));
-//            for (Connection existing:c1){
-//                if (existing.name.equals(board2)) c1.remove(existing); // boards can be overridden in terms of connectivity 
-//            }
-//            c1.add(new Connection(board2,Boundary.RIGHT));
-//            map.put(board1, c1);
-//            
-//            
-//            if (!map.get(board2).isEmpty()) c2.addAll(map.get(board2));
-//            for (Connection existing:c2){
-//                if (existing.name.equals(board1)) c2.remove(existing); // boards can be overridden in terms of connectivity 
-//            }       
-//            c2.add(new Connection(board1,Boundary.LEFT));
-//            map.put(board2, c2);
-//        }
-//    }
+    public void addConnection(String board1, String board2, Orientation o){
+        List<Connection> c1 = new ArrayList<Connection>();
+        List<Connection> c2 = new ArrayList<Connection>();
+        if (o.equals(Orientation.HORIZONTAL)) {                                    
+            if (!map.get(board1).isEmpty()) c1.addAll(map.get(board1));
+            for (Connection existing:c1){
+                if (existing.name.equals(board2)) c1.remove(existing); // boards can be overridden in terms of connectivity 
+            }            
+            c1.add(new Connection(board2,Boundary.BOTTOM));            
+            map.put(board1, c1);
+            
+            
+            if (!map.get(board2).isEmpty()) c2.addAll(map.get(board2));
+            for (Connection existing:c2){
+                if (existing.name.equals(board1)) c2.remove(existing); // boards can be overridden in terms of connectivity 
+            }            
+            c2.add(new Connection(board1,Boundary.TOP));
+            map.put(board2, c2);
+        
+        } else if (o.equals(Orientation.VERTICAL)){
+            
+            if (!map.get(board1).isEmpty()) c1.addAll(map.get(board1));
+            for (Connection existing:c1){
+                if (existing.name.equals(board2)) c1.remove(existing); // boards can be overridden in terms of connectivity 
+            }
+            c1.add(new Connection(board2,Boundary.RIGHT));
+            map.put(board1, c1);
+            
+            
+            if (!map.get(board2).isEmpty()) c2.addAll(map.get(board2));
+            for (Connection existing:c2){
+                if (existing.name.equals(board1)) c2.remove(existing); // boards can be overridden in terms of connectivity 
+            }       
+            c2.add(new Connection(board1,Boundary.LEFT));
+            map.put(board2, c2);
+        }
+    }
     
     
     

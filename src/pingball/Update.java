@@ -103,6 +103,9 @@ class Update implements Runnable {
                   board.getBalls().get(i).setMove(frictGravVect);
               }
               //TODO handle incoming balls
+//              for (Ball ball:connectionsIn.receiveBalls()){
+//                  board.addBall(ball);
+//              }
               
               //update ball collisons
               for (Ball ball: board.getBalls()) {
@@ -127,10 +130,11 @@ class Update implements Runnable {
                               //fix ball location
                               for (Connection c : connectionsIn.getConnections(board)){
                                   if (c.boundary.equals(closeWall.boundary)){
-                                      //Board otherboard = c.otherBoard;
-                                      //TODO
-                                      //Ball newBall = ball.setCircle(new Circle()); 
-                                      //otherboard.addBall(newBall);
+                                      String otherboard = c.name;
+//                                      connectionsIn.sendBall(c, ball);
+//                                      
+//                                      Ball newBall = ball.setCircle(new Circle()); 
+//                                      otherboard.addBall(newBall);
                                   }                                      
                               }
                               

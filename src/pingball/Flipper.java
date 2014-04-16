@@ -127,17 +127,17 @@ public class Flipper implements Gadget {
     
     public enum Side { LEFT, RIGHT};
     
-    @Override
+    
     public String getName() {
         return name;
     }
 
-    @Override
+    
     public String getType() {
         return "flipper";
     }
 
-    @Override
+    
     public double getTimeToCollision(Ball ball) {
         double time = 10000.0;
         double timeLine = 10000.0;
@@ -159,7 +159,7 @@ public class Flipper implements Gadget {
         return time;
     }
 
-    @Override
+    
     public void action() { 
         //won't work action until its done rotating
         if (state == 90|state == -90|state == 0) {
@@ -189,12 +189,12 @@ public class Flipper implements Gadget {
         
     }
 
-    @Override
+    
     public double getCoefficient() {
         return 0.95;
     }
 
-    @Override
+    
     public void reflectBall(Ball ball) {
         if (side.equals(Side.LEFT)){
             Vect newVect = Geometry.reflectRotatingWall(wall, new Vect(x,y).rotateBy(new Angle((orientation)/180.0*Math.PI)), 
@@ -207,7 +207,7 @@ public class Flipper implements Gadget {
         }                    
     }
 
-    @Override
+    
     public void trigger() {
         action();
         for (Gadget gizmo:gizmos){
@@ -215,7 +215,7 @@ public class Flipper implements Gadget {
         }       
     }
 
-    @Override
+    
     public void trigger(Ball ball) {
         System.err.println("Flipper doesn't need a ball passed in for the trigger. This method shouldnt be called");        
     }

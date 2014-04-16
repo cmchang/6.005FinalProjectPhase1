@@ -1,5 +1,6 @@
 package pingball;
 
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -7,6 +8,8 @@ import physics.Circle;
 import physics.Geometry;
 import physics.LineSegment;
 import physics.Vect;
+import pingball.Ball;
+import pingball.Gadget;
 
 /**
  * 
@@ -147,7 +150,7 @@ public class Bumper implements Gadget {
     
     public enum Shape{TRIANGLE, SQUARE, CIRCLE};
     
-    @Override
+    
     public String getName() {
         return name;
     }
@@ -156,12 +159,12 @@ public class Bumper implements Gadget {
         return shape;
     }
 
-    @Override
+    
     public String getType() {
         return "bumper";
     }
 
-    @Override
+    
     public double getTimeToCollision(Ball ball) {
         if (circle == null){
             double time = 10000.0;
@@ -179,17 +182,17 @@ public class Bumper implements Gadget {
         }
     }
 
-    @Override
+    
     public void action() {    
         //has no action
     }
 
-    @Override
+    
     public double getCoefficient() {
         return 1.0;
     }
 
-    @Override
+    
     public void reflectBall(Ball ball) {
         if (circle == null){
             if (wallReflecting == null) System.err.println("error in getting the wall thats reflecting");
@@ -202,14 +205,14 @@ public class Bumper implements Gadget {
         
     }
 
-    @Override
+    
     public void trigger() {
         for (Gadget gizmo:gizmos){
             gizmo.action();
         }  
     }
 
-    @Override
+    
     public void trigger(Ball ball) {    
         System.err.println("Bumper doesn't need a ball passed in for the trigger. This method shouldnt be called");
     }
