@@ -2,7 +2,7 @@ package pingball;
 
 import java.util.ArrayList;
 
-import pingball.Bumper.Type;
+import pingball.Bumper.Shape;
 import pingball.Flipper.Side;
 
 public class BoardCreatorListener extends GrammarBaseListener{
@@ -49,15 +49,15 @@ public class BoardCreatorListener extends GrammarBaseListener{
             break;
         case "squareBumper":
             if(doubleContent.size() != 2) System.err.println("error creating squareBumper: file was parsed incorrectly or did not contain the correct amount of information");
-            gadgets.add(FileParser.createBumper(Type.SQUARE, ObjectName, doubleContent.get(0).intValue(), doubleContent.get(1).intValue(), 0));
+            gadgets.add(FileParser.createBumper(Shape.SQUARE, ObjectName, doubleContent.get(0).intValue(), doubleContent.get(1).intValue(), 0));
             break;
         case "circleBumper":
             if(doubleContent.size() != 2) System.err.println("error creating circleBumper: file was parsed incorrectly or did not contain the correct amount of information");
-            gadgets.add(FileParser.createBumper(Type.CIRCLE, ObjectName, doubleContent.get(0).intValue(), doubleContent.get(1).intValue(), 0));
+            gadgets.add(FileParser.createBumper(Shape.CIRCLE, ObjectName, doubleContent.get(0).intValue(), doubleContent.get(1).intValue(), 0));
             break;
         case "triangleBumper":
             if(doubleContent.size() != 3) System.err.println("error creating triangleBumper: file was parsed incorrectly or did not contain the correct amount of information");
-            gadgets.add(FileParser.createBumper(Type.TRIANGLE, ObjectName, doubleContent.get(0).intValue(), doubleContent.get(1).intValue(), doubleContent.get(2).intValue()));
+            gadgets.add(FileParser.createBumper(Shape.TRIANGLE, ObjectName, doubleContent.get(0).intValue(), doubleContent.get(1).intValue(), doubleContent.get(2).intValue()));
             break;
         case "leftFlipper":
             if(doubleContent.size() != 3) System.err.println("error creating leftFlipper: file was parsed incorrectly or did not contain the correct amount of information");

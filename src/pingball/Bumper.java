@@ -21,41 +21,41 @@ import physics.Vect;
 public class Bumper implements Gadget {
 
     private final String name;    
-    private final Type type;
+    private final Shape shape;
     List<Gadget> gizmos = new ArrayList<Gadget>();
     
     private List<LineSegment> walls = new ArrayList<LineSegment>();
     private LineSegment wallReflecting = null;
     private Circle circle = null;
     
-    public Bumper(Type type, String name, int x, int y){
+    public Bumper(Shape shape, String name, int x, int y){
         this.name=name;
-        this.type=type;
-        if (type.equals(Type.CIRCLE)){
+        this.shape=shape;
+        if (shape.equals(Shape.CIRCLE)){
             circle = new Circle(x, y, .5);
-        } else if (type.equals(Type.SQUARE)){
+        } else if (shape.equals(Shape.SQUARE)){
             walls.add(new LineSegment(x,y,x+1,y)); //top
             walls.add(new LineSegment(x,y+1,x+1,y+1)); //bottom
             walls.add(new LineSegment(x,y,x,y+1)); //left
             walls.add(new LineSegment(x+1,y,x+1,y+1)); //right
-        } else if(type.equals(Type.TRIANGLE)){
+        } else if(shape.equals(Shape.TRIANGLE)){
             System.err.println("error: triangle must have an orientation with it");
         }
     }
     
-    public Bumper(Type type, String name, int x, int y, int orientation){
+    public Bumper(Shape shape, String name, int x, int y, int orientation){
         this.name=name;
-        this.type=type;
-        if (type.equals(Type.CIRCLE)){
+        this.shape=shape;
+        if (shape.equals(Shape.CIRCLE)){
             circle = new Circle(x, y, .5);
             System.err.println("error: circle doesnt need an orientation with it");
-        } else if (type.equals(Type.SQUARE)){
+        } else if (shape.equals(Shape.SQUARE)){
             walls.add(new LineSegment(x,y,x+1,y)); //top
             walls.add(new LineSegment(x,y+1,x+1,y+1)); //bottom
             walls.add(new LineSegment(x,y,x,y+1)); //left
             walls.add(new LineSegment(x+1,y,x+1,y+1)); //right
             System.err.println("error: square doesnt need an orientation with it");
-        } else if(type.equals(Type.TRIANGLE)){
+        } else if(shape.equals(Shape.TRIANGLE)){
             switch (orientation) {
             case 0:
                 walls.add(new LineSegment(x,y,x+1,y)); // top
@@ -84,36 +84,36 @@ public class Bumper implements Gadget {
         }
     }
 
-    public Bumper(Type type, String name, int x, int y, List<Gadget> gizmos){
+    public Bumper(Shape shape, String name, int x, int y, List<Gadget> gizmos){
         this.name=name;
-        this.type=type;
+        this.shape=shape;
         this.gizmos = gizmos;
-        if (type.equals(Type.CIRCLE)){
+        if (shape.equals(Shape.CIRCLE)){
             circle = new Circle(x, y, .5);
-        } else if (type.equals(Type.SQUARE)){
+        } else if (shape.equals(Shape.SQUARE)){
             walls.add(new LineSegment(x,y,x+1,y)); //top
             walls.add(new LineSegment(x,y+1,x+1,y+1)); //bottom
             walls.add(new LineSegment(x,y,x,y+1)); //left
             walls.add(new LineSegment(x+1,y,x+1,y+1)); //right
-        } else if(type.equals(Type.TRIANGLE)){
+        } else if(shape.equals(Shape.TRIANGLE)){
             System.err.println("error: triangle must have an orientation with it");
         }
     }
 
-    public Bumper(Type type, String name, int x, int y, int orientation, List<Gadget> gizmos){
+    public Bumper(Shape shape, String name, int x, int y, int orientation, List<Gadget> gizmos){
         this.name=name;
-        this.type=type;
+        this.shape=shape;
         this.gizmos = gizmos;
-        if (type.equals(Type.CIRCLE)){
+        if (shape.equals(Shape.CIRCLE)){
             circle = new Circle(x, y, .5);
             System.err.println("error: circle doesnt need an orientation with it");
-        } else if (type.equals(Type.SQUARE)){
+        } else if (shape.equals(Shape.SQUARE)){
             walls.add(new LineSegment(x,y,x+1,y)); //top
             walls.add(new LineSegment(x,y+1,x+1,y+1)); //bottom
             walls.add(new LineSegment(x,y,x,y+1)); //left
             walls.add(new LineSegment(x+1,y,x+1,y+1)); //right
             System.err.println("error: square doesnt need an orientation with it");
-        } else if(type.equals(Type.TRIANGLE)){
+        } else if(shape.equals(Shape.TRIANGLE)){
             switch (orientation) {
             case 0:
                 walls.add(new LineSegment(x,y,x+1,y)); // top
@@ -143,11 +143,15 @@ public class Bumper implements Gadget {
         
     }       
     
-    public enum Type{TRIANGLE, SQUARE, CIRCLE};
+    public enum Shape{TRIANGLE, SQUARE, CIRCLE};
     
     @Override
     public String getName() {
         return name;
+    }
+    
+    public Shape getShape() {
+        return shape;
     }
 
     @Override

@@ -4,7 +4,10 @@ import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.List;
 
+import physics.Circle;
+import physics.LineSegment;
 import pingball.Ball;
+import pingball.Bumper.Shape;
 import pingball.Wall.Boundary;
 import pingball.Wall.Visibility;
 
@@ -84,7 +87,19 @@ public class Board {
             if (gadget.getType().equals("flipper")){
                 
             } else if (gadget.getType().equals("bumper")) {
-                
+                if (((Bumper) gadget).getShape().equals(Shape.SQUARE)) {
+                    List<LineSegment> squareWalls = (List<LineSegment>) ((Bumper) gadget).getPosition();
+                    int xcoord = (int) squareWalls.get(0).p1().x();
+                    int ycoord = (int) squareWalls.get(0).p1().y();
+                    field[xcoord][ycoord] = '#';
+                } else if (((Bumper) gadget).getShape().equals(Shape.CIRCLE)) {
+                    Circle circ = (Circle) ((Bumper) gadget).getPosition();
+                    int xcoord = (int) circ.getCenter().x();
+                    int ycoord = (int) circ.getCenter().y();
+                    field[xcoord][ycoord] = '0';
+                } else if (((Bumper) gadget).getShape().equals(Shape.TRIANGLE)) {
+                    List<LineSegment> triWalls = (List<LineSegment>) ((Bumper) gadget).getPosition();
+                }
             } else if (gadget.getType().equals("absorber")) {
                 
             }
