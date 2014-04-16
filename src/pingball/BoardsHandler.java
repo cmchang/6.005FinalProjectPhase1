@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import pingball.BoardsHandler.Connection;
 import pingball.Wall.Boundary;
 
 public class BoardsHandler {
@@ -185,4 +186,21 @@ public class BoardsHandler {
     public synchronized List<Connection> getConnections(Board board){
         return map.get(board.name());
     }
+
+
+
+    public List<Ball> receiveBalls() {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+
+
+    public void sendBall(Connection c, Ball ball) {
+        // TODO Auto-generated method stub
+        
+    }
+
+
+
 }

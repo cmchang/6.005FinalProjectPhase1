@@ -3,10 +3,14 @@ package pingball;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 
+
+
 import physics.Angle;
+import physics.Circle;
 import physics.Vect;
 import pingball.BoardsHandler.Connection;
 import pingball.BoardsHandler.Orientation;
@@ -103,9 +107,9 @@ class Update implements Runnable {
                   board.getBalls().get(i).setMove(frictGravVect);
               }
               //TODO handle incoming balls
-//              for (Ball ball:connectionsIn.receiveBalls()){
-//                  board.addBall(ball);
-//              }
+              for (Ball ball: connectionsIn.receiveBalls()){
+                  board.addBall(ball);
+              }
               
               //update ball collisons
               for (Ball ball: board.getBalls()) {
@@ -124,21 +128,18 @@ class Update implements Runnable {
                       } else if (closerObj.getType().equals("wall")){
                           Wall closeWall = (Wall) closerObj;
                           if (closeWall.visible.equals(Visibility.SOLID)) closerObj.reflectBall(ball);
-                          if (closeWall.visible.equals(Visibility.INVISIBLE)){
-                              //TODO
-                              board.getBalls().remove(ball);
-                              //fix ball location
-                              for (Connection c : connectionsIn.getConnections(board)){
-                                  if (c.boundary.equals(closeWall.boundary)){
-                                      String otherboard = c.name;
-//                                      connectionsIn.sendBall(c, ball);
-//                                      
-//                                      Ball newBall = ball.setCircle(new Circle()); 
-//                                      otherboard.addBall(newBall);
-                                  }                                      
-                              }
+                          if (closeWall.visible.equals(Visibility.INVISIBLE)){ //send the ball to the other board
                               
-
+                              board.getBalls().remove(ball);
+                              
+                              //TODO fix ball location
+                              for (Connection c : connectionsIn.getConnections(board)){
+                                  if (c.boundary.equals(closeWall.boundary)){                                                                            
+                                      Circle newCircle = board.newBallLocation(ball.getCircle(),closeWall.boundary);                                      
+                                      Ball newBall = new Ball(newCircle, ball.getMove());
+                                      connectionsIn.sendBall(c, newBall);                                      
+                                  }                                      
+                              }                              
                           }
                       } else {
                           closerObj.reflectBall(ball);
@@ -162,4 +163,5 @@ class Update implements Runnable {
           System.out.println("Thread interrupted.");
       }
     }
+
 }

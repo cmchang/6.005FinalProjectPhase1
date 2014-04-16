@@ -204,4 +204,9 @@ public class Board {
         }
         
     }
+
+    public Circle newBallLocation(Circle circle, Boundary boundary) {
+        // TODO Auto-generated method stub
+        return null;
+    }
 }
