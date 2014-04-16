@@ -67,19 +67,15 @@ public class FileParser {
      * @param text from File
      * @return new Flipper object
      */
-    public static Flipper createFlipper(String text){
-        String name = null;
-        int x= -9999;
-        int y = -9999;
-        int orientation = -9999;
-        Side side = Side.LEFT;
+    public static Flipper createFlipper(Side side, String name, int xLoc, int yLoc, int orientation){
+//        Side side = Side.LEFT;
         int state = 0;
         
         List<Gadget> connectedGadgets = new ArrayList<Gadget>();
         if (connectedGadgets.size()>0) {
-            return new Flipper(name, x, y, orientation, side, state, connectedGadgets);
+            return new Flipper(name, xLoc, yLoc, orientation, side, state, connectedGadgets);
         } else {
-            return new Flipper(name, x, y, orientation, side, state);
+            return new Flipper(name, xLoc, yLoc, orientation, side, state);
         }
     }
     
@@ -89,19 +85,8 @@ public class FileParser {
      * @param text from File
      * @return new Absorber object
      */
-    public static Absorber createAbsorber(String text){
-        String name = null;
-        int x= -9999;
-        int y = -9999;
-        int height=-9999;
-        int width=-9999;
-        
-        List<Gadget> connectedGadgets = new ArrayList<Gadget>();
-        if (connectedGadgets.size()>0) {
-            return new Absorber(name, x, y, height, width, connectedGadgets);
-        } else {
-            return new Absorber(name, x, y, height, width);
-        }
+    public static Absorber createAbsorber(String name, int xLoc, int yLoc, int height, int width){
+        return new Absorber(name, xLoc, yLoc, height, width);
     }
     
 }
