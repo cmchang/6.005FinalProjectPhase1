@@ -1,16 +1,11 @@
 package pingball;
 
-import java.io.File;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.Queue;
-
-import physics.Angle;
-import physics.Circle;
-import physics.Vect;
 
 public class Server {
     /**

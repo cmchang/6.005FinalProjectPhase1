@@ -1,15 +1,14 @@
 package pingball;
 
 import physics.Angle;
-import physics.Geometry;
 import physics.Vect;
 
 class Update implements Runnable {
     private Board board;    
     double mu; // = board.friction1;
     double mu2;//  = board.friction2;
-    double deltaT = (long) (1.0 / 1000.0);
-    double minTime = deltaT * 10;
+    double deltaT = 1.0 / 1000.0;
+    double minTime = 0.1;
     
     /**
      * Constructor for Update class
@@ -30,19 +29,17 @@ class Update implements Runnable {
      * Determines when balls collide with objects and appropriately reflects the ball in the case that it does.
      * Updates the ball location based on its velocity, while accounting for friction and gravity.
      */
+    @Override
     public void run() {
        try {
           while(true) {
-
-              
               Gadget closerObj = null;
               Thread.sleep((long) deltaT); 
               for (int i = 0; i < board.getBalls().size(); i ++) {
                   Vect oldVect = board.getBalls().get(i).getMove();
-                  Vect frictScaled = oldVect.times(1.0 - mu * deltaT - mu2*oldVect.length() * deltaT); // formula from spec sheet.
-                  
-                  double yComp = frictScaled.dot(frictScaled.Y_HAT); // gravity doesn't affect X-Velocity
-                  double xComp = frictScaled.dot(frictScaled.X_HAT) + board.gravity * deltaT; // gravity affects Y-Velocity by Vf = Vi + at                  
+                  Vect frictScaled = oldVect.times(1.0 - mu * deltaT - mu2 * oldVect.length() * deltaT); // formula from spec sheet.
+                  double yComp = frictScaled.dot(Vect.Y_HAT); // gravity doesn't affect X-Velocity
+                  double xComp = frictScaled.dot(Vect.X_HAT) + board.gravity * deltaT; // gravity affects Y-Velocity by Vf = Vi + at                  
                   double magnitude = Math.hypot(xComp, yComp);
                   Vect frictGravVect;
                   if (xComp == 0 && yComp == 0) {

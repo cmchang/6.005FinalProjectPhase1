@@ -4,7 +4,6 @@ import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.List;
 
-import physics.LineSegment;
 import pingball.Ball;
 import pingball.Wall.Boundary;
 import pingball.Wall.Visibility;
@@ -35,21 +34,12 @@ public class Board {
     public Board() {
         xlength = 20;
         ylength = 20;
-<<<<<<< HEAD
-        walls.add(new LineSegment(0, 1, xlength+2, 1));
-        walls.add(new LineSegment(0, ylength, xlength+2, ylength));
-        walls.add(new LineSegment(1, 0, 1, ylength+2));
-        walls.add(new LineSegment(xlength, 0, xlength, ylength+2));
-=======
-        
         List<Wall> walls = new ArrayList<Wall>();
         walls.add(new Wall(Boundary.TOP, Visibility.SOLID));
         walls.add(new Wall(Boundary.BOTTOM, Visibility.SOLID));
         walls.add(new Wall(Boundary.LEFT, Visibility.SOLID));
-        walls.add(new Wall(Boundary.RIGHT, Visibility.SOLID));
-        
+        walls.add(new Wall(Boundary.RIGHT, Visibility.SOLID));        
         objects.addAll(walls);
->>>>>>> 6b83d272ae2d605ae8d7d0fad9d976764b126e08
     }
     
     /**
@@ -97,6 +87,17 @@ public class Board {
         for (Ball b: balls) {
             field[b.getX() + 1][b.getY() + 1] = '*';
         }
+        
+        for (Gadget gadget: objects){ //includes walls,absorbers,bumpers,flipper
+            if (gadget.getType().equals("flipper")){
+                
+            } else if (gadget.getType().equals("bumper")) {
+                
+            } else if (gadget.getType().equals("absorber")) {
+                
+            }
+        }
+        
         for (int i = 0; i < xlength+2; i++) {
             for (int j = 0; j < ylength+2; j++) {
                 output.append(field[i][j]);

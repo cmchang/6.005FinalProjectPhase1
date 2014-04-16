@@ -1,6 +1,5 @@
 package pingball;
 
-import pingball.Grammar;
 import pingball.GrammarFactory;
 
 public class Main {

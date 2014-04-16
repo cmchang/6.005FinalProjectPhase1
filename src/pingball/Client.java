@@ -55,6 +55,7 @@ public class Client implements Runnable{
     /**
      * Function that runs a specific client
      */
+    @Override
     public void run() {
         // handle the client
         try {
