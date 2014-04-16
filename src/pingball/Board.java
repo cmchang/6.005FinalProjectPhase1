@@ -24,7 +24,7 @@ public class Board {
     List<Gadget> objects = new ArrayList<Gadget>();
     
     final double friction1 = 0.025; // will need some init methods to set up constants based on board parsing. or make not final
-    final double friction2 = 0.025; 
+    final double friction2 = 0.025;
     final double gravity = 25.0;
     
     /**
@@ -33,10 +33,10 @@ public class Board {
     public Board() {
         xlength = 20;
         ylength = 20;
-        walls.add(new LineSegment(0, 0, xlength+2, 0));
-        walls.add(new LineSegment(0, ylength+1, xlength+2, ylength+1));
-        walls.add(new LineSegment(0, 0, 0, ylength+2));
-        walls.add(new LineSegment(xlength+1, 0, xlength+1, ylength+2));
+        walls.add(new LineSegment(0, 1, xlength+2, 1));
+        walls.add(new LineSegment(0, ylength, xlength+2, ylength));
+        walls.add(new LineSegment(1, 0, 1, ylength+2));
+        walls.add(new LineSegment(xlength, 0, xlength, ylength+2));
     }
     
     /**

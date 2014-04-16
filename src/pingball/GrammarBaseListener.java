@@ -48,9 +48,6 @@ public class GrammarBaseListener implements GrammarListener {
 	@Override public void enterVelocity(GrammarParser.VelocityContext ctx) { }
 	@Override public void exitVelocity(GrammarParser.VelocityContext ctx) { }
 
-	@Override public void enterComment(GrammarParser.CommentContext ctx) { }
-	@Override public void exitComment(GrammarParser.CommentContext ctx) { }
-
 	@Override public void enterObjectType(GrammarParser.ObjectTypeContext ctx) { }
 	@Override public void exitObjectType(GrammarParser.ObjectTypeContext ctx) { }
 

@@ -45,9 +45,6 @@ public interface GrammarListener extends ParseTreeListener {
 	void enterVelocity(GrammarParser.VelocityContext ctx);
 	void exitVelocity(GrammarParser.VelocityContext ctx);
 
-	void enterComment(GrammarParser.CommentContext ctx);
-	void exitComment(GrammarParser.CommentContext ctx);
-
 	void enterObjectType(GrammarParser.ObjectTypeContext ctx);
 	void exitObjectType(GrammarParser.ObjectTypeContext ctx);
 
