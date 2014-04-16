@@ -6,6 +6,8 @@ import java.util.List;
 
 import physics.LineSegment;
 import pingball.Ball;
+import pingball.Wall.Boundary;
+import pingball.Wall.Visibility;
 
 /**
  * Representation of all the walls, gadgets and balls on a single Pingball board. Each client plays on a single board.
@@ -20,7 +22,7 @@ public class Board {
     private String name;
     int xlength;
     int ylength;
-    List<LineSegment> walls = new ArrayList<LineSegment>();
+    
     List<Gadget> objects = new ArrayList<Gadget>();
     
     final double friction1 = 0.025; // will need some init methods to set up constants based on board parsing. or make not final
@@ -33,10 +35,21 @@ public class Board {
     public Board() {
         xlength = 20;
         ylength = 20;
+<<<<<<< HEAD
         walls.add(new LineSegment(0, 1, xlength+2, 1));
         walls.add(new LineSegment(0, ylength, xlength+2, ylength));
         walls.add(new LineSegment(1, 0, 1, ylength+2));
         walls.add(new LineSegment(xlength, 0, xlength, ylength+2));
+=======
+        
+        List<Wall> walls = new ArrayList<Wall>();
+        walls.add(new Wall(Boundary.TOP, Visibility.SOLID));
+        walls.add(new Wall(Boundary.BOTTOM, Visibility.SOLID));
+        walls.add(new Wall(Boundary.LEFT, Visibility.SOLID));
+        walls.add(new Wall(Boundary.RIGHT, Visibility.SOLID));
+        
+        objects.addAll(walls);
+>>>>>>> 6b83d272ae2d605ae8d7d0fad9d976764b126e08
     }
     
     /**
@@ -47,6 +60,9 @@ public class Board {
         return false;
     }
     
+    public String name(){
+        return name;
+    }
     /**
      * mutator, add a given ball to the board
      * @param ball
@@ -63,7 +79,7 @@ public class Board {
     /**
      * mutator, add a given gadget to board
      */
-    private void addGadget(Gadget gadget) {}
+    public void addGadget(Gadget gadget) {}
     
     @Override
     public String toString() {

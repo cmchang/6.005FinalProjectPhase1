@@ -24,7 +24,7 @@ public interface Gadget {
      * @return a String indicating the type
      * 
      * The returned String will can be:
-     *      "flipper", "bumper", "absorber"
+     *      "flipper", "bumper", "absorber", "wall"
      * 
      */
     public String getType();
