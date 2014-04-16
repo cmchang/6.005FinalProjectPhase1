@@ -30,7 +30,7 @@ package pingball;
  * *** ANTLR requires grammar nonterminals to be lowercase, like html, normal, and italic.
  */
 
-boardInfo : board (object | COMMENT)* EOF; 
+boardInfo : board (object | COMMENT | fire)* EOF; 
 
 board : 'board' objectName gravity friction1 friction2;
 gravity : 'gravity=' NUM;
@@ -47,6 +47,10 @@ yVelocity: 'yVelocity=' NUM;
 orientation: 'orientation=' NUM;
 width: 'width=' NUM;
 height: 'height=' NUM;
+
+fire: 'fire' 'trigger=' trigger 'action=' action;
+trigger: ID;
+action: ID;
 
 COMMENT: '#' ~('\r' | '\n')* -> skip;
 

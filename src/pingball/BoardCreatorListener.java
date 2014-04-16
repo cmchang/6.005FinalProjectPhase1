@@ -32,7 +32,6 @@ public class BoardCreatorListener extends GrammarBaseListener{
     
     @Override
     public void exitObject(GrammarParser.ObjectContext ctx) {
-        System.out.println("OBJECT");
         ArrayList<Double> doubleContent = new ArrayList<Double>();
         String ObjectType = ctx.getChild(0).getChild(0).toString();
         String ObjectName = ctx.getChild(1).getChild(0).toString();
