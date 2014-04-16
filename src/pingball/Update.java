@@ -3,7 +3,6 @@ package pingball;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 
@@ -71,7 +70,7 @@ class Update implements Runnable {
                   if (cmds[0].equals("v")) o = Orientation.VERTICAL;
                   if (cmds[0].equals("h")) o = Orientation.HORIZONTAL;
                   synchronized(lock){
-                //      connectionsIn.addConnection(cmds[1], cmds[2], o);
+                      if (!o.equals(null)) connectionsIn.addConnection(cmds[1], cmds[2], o);
                   }
               }
               
@@ -106,8 +105,8 @@ class Update implements Runnable {
                   }
                   board.getBalls().get(i).setMove(frictGravVect);
               }
-              //TODO handle incoming balls
-              for (Ball ball: connectionsIn.receiveBalls()){
+              //handle incoming balls
+              for (Ball ball: connectionsIn.receiveBalls(board.name())){
                   board.addBall(ball);
               }
               
@@ -125,22 +124,22 @@ class Update implements Runnable {
                   if (time<minTime) {
                       if (closerObj.getType().equals("absorber")){
                           closerObj.trigger(ball); //trigger method should be generated right here...
+                      
                       } else if (closerObj.getType().equals("wall")){
                           Wall closeWall = (Wall) closerObj;
                           if (closeWall.visible.equals(Visibility.SOLID)) closerObj.reflectBall(ball);
-                          if (closeWall.visible.equals(Visibility.INVISIBLE)){ //send the ball to the other board
-                              
-                              board.getBalls().remove(ball);
-                              
+                          if (closeWall.visible.equals(Visibility.INVISIBLE)){ //send the ball to the other board                              
+                              board.getBalls().remove(ball);                              
                               //TODO fix ball location
                               for (Connection c : connectionsIn.getConnections(board)){
-                                  if (c.boundary.equals(closeWall.boundary)){                                                                            
+                                  if (c.boundary.equals(closeWall.boundary)){  //this connection has the name of the board thats connected to it                                                                      
                                       Circle newCircle = board.newBallLocation(ball.getCircle(),closeWall.boundary);                                      
                                       Ball newBall = new Ball(newCircle, ball.getMove());
                                       connectionsIn.sendBall(c, newBall);                                      
                                   }                                      
                               }                              
                           }
+                      
                       } else {
                           closerObj.reflectBall(ball);
                           closerObj.trigger();
