@@ -68,8 +68,7 @@ public class GrammarFactory {
             e.printStackTrace();
             throw new RuntimeException("Couldn't read in file.");
         } 
-        
-        System.out.println(textString);
+//        System.out.println(textString);
         
         return textString;
     }
