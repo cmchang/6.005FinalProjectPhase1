@@ -27,6 +27,7 @@ public class Bumper implements Gadget {
     private List<LineSegment> walls = new ArrayList<LineSegment>();
     private LineSegment wallReflecting = null;
     private Circle circle = null;
+    private int orientation;
     
     public Bumper(Shape shape, String name, int x, int y){
         this.name=name;
@@ -46,6 +47,7 @@ public class Bumper implements Gadget {
     public Bumper(Shape shape, String name, int x, int y, int orientation){
         this.name=name;
         this.shape=shape;
+        this.orientation=orientation;
         if (shape.equals(Shape.CIRCLE)){
             circle = new Circle(x, y, .5);
             System.err.println("error: circle doesnt need an orientation with it");
@@ -220,6 +222,11 @@ public class Bumper implements Gadget {
     public Object getPosition(){
         if (circle==null) return walls;
         else return circle;
+    }
+
+    public int getOrientation() {
+        // TODO Auto-generated method stub
+        return orientation;
     }
     
 
