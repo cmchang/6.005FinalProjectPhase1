@@ -20,7 +20,7 @@ public class Main {
 //                + "triangleBumper name=Tri1 x=17 y=10 orientation=270\n"
 //                + "leftFlipper name=FlipL1 x=16 y=2 orientation=0\n"
 //                + "absorber name=Abs x=0 y=19 width=20 height=1\n");
-        Board myBoard = GrammarFactory.parse(new File("src/pingball/Boards/board1.txt"));
+        Board myBoard = GrammarFactory.parse(new File("src/pingball/Boards/board5.txt"));
         System.out.println(myBoard.toString());
         
     }
