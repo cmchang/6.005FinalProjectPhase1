@@ -4,7 +4,6 @@ import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.List;
 
-import physics.LineSegment;
 import pingball.Ball;
 import pingball.Wall.Boundary;
 import pingball.Wall.Visibility;
@@ -49,8 +48,8 @@ public class Board {
      * Check the boundary condition of the wall
      * @return boolean of whether to reflect or pass ball
      */
-    private boolean checkBoundry() {
-        return false;
+    private boolean checkBoundry(Wall wall) {
+        return (wall.visible.equals(Visibility.INVISIBLE));
     }
     
     public String name(){
