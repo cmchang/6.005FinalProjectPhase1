@@ -48,14 +48,6 @@ public class Board {
     }
     
     /**
-     * mutator, add a given ball to the board
-     * @param ball
-     */
-    public void add(Ball ball) {
-        balls.add(ball);
-    }
-    
-    /**
      * mutator, remove a given ball from the board
      */
     private void removeBall(Ball ball) {}
@@ -114,7 +106,7 @@ public class Board {
      * @param ball
      */
     public void addBall(Ball ball) {
-        getBalls().add(ball);
+        balls.add(ball);
     }
     
     /**
