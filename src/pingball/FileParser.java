@@ -24,7 +24,8 @@ public class FileParser {
     /**
      * This method creates a new Board object, after calling helper methods to parse the file
      */
-    private Board CreateBoard(){
+    public static Board CreateBoard(String name, double gravity, double friction1, double friction2){
+        //TODO:change board
         return new Board();
     }
     
@@ -41,14 +42,9 @@ public class FileParser {
      * @param text from File
      * @return new Ball object
      */
-    private Ball createBall(String text){
-        double x = -9999;
-        double y = -9999;
-        double r = -9999;
-        Circle circleIn = new Circle(x,y,r);
-        
-        double xVel = -9999;
-        double yVel = -9999;
+    public static Ball createBall(String name, double xLoc, double yLoc, double xVel, double yVel){
+        double r = .5;
+        Circle circleIn = new Circle(xLoc, yLoc,r);
         Vect vectIn = new Vect(xVel,yVel);
         return new Ball(circleIn, vectIn);
     }
@@ -59,15 +55,16 @@ public class FileParser {
      * @param text from File
      * @return new Bumper object
      */
-    private Bumper createBumper(String text){
-        String name = null;
-        int x = -9999;
-        int y = -9999;
-        Type type = Type.TRIANGLE;
-        int orientation = 0;
+    public static Bumper createBumper(Type type, String name, int xLoc, int yLoc, int orientation){
+//        new Bumper(name,x,y,Type.SQUARE);
         
-        new Bumper(name,x,y,Type.SQUARE);
-        return new Bumper(name, x, y, type, orientation);
+        //add switch case for each constructor
+        switch(type){
+        case TRIANGLE:
+            return new Bumper(type, name, xLoc, yLoc, orientation);
+        default:
+            return new Bumper(type, name, xLoc, yLoc);
+        }
     }
     
     /**
@@ -76,19 +73,15 @@ public class FileParser {
      * @param text from File
      * @return new Flipper object
      */
-    private Flipper createFlipper(String text){
-        String name = null;
-        int x= -9999;
-        int y = -9999;
-        int orientation = -9999;
-        Side side = Side.LEFT;
+    public static Flipper createFlipper(Side side, String name, int xLoc, int yLoc, int orientation){
+//        Side side = Side.LEFT;
         int state = 0;
         
         List<Gadget> connectedGadgets = new ArrayList<Gadget>();
         if (connectedGadgets.size()>0) {
-            return new Flipper(name, x, y, orientation, side, state, connectedGadgets);
+            return new Flipper(name, xLoc, yLoc, orientation, side, state, connectedGadgets);
         } else {
-            return new Flipper(name, x, y, orientation, side, state);
+            return new Flipper(name, xLoc, yLoc, orientation, side, state);
         }
     }
     
@@ -98,19 +91,8 @@ public class FileParser {
      * @param text from File
      * @return new Absorber object
      */
-    private Absorber createAbsorber(String text){
-        String name = null;
-        int x= -9999;
-        int y = -9999;
-        int height=-9999;
-        int width=-9999;
-        
-        List<Gadget> connectedGadgets = new ArrayList<Gadget>();
-        if (connectedGadgets.size()>0) {
-            return new Absorber(name, x, y, height, width, connectedGadgets);
-        } else {
-            return new Absorber(name, x, y, height, width);
-        }
+    public static Absorber createAbsorber(String name, int xLoc, int yLoc, int height, int width){
+        return new Absorber(name, xLoc, yLoc, height, width);
     }
     
 }

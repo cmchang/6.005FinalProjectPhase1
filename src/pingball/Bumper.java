@@ -28,7 +28,7 @@ public class Bumper implements Gadget {
     private LineSegment wallReflecting = null;
     private Circle circle = null;
     
-    public Bumper(String name, int x, int y, Type type){
+    public Bumper(Type type, String name, int x, int y){
         this.name=name;
         this.type=type;
         if (type.equals(Type.CIRCLE)){
@@ -43,7 +43,7 @@ public class Bumper implements Gadget {
         }
     }
     
-    public Bumper(String name, int x, int y, Type type, int orientation){
+    public Bumper(Type type, String name, int x, int y, int orientation){
         this.name=name;
         this.type=type;
         if (type.equals(Type.CIRCLE)){
@@ -84,7 +84,7 @@ public class Bumper implements Gadget {
         }
     }
 
-    public Bumper(String name, int x, int y, Type type, List<Gadget> gizmos){
+    public Bumper(Type type, String name, int x, int y, List<Gadget> gizmos){
         this.name=name;
         this.type=type;
         this.gizmos = gizmos;
@@ -100,7 +100,7 @@ public class Bumper implements Gadget {
         }
     }
 
-    public Bumper(String name, int x, int y, Type type, int orientation, List<Gadget> gizmos){
+    public Bumper(Type type, String name, int x, int y, int orientation, List<Gadget> gizmos){
         this.name=name;
         this.type=type;
         this.gizmos = gizmos;

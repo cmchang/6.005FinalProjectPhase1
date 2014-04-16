@@ -72,7 +72,7 @@ public class Board {
     /**
      * mutator, add a given gadget to board
      */
-    private void addGadget(Gadget gadget) {}
+    public void addGadget(Gadget gadget) {}
     
     @Override
     public String toString() {

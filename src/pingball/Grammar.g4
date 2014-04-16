@@ -30,31 +30,28 @@ package pingball;
  * *** ANTLR requires grammar nonterminals to be lowercase, like html, normal, and italic.
  */
 
-boardInfo : board (object | comment)* EOF; 
+boardInfo : board (object | COMMENT)* EOF; 
 
-board : 'board' objectName gravity friction;
+board : 'board' objectName gravity friction1 friction2;
 gravity : 'gravity=' NUM;
-friction: 'friction1=' NUM 'friction2=' NUM;
+friction1: 'friction1=' NUM;
+friction2:  'friction2=' NUM;
 
-object  : objectType objectName xLoc yLoc (velocity | orientation | width height)*;         // match keyword hello followed by an identifier
+object  : objectType objectName xLoc yLoc (xVelocity yVelocity | orientation | width height)*;         // match keyword hello followed by an identifier
 objectType: 'ball' | 'squareBumper' | 'circleBumper' | 'triangleBumper' | 'leftFlipper' | 'rightFlipper' | 'absorber';
 objectName: 'name=' ID+;
 xLoc: 'x=' NUM;
 yLoc: 'y=' NUM;
-velocity: xVelocity yVelocity;
 xVelocity: 'xVelocity=' NUM;
 yVelocity: 'yVelocity=' NUM;
 orientation: 'orientation=' NUM;
 width: 'width=' NUM;
 height: 'height=' NUM;
 
-comment: '#' ID*;
+COMMENT: '#' ~('\r' | '\n')* -> skip;
+
 NUM: '-'?([0-9]+'.'[0-9]*|'.'?[0-9]+);
 
 ID : ([a-z] | [A-Z] | [0-9] | '_')+; //any combination of lower or uppercase letters and numbers
 
-
-//NUM: INT | INT '.' INT;
-//INT: [0-9]+;
-//FLOAT: INT '.' INT;
 WS : [ \t\r\n]+ -> skip ; // skip spaces, tabs, newlines

@@ -9,6 +9,9 @@ import org.antlr.v4.runtime.tree.TerminalNode;
 import org.antlr.v4.runtime.tree.ErrorNode;
 
 public class GrammarBaseListener implements GrammarListener {
+	@Override public void enterFriction1(GrammarParser.Friction1Context ctx) { }
+	@Override public void exitFriction1(GrammarParser.Friction1Context ctx) { }
+
 	@Override public void enterOrientation(GrammarParser.OrientationContext ctx) { }
 	@Override public void exitOrientation(GrammarParser.OrientationContext ctx) { }
 
@@ -27,9 +30,6 @@ public class GrammarBaseListener implements GrammarListener {
 	@Override public void enterYVelocity(GrammarParser.YVelocityContext ctx) { }
 	@Override public void exitYVelocity(GrammarParser.YVelocityContext ctx) { }
 
-	@Override public void enterFriction(GrammarParser.FrictionContext ctx) { }
-	@Override public void exitFriction(GrammarParser.FrictionContext ctx) { }
-
 	@Override public void enterObject(GrammarParser.ObjectContext ctx) { }
 	@Override public void exitObject(GrammarParser.ObjectContext ctx) { }
 
@@ -39,17 +39,14 @@ public class GrammarBaseListener implements GrammarListener {
 	@Override public void enterBoard(GrammarParser.BoardContext ctx) { }
 	@Override public void exitBoard(GrammarParser.BoardContext ctx) { }
 
+	@Override public void enterFriction2(GrammarParser.Friction2Context ctx) { }
+	@Override public void exitFriction2(GrammarParser.Friction2Context ctx) { }
+
 	@Override public void enterHeight(GrammarParser.HeightContext ctx) { }
 	@Override public void exitHeight(GrammarParser.HeightContext ctx) { }
 
 	@Override public void enterXLoc(GrammarParser.XLocContext ctx) { }
 	@Override public void exitXLoc(GrammarParser.XLocContext ctx) { }
-
-	@Override public void enterVelocity(GrammarParser.VelocityContext ctx) { }
-	@Override public void exitVelocity(GrammarParser.VelocityContext ctx) { }
-
-	@Override public void enterComment(GrammarParser.CommentContext ctx) { }
-	@Override public void exitComment(GrammarParser.CommentContext ctx) { }
 
 	@Override public void enterObjectType(GrammarParser.ObjectTypeContext ctx) { }
 	@Override public void exitObjectType(GrammarParser.ObjectTypeContext ctx) { }

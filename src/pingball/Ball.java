@@ -21,6 +21,10 @@ public class Ball {
         this.move = vectIn;
     }
     
+    public String getType(){
+        return "ball";
+    }
+    
     /** 
      * Gets the X location of the ball
      * @return returns the X coordinate of the center of the ball 
