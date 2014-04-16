@@ -2,11 +2,16 @@ package pingball;
 
 import java.io.BufferedReader;
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 
 import physics.Angle;
 import physics.Geometry;
 import physics.Vect;
+import pingball.BoardsHandler.Connection;
 import pingball.BoardsHandler.Orientation;
+import pingball.Wall.Boundary;
+import pingball.Wall.Visibility;
 
 class Update implements Runnable {
     private Board board;    
@@ -61,7 +66,19 @@ class Update implements Runnable {
                   }
               }
               
-              
+            //update wall visibilities based on connections
+              Map<Boundary,Visibility> visibleWalls = new HashMap<Boundary,Visibility>();                                          
+              for (Gadget gadget: board.objects){
+                  if (!gadget.getType().equals("wall")) continue;
+                  Wall wall = (Wall) gadget;
+                  
+                  for (Connection c: connectionsIn.getConnections(board)){
+                      if (wall.boundary.equals(c.boundary)) visibleWalls.put(wall.boundary, Visibility.INVISIBLE);                                               
+                  }
+                  if (!visibleWalls.containsKey(wall.boundary)) visibleWalls.put(wall.boundary, Visibility.SOLID);
+              }
+              if (!(visibleWalls.size()==4)) System.err.println("Size of visibile walls should be 4.");
+              board.setWallVisibilites(visibleWalls);
               
               Gadget closerObj = null;
               Thread.sleep((long) deltaT); 
@@ -80,7 +97,9 @@ class Update implements Runnable {
                   }
                   board.getBalls().get(i).setMove(frictGravVect);
               }
-
+              //TODO handle incoming balls
+              
+              //update ball collisons
               for (Ball ball: board.getBalls()) {
                   double time = 10000.0;                  
                   for (Gadget gadget: board.objects){ //includes walls,absorbers,bumpers,flipper
@@ -94,6 +113,24 @@ class Update implements Runnable {
                   if (time<minTime) {
                       if (closerObj.getType().equals("absorber")){
                           closerObj.trigger(ball); //trigger method should be generated right here...
+                      } else if (closerObj.getType().equals("wall")){
+                          Wall closeWall = (Wall) closerObj;
+                          if (closeWall.visible.equals(Visibility.SOLID)) closerObj.reflectBall(ball);
+                          if (closeWall.visible.equals(Visibility.INVISIBLE)){
+                              //TODO
+                              board.getBalls().remove(ball);
+                              //fix ball location
+                              for (Connection c : connectionsIn.getConnections(board)){
+                                  if (c.boundary.equals(closeWall.boundary)){
+                                      Board otherboard = c.otherBoard;
+                                      
+                                      Ball newBall = ball.setCircle(new Circle()); 
+                                      otherboard.addBall(newBall);
+                                  }                                      
+                              }
+                              
+
+                          }
                       } else {
                           closerObj.reflectBall(ball);
                           closerObj.trigger();

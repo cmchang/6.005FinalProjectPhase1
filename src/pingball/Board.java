@@ -3,6 +3,7 @@ package pingball;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import pingball.Ball;
 import pingball.Wall.Boundary;
@@ -131,5 +132,19 @@ public class Board {
      */
     public void setBalls(List<Ball> balls) {
         this.balls = balls;
+    }
+
+    /** updates the visibilities of the wall given a map of boundaries that correspond with their visibilities*/
+    public void setWallVisibilites(Map<Boundary, Visibility> visibleWalls) {
+        for (Gadget gadget: objects){
+            if (!gadget.getType().equals("wall")) continue;
+            Wall wall = (Wall) gadget;
+            
+            Visibility visibility = visibleWalls.get(wall.boundary); 
+            gadget = new Wall(wall.boundary,visibility);
+            //objects.remove(gadget);
+            //objects.add(new Wall(wall.boundary, visibility));
+        }
+        
     }
 }

@@ -34,7 +34,7 @@ public class BoardsHandler {
      * Constructor method.  
      * Called when the first client is connected to the server and a board is created.
      * 
-     * @param board
+     * @param otherBoard
      */
 //    public BoardsHandler(Board board, HashMap<String, List<String>> connections){
 //        boardConnections = connections;
@@ -44,10 +44,16 @@ public class BoardsHandler {
     public class Connection{
         String name;
         Boundary boundary;
+        private Board otherBoard;
         
-        Connection(String name, Boundary boundary){
+        Connection(String name, Boundary boundary, Board otherBoard){
             this.name = name;
             this.boundary = boundary;
+            this.otherBoard = otherBoard;
+        }
+        
+        public Board getOtherBoard(){
+            return otherBoard;
         }
     }
     
@@ -121,6 +127,8 @@ public class BoardsHandler {
         }
     }
     
+    
+    
 //    /**
 //     * Checks if there is a board connection, updates BoardConnections as necessary
 //     * Adds board to Boards
@@ -178,5 +186,9 @@ public class BoardsHandler {
             if (connection.name.equals(board1ID)) return true;
         }
         return false;
+    }
+
+    public synchronized List<Connection> getConnections(Board board){
+        return map.get(board.name());
     }
 }
