@@ -32,9 +32,10 @@ package pingball;
 
 boardInfo : board (object | COMMENT)* EOF; 
 
-board : 'board' objectName gravity friction;
+board : 'board' objectName gravity friction1 friction2;
 gravity : 'gravity=' NUM;
-friction: 'friction1=' NUM 'friction2=' NUM;
+friction1: 'friction1=' NUM;
+friction2:  'friction2=' NUM;
 
 object  : objectType objectName xLoc yLoc (xVelocity yVelocity | orientation | width height)*;         // match keyword hello followed by an identifier
 objectType: 'ball' | 'squareBumper' | 'circleBumper' | 'triangleBumper' | 'leftFlipper' | 'rightFlipper' | 'absorber';

@@ -42,21 +42,7 @@ public class GrammarFactory {
         BoardCreatorListener listener = new BoardCreatorListener();
         walker.walk(listener, tree);
 
-        // return the Expression value that the listener created
-//        return listener.getGrammar();
         return null;
     }
-    
-//
-//    static class PrintEverythingListener extends GrammarBaseListener {
-//        public void enterBoard(GrammarParser.BoardContext ctx) { System.err.println("entering Board " + ctx.getText()); }
-//        public void exitBoard(GrammarParser.BoardContext ctx) { System.err.println("exiting Board " + ctx.getText()); }
-//
-//        public void enterObject(GrammarParser.ObjectContext ctx) { System.err.println("entering an Object(ball/gadget) " + ctx.getText()); }
-//        public void exitObject(GrammarParser.ObjectContext ctx) { System.err.println("exiting an Object(ball/gadget) " + ctx.getText()); }
-//
-//        public void enterComment(GrammarParser.CommentContext ctx) { System.err.println("entering comment " + ctx.getText()); }
-//        public void exitComment(GrammarParser.CommentContext ctx) { System.err.println("exiting comment " + ctx.getText()); }
-//    }
 
 }

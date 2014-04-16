@@ -6,11 +6,14 @@ import org.antlr.v4.runtime.tree.*;
 import org.antlr.v4.runtime.Token;
 
 public interface GrammarListener extends ParseTreeListener {
-	void enterYLoc(GrammarParser.YLocContext ctx);
-	void exitYLoc(GrammarParser.YLocContext ctx);
+	void enterFriction1(GrammarParser.Friction1Context ctx);
+	void exitFriction1(GrammarParser.Friction1Context ctx);
 
 	void enterOrientation(GrammarParser.OrientationContext ctx);
 	void exitOrientation(GrammarParser.OrientationContext ctx);
+
+	void enterYLoc(GrammarParser.YLocContext ctx);
+	void exitYLoc(GrammarParser.YLocContext ctx);
 
 	void enterBoardInfo(GrammarParser.BoardInfoContext ctx);
 	void exitBoardInfo(GrammarParser.BoardInfoContext ctx);
@@ -24,9 +27,6 @@ public interface GrammarListener extends ParseTreeListener {
 	void enterYVelocity(GrammarParser.YVelocityContext ctx);
 	void exitYVelocity(GrammarParser.YVelocityContext ctx);
 
-	void enterFriction(GrammarParser.FrictionContext ctx);
-	void exitFriction(GrammarParser.FrictionContext ctx);
-
 	void enterObject(GrammarParser.ObjectContext ctx);
 	void exitObject(GrammarParser.ObjectContext ctx);
 
@@ -35,6 +35,9 @@ public interface GrammarListener extends ParseTreeListener {
 
 	void enterBoard(GrammarParser.BoardContext ctx);
 	void exitBoard(GrammarParser.BoardContext ctx);
+
+	void enterFriction2(GrammarParser.Friction2Context ctx);
+	void exitFriction2(GrammarParser.Friction2Context ctx);
 
 	void enterHeight(GrammarParser.HeightContext ctx);
 	void exitHeight(GrammarParser.HeightContext ctx);

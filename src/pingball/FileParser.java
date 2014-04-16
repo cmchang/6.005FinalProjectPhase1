@@ -24,7 +24,8 @@ public class FileParser {
     /**
      * This method creates a new Board object, after calling helper methods to parse the file
      */
-    public static Board CreateBoard(){
+    public static Board CreateBoard(String name, double gravity, double friction1, double friction2){
+        //TODO:change board
         return new Board();
     }
     
@@ -58,7 +59,12 @@ public class FileParser {
 //        new Bumper(name,x,y,Type.SQUARE);
         
         //add switch case for each constructor
-        return new Bumper(type, name, xLoc, yLoc, orientation);
+        switch(type){
+        case TRIANGLE:
+            return new Bumper(type, name, xLoc, yLoc, orientation);
+        default:
+            return new Bumper(type, name, xLoc, yLoc);
+        }
     }
     
     /**
