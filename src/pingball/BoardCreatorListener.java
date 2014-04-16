@@ -6,7 +6,17 @@ import pingball.Bumper.Type;
 import pingball.Flipper.Side;
 
 public class BoardCreatorListener extends GrammarBaseListener{
-   private ArrayList<Object> gadgets = new ArrayList<Object>();
+   private static ArrayList<Gadget> gadgets = new ArrayList<Gadget>();
+   private static ArrayList<Ball> balls = new ArrayList<Ball>();
+
+   private static Board board;
+   
+   public static Board getBoard(){
+       for(Gadget gadget: gadgets) board.addGadget(gadget);
+       
+       for(Ball ball: balls) board.addBall(ball);
+       return board;
+   }
     
     @Override
     public void exitBoard(GrammarParser.BoardContext ctx) {
@@ -15,7 +25,7 @@ public class BoardCreatorListener extends GrammarBaseListener{
         String gravity = ctx.getChild(2).getChild(1).toString();
         String friction1 = ctx.getChild(3).getChild(1).toString();
         String friction2 = ctx.getChild(4).getChild(1).toString();
-        FileParser.CreateBoard(ObjectName, Double.parseDouble(gravity), Double.parseDouble(friction1), Double.parseDouble(friction2));
+        board = FileParser.CreateBoard(ObjectName, Double.parseDouble(gravity), Double.parseDouble(friction1), Double.parseDouble(friction2));
     }
     
     @Override
@@ -33,7 +43,7 @@ public class BoardCreatorListener extends GrammarBaseListener{
         switch(ObjectType){
         case "ball":
             if(doubleContent.size() != 4) System.err.println("error creating ball: file was parsed incorrectly or did not contain the correct amount of information");
-            gadgets.add(FileParser.createBall(ObjectName, doubleContent.get(0), doubleContent.get(1), doubleContent.get(2), doubleContent.get(3)));
+            balls.add(FileParser.createBall(ObjectName, doubleContent.get(0), doubleContent.get(1), doubleContent.get(2), doubleContent.get(3)));
             break;
         case "squareBumper":
             if(doubleContent.size() != 2) System.err.println("error creating squareBumper: file was parsed incorrectly or did not contain the correct amount of information");

@@ -14,7 +14,7 @@ public class GrammarFactory {
      * @param input string representing a conjunctive boolean expression
      * @return Expression corresponding to the input
      */
-    public static Grammar parse(String input) {
+    public static Board parse(String input) {
         // Create a stream of tokens using the lexer.
         CharStream stream = new ANTLRInputStream(input);
         GrammarLexer lexer = new GrammarLexer(stream);
@@ -42,7 +42,7 @@ public class GrammarFactory {
         BoardCreatorListener listener = new BoardCreatorListener();
         walker.walk(listener, tree);
 
-        return null;
+        return BoardCreatorListener.getBoard();
     }
 
 }
