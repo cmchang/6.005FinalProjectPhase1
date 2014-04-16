@@ -4,10 +4,9 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
-import physics.Angle;
 import physics.Circle;
 import physics.Vect;
-import pingball.Bumper.Type;
+import pingball.Bumper.Shape;
 import pingball.Flipper.Side;
 
 public class FileParser {
@@ -55,15 +54,15 @@ public class FileParser {
      * @param text from File
      * @return new Bumper object
      */
-    public static Bumper createBumper(Type type, String name, int xLoc, int yLoc, int orientation){
+    public static Bumper createBumper(Shape shape, String name, int xLoc, int yLoc, int orientation){
 //        new Bumper(name,x,y,Type.SQUARE);
         
         //add switch case for each constructor
-        switch(type){
+        switch(shape){
         case TRIANGLE:
-            return new Bumper(type, name, xLoc, yLoc, orientation);
+            return new Bumper(shape, name, xLoc, yLoc, orientation);
         default:
-            return new Bumper(type, name, xLoc, yLoc);
+            return new Bumper(shape, name, xLoc, yLoc);
         }
     }
     

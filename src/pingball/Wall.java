@@ -51,7 +51,7 @@ public class Wall implements Gadget {
     }
 
     public void action() {
-        System.err.println("This shouldn't be called.(action for wall)");
+//        System.err.println("This shouldn't be called.(action for wall)");
     }
 
     public double getCoefficient() {
@@ -64,11 +64,11 @@ public class Wall implements Gadget {
     }
 
     public void trigger() {
-        System.err.println("This shouldn't be called.(trigger for wall)");
+//        System.err.println("This shouldn't be called.(trigger for wall)");
     }
 
     public void trigger(Ball ball) {
-        System.err.println("This shouldn't be called.(trigger ball for wall)");
+//        System.err.println("This shouldn't be called.(trigger ball for wall)");
     }
 
 }
