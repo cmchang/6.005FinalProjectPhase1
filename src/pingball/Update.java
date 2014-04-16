@@ -5,12 +5,11 @@ import physics.Geometry;
 import physics.Vect;
 
 class Update implements Runnable {
-    private Board board;
-    private double minTime;
-    
-    double mu = board.friction1;
-    double mu2 = board.friction2;
-    double deltaT = minTime/1000;
+    private Board board;    
+    double mu; // = board.friction1;
+    double mu2;//  = board.friction2;
+    double deltaT = (long) (1.0 / 1000.0);
+    double minTime = deltaT * 10;
     
     /**
      * Constructor for Update class
@@ -18,7 +17,8 @@ class Update implements Runnable {
      */
     Update(Board boardIn){
         board = boardIn;
-        minTime = 0.5; 
+        mu = board.friction1;
+        mu2 = board.friction2;
     }
     
     /**
@@ -36,8 +36,23 @@ class Update implements Runnable {
 
               
               Gadget closerObj = null;
-              Thread.sleep(1); 
-              
+              Thread.sleep((long) deltaT); 
+              for (int i = 0; i < board.getBalls().size(); i ++) {
+                  Vect oldVect = board.getBalls().get(i).getMove();
+                  Vect frictScaled = oldVect.times(1.0 - mu * deltaT - mu2*oldVect.length() * deltaT); // formula from spec sheet.
+                  
+                  double yComp = frictScaled.dot(frictScaled.Y_HAT); // gravity doesn't affect X-Velocity
+                  double xComp = frictScaled.dot(frictScaled.X_HAT) + board.gravity * deltaT; // gravity affects Y-Velocity by Vf = Vi + at                  
+                  double magnitude = Math.hypot(xComp, yComp);
+                  Vect frictGravVect;
+                  if (xComp == 0 && yComp == 0) {
+                      frictGravVect = new Vect(new Angle(0.0)).times(0.0);
+                  } else {
+                      frictGravVect = new Vect(new Angle(xComp, yComp)).times(magnitude);
+                  }
+                  board.getBalls().get(i).setMove(frictGravVect);
+              }
+
               for (Ball ball: board.getBalls()) {
                   double time = 10000.0;                  
                   for (Gadget gadget: board.objects){ //includes walls,absorbers,bumpers,flipper
@@ -56,24 +71,16 @@ class Update implements Runnable {
                           closerObj.trigger();
                       }
                   }
-                  
-                  Vect oldVect = ball.getMove();
-                  Vect frictScaled = oldVect.times(1.0 - mu*deltaT - mu2*oldVect.length()*deltaT); // formula from spec sheet.
-                  
-                  double xComp = frictScaled.dot(frictScaled.X_HAT); // gravity doesn't affect X-Velocity
-                  double yComp = frictScaled.dot(frictScaled.Y_HAT) - board.gravity*deltaT; // gravity affects Y-Velocity by Vf = Vi + at                  
-                  double magnitude = Math.hypot(xComp, yComp);                  
-                  Vect frictGravVect = new Vect(new Angle(xComp, yComp)).times(magnitude);                  
-                  
-                  ball.setMove(frictGravVect);                  
-                  ball.move(minTime);       
+              }
+              
+              for (int i = 0; i < board.getBalls().size(); i ++) {                 
+                  board.getBalls().get(i).move(deltaT);
               }
   
-              
               //move the flippers
               for (Gadget flipper:board.objects){
                   if (flipper.getType().equals("flipper")){
-                      ((Flipper) flipper).move(minTime);
+                      ((Flipper) flipper).move(deltaT);
                   }
               }
           }
