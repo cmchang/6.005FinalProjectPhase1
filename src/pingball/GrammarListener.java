@@ -42,9 +42,6 @@ public interface GrammarListener extends ParseTreeListener {
 	void enterXLoc(GrammarParser.XLocContext ctx);
 	void exitXLoc(GrammarParser.XLocContext ctx);
 
-	void enterComment(GrammarParser.CommentContext ctx);
-	void exitComment(GrammarParser.CommentContext ctx);
-
 	void enterObjectType(GrammarParser.ObjectTypeContext ctx);
 	void exitObjectType(GrammarParser.ObjectTypeContext ctx);
 
