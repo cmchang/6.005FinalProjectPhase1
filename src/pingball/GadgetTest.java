@@ -2,11 +2,14 @@ package pingball;
 
 import static org.junit.Assert.*;
 
+import java.util.List;
+
 import org.junit.Before;
 import org.junit.Test;
 
 import physics.Angle;
 import physics.Circle;
+import physics.LineSegment;
 import physics.Vect;
 import pingball.Bumper.Shape;
 import pingball.Flipper.Side;
@@ -65,26 +68,76 @@ public class GadgetTest {
     }
     
     @Test
-    public void testBumper(){
-        Bumper triBumper = new Bumper(Shape.CIRCLE, "tri1", 5, 5);
-        triBumper.reflectBall(ball1);        
-        assertTrue(ball1.getMove().length()==5*triBumper.getCoefficient());
+    public void testCircleBumper(){
+        Bumper circBumper = new Bumper(Shape.CIRCLE, "circ1", 5, 5);
+        Bumper circBumperAligned = new Bumper(Shape.CIRCLE,"circ2",5,1);
+            
+        assertTrue(circBumper.getName().equals("circ1"));
+        assertTrue(circBumper.getType().equals("bumper"));               
+        assertTrue(circBumper.getShape().toString().equals("CIRCLE"));
+        assertTrue(((Circle) circBumper.getPosition()).getCenter().toString().equals("<5.0,5.0>"));
+        assertTrue(circBumper.getOrientation()==0);
+        assertTrue(circBumper.getTimeToCollision(ball1)==Double.POSITIVE_INFINITY);
+        assertTrue(circBumperAligned.getTimeToCollision(ball1)==0.6);
+
+        Angle initialAngle = ball1.getMove().angle();
+        circBumperAligned.reflectBall(ball1); // when you hit a circle from the left, the ball goes down        
+
+        assertTrue(ball1.getMove().angle().equals(initialAngle.minus(Angle.DEG_180)));
+        assertTrue(circBumperAligned.getTimeToCollision(ball1)==Double.POSITIVE_INFINITY);
+        assertTrue(ball1.getMove().length()==5*circBumper.getCoefficient()); 
+   
+    }
+    
+    @Test 
+    public void testTriangleBumper(){
+        Bumper triBumper = new Bumper(Shape.TRIANGLE, "tri1", 5, 5, 0);
+        Bumper triBumper2 = new Bumper(Shape.TRIANGLE,"tri2",5,1, 90);
+            
+        assertTrue(triBumper.getName().equals("tri1"));
+        assertTrue(triBumper.getType().equals("bumper"));               
+        assertTrue(triBumper.getShape().toString().equals("TRIANGLE"));
+        assertTrue(((List<LineSegment>) triBumper.getPosition()).size()==3);
+        assertTrue(triBumper.getOrientation()==0);
+        assertTrue(triBumper2.getOrientation()==90);
+        System.out.println(triBumper.getTimeToCollision(ball1));
+        assertTrue(triBumper.getTimeToCollision(ball1)==Double.POSITIVE_INFINITY);
+        assertTrue(triBumper2.getTimeToCollision(ball1)==0.6);
+
+        Angle initialAngle = ball1.getMove().angle();
+        triBumper.reflectBall(ball1); // when you hit a circle from the left, the ball goes down        
         
+        assertTrue(ball1.getMove().angle().equals(initialAngle.minus(Angle.DEG_90)));
+        assertTrue(triBumper2.getTimeToCollision(ball1)==Double.POSITIVE_INFINITY);
+        assertTrue(ball1.getMove().length()==5*triBumper.getCoefficient()); 
     }
     
     @Test
     public void testBall(){
         assertTrue(ball1.getType().equals("ball"));
-        assertTrue(ball1.getX()==1);
+        assertTrue(ball1.getX()==1);        
+        assertTrue(ball1.getMove().toString().equals("<5.0,0.0>"));
+        
         ball1.move(100*deltaT);
+        
         assertTrue(ball1.getX()==3);
+        
         ball1.move(100000*deltaT);
+        
         assertTrue(ball1.getX()==2503);
         assertTrue(ball1.getY()==1);
         
-        System.out.println(ball1.getCircle().getRadius());
-        assertTrue(ball1.getCircle().getRadius()==0.5);
-
+        assertTrue(ball1.getCircle().getRadius()==0.5);        
+        assertTrue(ball1.getMove().toString().equals("<5.0,0.0>"));
+        
+        ball1.setCircle(new Circle(5,5,5));
+        ball1.setMove(new Vect(new Angle(Math.PI),10));
+        
+        assertTrue(ball1.getX()==5);
+        assertTrue(ball1.getY()==5);
+        assertTrue(ball1.getCircle().getRadius()==5);
+        assertTrue(ball1.getMove().toString().substring(0,7).equals("<-10.0,"));
+        
     }    
     
     @Test

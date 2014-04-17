@@ -86,7 +86,7 @@ public class Absorber implements Gadget {
 
     
     public double getTimeToCollision(Ball ball) {        
-        double time = 10000.0;
+        double time = Double.POSITIVE_INFINITY;
         for (int j = 0; j < walls.size(); j++) {                                              
             double timeLine = Geometry.timeUntilWallCollision(walls.get(j), ball.getCircle(), ball.getMove());
             if (timeLine < time) {
