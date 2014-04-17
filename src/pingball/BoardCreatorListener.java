@@ -20,7 +20,6 @@ public class BoardCreatorListener extends GrammarBaseListener{
        return board;
    }
     
-    @Override
     public void exitBoard(GrammarParser.BoardContext ctx) {
 //        String ObjectType = ctx.getChild(0).toString();
         String ObjectName = ctx.getChild(1).getChild(1).toString();
@@ -30,7 +29,6 @@ public class BoardCreatorListener extends GrammarBaseListener{
         board = FileParser.CreateBoard(ObjectName, Double.parseDouble(gravity), Double.parseDouble(friction1), Double.parseDouble(friction2));
     }
     
-    @Override
     public void exitObject(GrammarParser.ObjectContext ctx) {
         ArrayList<Double> doubleContent = new ArrayList<Double>();
         String ObjectType = ctx.getChild(0).getChild(0).toString();

@@ -9,6 +9,7 @@ import physics.Circle;
 import physics.LineSegment;
 import pingball.Ball;
 import pingball.Bumper.Shape;
+import pingball.Flipper.Side;
 import pingball.Wall.Boundary;
 import pingball.Wall.Visibility;
 
@@ -88,23 +89,51 @@ public class Board {
         }
         
         for (Gadget gadget: objects){ //includes walls,absorbers,bumpers,flipper
-            System.out.println(gadget);
+            int xcoord;
+            int ycoord;
             if (gadget.getType().equals("flipper")){
-                List<LineSegment> position = ((Flipper) gadget).getPosition();
-                //TODO: FINISH FLIPPER
+                List<LineSegment> flipWalls = ((Flipper) gadget).getPosition();
+                int orient = ((Flipper) gadget).getOrientation();
+                Side side = ((Flipper) gadget).getSide();
+                xcoord = ((Flipper) gadget).getX();
+                ycoord = ((Flipper) gadget).getY();
+                switch (orient) {
+                case 0:
+                    field[xcoord + 1][ycoord] = '-';
+                    if (side.equals(Side.RIGHT)) field[xcoord - 1 + 1][ycoord] = '-';
+                    if (side.equals(Side.LEFT)) field[xcoord + 1 + 1][ycoord] = '-';
+                    break;
+                case 90:
+                    field[xcoord + 1][ycoord] = '|';
+                    if (side.equals(Side.RIGHT)) field[xcoord + 1][ycoord + 1] = '|';
+                    if (side.equals(Side.LEFT)) field[xcoord + 1][ycoord - 1] = '|';
+                    break;
+                case 180:
+                    field[xcoord + 1][ycoord] = '-';
+                    field[xcoord - 1 + 1][ycoord] = '-';
+                    if (side.equals(Side.RIGHT)) field[xcoord + 1 + 1][ycoord] = '-';
+                    if (side.equals(Side.LEFT)) field[xcoord - 1 + 1][ycoord] = '-';
+                    break;
+                case 270:
+                    field[xcoord + 1][ycoord] = '|';
+                    if (side.equals(Side.RIGHT)) field[xcoord + 1][ycoord - 1] = '|';
+                    if (side.equals(Side.LEFT)) field[xcoord + 1][ycoord + 1] = '|';
+                    break;
+                default:
+                    System.err.println("invalid orientation");
+                    break;
+                }
             } else if (gadget.getType().equals("bumper")) {
-                int xcoord;
-                int ycoord;
                 if (((Bumper) gadget).getShape().equals(Shape.SQUARE)) {
                     List<LineSegment> squareWalls = (List<LineSegment>) ((Bumper) gadget).getPosition();
                     xcoord = (int) squareWalls.get(0).p1().x();
                     ycoord = (int) squareWalls.get(0).p1().y();
-                    field[xcoord][ycoord] = '#';
+                    field[xcoord+1][ycoord] = '#';
                 } else if (((Bumper) gadget).getShape().equals(Shape.CIRCLE)) {
                     Circle circ = (Circle) ((Bumper) gadget).getPosition();
                     xcoord = (int) circ.getCenter().x();
                     ycoord = (int) circ.getCenter().y();
-                    field[xcoord][ycoord] = '0';
+                    field[xcoord+1][ycoord] = '0';
                 } else if (((Bumper) gadget).getShape().equals(Shape.TRIANGLE)) {
                     List<LineSegment> triWalls = (List<LineSegment>) ((Bumper) gadget).getPosition();
                     int orient = ((Bumper) gadget).getOrientation();
@@ -112,22 +141,22 @@ public class Board {
                     case 0:
                         xcoord = (int) triWalls.get(0).p1().x();
                         ycoord = (int) triWalls.get(0).p1().y();
-                        field[xcoord][ycoord] = '/';
+                        field[xcoord+1][ycoord] = '/';
                         break;
                     case 90:
                         xcoord = (int) triWalls.get(0).p1().x();
                         ycoord = (int) triWalls.get(0).p1().y();
-                        field[xcoord][ycoord] = '\\';
+                        field[xcoord+1][ycoord] = '\\';
                         break;
                     case 180:
                         xcoord = (int) triWalls.get(0).p1().x();
                         ycoord = (int) triWalls.get(1).p1().y();
-                        field[xcoord][ycoord] = '/';
+                        field[xcoord+1][ycoord] = '/';
                         break;
                     case 270:
                         xcoord = (int) triWalls.get(0).p1().x();
                         ycoord = (int) triWalls.get(1).p1().y();
-                        field[xcoord][ycoord] = '\\';
+                        field[xcoord+1][ycoord] = '\\';
                         break;
                     default:
                         System.err.println("invalid orientation");
@@ -135,7 +164,15 @@ public class Board {
                     }
                 }
             } else if (gadget.getType().equals("absorber")) {
-                //TODO: FINISH ABSORBER
+                int xmin = ((Absorber) gadget).getX();
+                int ymin = ((Absorber) gadget).getY();
+                int width = ((Absorber) gadget).getWidth();
+                int height = ((Absorber) gadget).getHeight();
+                for (int i=0; i < height; i++) {
+                    for (int j=0; j < width; j++) {
+                        field[xmin + j + 1][ymin + i] = '=';
+                    }
+                }
             } else if (gadget.getType().equals("wall")){
                 String otherBoard;
                 if (((Wall) gadget).visible.equals(Visibility.INVISIBLE)) {
@@ -165,7 +202,7 @@ public class Board {
         
         for (int i = 0; i < xlength+2; i++) {
             for (int j = 0; j < ylength+2; j++) {
-                output.append(field[i][j]);
+                output.append(field[j][i]);
             }
             output.append('\n');
         }
