@@ -315,12 +315,13 @@ public class Board {
      * observer, animate the board (ie print out repeatly
      * at specified framerate
      */
-    public void animate(PrintWriter out, int framerate) {
+    public void animate(/*PrintWriter out,*/ int framerate) {
         try {
             while (true) {
                 long startTime = System.currentTimeMillis();
-                out.println(this.toString());
-                out.flush();
+                //out.println(this.toString());
+                //out.flush();
+                System.out.println(this.toString());
                 long endTime = System.currentTimeMillis();
                 long duration = endTime - startTime;
                 Thread.sleep(1000/framerate - duration);

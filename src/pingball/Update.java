@@ -1,7 +1,6 @@
 package pingball;
 
 import java.io.BufferedReader;
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -11,7 +10,6 @@ import physics.Geometry;
 import physics.Geometry.VectPair;
 import physics.Vect;
 import pingball.BoardsHandler.Connection;
-import pingball.BoardsHandler.Orientation;
 import pingball.Wall.Boundary;
 import pingball.Wall.Visibility;
 
@@ -60,34 +58,20 @@ class Update implements Runnable {
     
     public void run() {
       // try {
-          while(true) {
-              // read userInputs and start new boardConnections if necessary
-              String userInput="";              
-              try {
-                if (in.ready()) userInput = in.readLine();
-              } catch (IOException e) {
-                  e.printStackTrace();
-              }
-              String[] cmds = userInput.split(" ");
-              if (cmds.length==3){
-                  Orientation o = null;
-                  if (cmds[0].equals("v")) o = Orientation.VERTICAL;
-                  if (cmds[0].equals("h")) o = Orientation.HORIZONTAL;
-                  synchronized(lock){
-                      if (!o.equals(null)) boardHandler.addConnection(cmds[1], cmds[2], o);
-                  }
-              }                            
+          while(true) {                                          
               
             //update wall visibilities based on connections
               Map<Boundary,Visibility> visibleWalls = new HashMap<Boundary,Visibility>();                                          
               for (Gadget gadget: board.objects){
                   if (!gadget.getType().equals("wall")) continue;
                   Wall wall = (Wall) gadget; // for each wall....
-                  for (Connection c: boardHandler.getConnections(board)){ 
-                      if (wall.boundary.equals(c.boundary)) { //the correct connection to the correct wall
-                          visibleWalls.put(wall.boundary, Visibility.INVISIBLE); //if a wall matches a connection boundary, set as invisible
-                          wall.setConnection(c);
-                      }  
+                  synchronized(lock) {
+                      for (Connection c: boardHandler.getConnections(board)){                   
+                          if (wall.boundary.equals(c.boundary)) { //the correct connection to the correct wall
+                              visibleWalls.put(wall.boundary, Visibility.INVISIBLE); //if a wall matches a connection boundary, set as invisible
+                              wall.setConnection(c);
+                          }
+                      }
                   }
                   if (!visibleWalls.containsKey(wall.boundary)) {
                       visibleWalls.put(wall.boundary, Visibility.SOLID); // else set it as solid
@@ -120,8 +104,10 @@ class Update implements Runnable {
                   board.getBalls().get(i).setMove(frictGravVect);
               }
               //add in incoming balls
-              for (Ball ball: boardHandler.receiveBalls(board.name())){
-                  board.addBall(ball);
+              synchronized(lock){
+                  for (Ball ball: boardHandler.receiveBalls(board.name())){             
+                      board.addBall(ball);
+                  }
               }
               
               //update ball velocities based on collisons with other gadgets, including walls, or balls           
@@ -165,13 +151,16 @@ class Update implements Runnable {
                               if (closeWall.visible.equals(Visibility.SOLID)) closestGadg.reflectBall(ball);
                               if (closeWall.visible.equals(Visibility.INVISIBLE)){ //send the ball to the other board                              
                                   board.getBalls().remove(ball);                              
-                                  for (Connection c : boardHandler.getConnections(board)){
-                                      if (c.boundary.equals(closeWall.boundary)){  //then c contains the name of the board thats connected to it                                                                      
-                                          Circle newCircle = board.newBallLocation(ball.getCircle(),closeWall.boundary);  //put ball on other side of board                              
-                                          Ball newBall = new Ball(newCircle, ball.getMove());
-                                          boardHandler.sendBall(c, newBall);      //send ball to other board through BoardsHandler                           
-                                      }                                      
-                                  }                              
+                                  synchronized(lock) {
+                                      for (Connection c : boardHandler.getConnections(board)){
+                                  
+                                          if (c.boundary.equals(closeWall.boundary)){  //then c contains the name of the board thats connected to it                                                                      
+                                              Circle newCircle = board.newBallLocation(ball.getCircle(),closeWall.boundary);  //put ball on other side of board                              
+                                              Ball newBall = new Ball(newCircle, ball.getMove());
+                                              boardHandler.sendBall(c, newBall);      //send ball to other board through BoardsHandler                           
+                                          }                                      
+                                      }
+                                  }
                               }                      
                           } else { // its a bumper or flipper
     //                          dirty = true;
