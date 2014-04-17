@@ -22,7 +22,6 @@ public class Main {
 //                + "absorber name=Abs x=0 y=19 width=20 height=1\n");
         Board myBoard = GrammarFactory.parse(new File("src/pingball/Boards/board1.txt"));
         System.out.println(myBoard.toString());
-        
     }
     
 }

@@ -225,9 +225,7 @@ public class Bumper implements Gadget {
     }
 
     public int getOrientation() {
-        // TODO Auto-generated method stub
         return orientation;
     }
     
-
 }

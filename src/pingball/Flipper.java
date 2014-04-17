@@ -263,11 +263,28 @@ public class Flipper implements Gadget {
         }
         
     }
+    
     /** returns the location of the flipper, which is a singular line segment. but it is in a list for ease of use with diff gadgets*/
     public List<LineSegment> getPosition(){
         List<LineSegment> position = new ArrayList<LineSegment>();
         position.add(wall);
         return position;
+    }
+    
+    public int getOrientation() {
+        return orientation;
+    }
+    
+    public Side getSide() {
+        return side;
+    }
+    
+    public int getX() {
+        return x;
+    }
+    
+    public int getY() {
+        return y;
     }
    
 }
