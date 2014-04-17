@@ -29,9 +29,15 @@ public class BoardCreatorListener extends GrammarBaseListener{
 //        String ObjectType = ctx.getChild(0).toString();
         String ObjectName = ctx.getChild(1).getChild(2).toString();
         String gravity = ctx.getChild(2).getChild(2).toString();
-        String friction1 = ctx.getChild(3).getChild(2).toString();
-        String friction2 = ctx.getChild(4).getChild(2).toString();
-        board = FileParser.CreateBoard(ObjectName, Double.parseDouble(gravity), Double.parseDouble(friction1), Double.parseDouble(friction2));
+        if(ctx.getChildCount() == 4){ //if has 4 children, then friction was given
+            String friction1 = ctx.getChild(3).getChild(2).toString();
+            String friction2 = ctx.getChild(4).getChild(2).toString();
+            board = FileParser.CreateBoard(ObjectName, Double.parseDouble(gravity), Double.parseDouble(friction1), Double.parseDouble(friction2));
+        }else{
+            //No friction was given in the file, so friction1 = friction2 = 0.0
+            board = FileParser.CreateBoard(ObjectName, Double.parseDouble(gravity), 0.0, 0.0);
+
+        }
     }
     
     public void exitObject(GrammarParser.ObjectContext ctx) {
