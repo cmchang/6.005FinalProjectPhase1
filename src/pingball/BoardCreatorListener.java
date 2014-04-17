@@ -11,22 +11,33 @@ public class BoardCreatorListener extends GrammarBaseListener{
 
    private static Board board;
    
+   private static void resetBoardObjects(){
+       gadgets = new ArrayList<Gadget>();
+       balls = new ArrayList<Ball>();
+   }
+   
    public static Board getBoard(){
        for(Gadget gadget: gadgets) board.addGadget(gadget);
        for(Ball ball: balls) board.addBall(ball);
        
-       System.out.println("There are " + balls.size() + " balls and " + gadgets.size() + " gadgets in this board.");
-       
+//       System.out.println("There are " + balls.size() + " balls and " + gadgets.size() + " gadgets in this board.");
+       resetBoardObjects();
        return board;
    }
     
     public void exitBoard(GrammarParser.BoardContext ctx) {
 //        String ObjectType = ctx.getChild(0).toString();
-        String ObjectName = ctx.getChild(1).getChild(1).toString();
-        String gravity = ctx.getChild(2).getChild(1).toString();
-        String friction1 = ctx.getChild(3).getChild(1).toString();
-        String friction2 = ctx.getChild(4).getChild(1).toString();
-        board = FileParser.CreateBoard(ObjectName, Double.parseDouble(gravity), Double.parseDouble(friction1), Double.parseDouble(friction2));
+        String ObjectName = ctx.getChild(1).getChild(2).toString();
+        String gravity = ctx.getChild(2).getChild(2).toString();
+        if(ctx.getChildCount() == 4){ //if has 4 children, then friction was given
+            String friction1 = ctx.getChild(3).getChild(2).toString();
+            String friction2 = ctx.getChild(4).getChild(2).toString();
+            board = FileParser.CreateBoard(ObjectName, Double.parseDouble(gravity), Double.parseDouble(friction1), Double.parseDouble(friction2));
+        }else{
+            //No friction was given in the file, so friction1 = friction2 = 0.0
+            board = FileParser.CreateBoard(ObjectName, Double.parseDouble(gravity), 0.0, 0.0);
+
+        }
     }
     
     public void exitObject(GrammarParser.ObjectContext ctx) {

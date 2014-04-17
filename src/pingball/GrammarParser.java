@@ -17,27 +17,27 @@ public class GrammarParser extends Parser {
 	protected static final PredictionContextCache _sharedContextCache =
 		new PredictionContextCache();
 	public static final int
-		T__21=1, T__20=2, T__19=3, T__18=4, T__17=5, T__16=6, T__15=7, T__14=8, 
-		T__13=9, T__12=10, T__11=11, T__10=12, T__9=13, T__8=14, T__7=15, T__6=16, 
-		T__5=17, T__4=18, T__3=19, T__2=20, T__1=21, T__0=22, COMMENT=23, NUM=24, 
-		ID=25, WS=26;
+		T__22=1, T__21=2, T__20=3, T__19=4, T__18=5, T__17=6, T__16=7, T__15=8, 
+		T__14=9, T__13=10, T__12=11, T__11=12, T__10=13, T__9=14, T__8=15, T__7=16, 
+		T__6=17, T__5=18, T__4=19, T__3=20, T__2=21, T__1=22, T__0=23, COMMENT=24, 
+		NUM=25, ID=26, WS=27;
 	public static final String[] tokenNames = {
-		"<INVALID>", "'orientation='", "'trigger='", "'x='", "'friction2='", "'board'", 
-		"'ball'", "'xVelocity='", "'action='", "'friction1='", "'name='", "'triangleBumper'", 
-		"'fire'", "'gravity='", "'width='", "'y='", "'absorber'", "'squareBumper'", 
-		"'yVelocity='", "'leftFlipper'", "'circleBumper'", "'rightFlipper'", "'height='", 
-		"COMMENT", "NUM", "ID", "WS"
+		"<INVALID>", "'yVelocity'", "'name'", "'friction1'", "'gravity'", "'board'", 
+		"'ball'", "'xVelocity'", "'orientation'", "'='", "'height'", "'x'", "'y'", 
+		"'triangleBumper'", "'fire'", "'action'", "'absorber'", "'squareBumper'", 
+		"'trigger'", "'leftFlipper'", "'circleBumper'", "'friction2'", "'width'", 
+		"'rightFlipper'", "COMMENT", "NUM", "ID", "WS"
 	};
 	public static final int
 		RULE_boardInfo = 0, RULE_board = 1, RULE_gravity = 2, RULE_friction1 = 3, 
 		RULE_friction2 = 4, RULE_object = 5, RULE_objectType = 6, RULE_objectName = 7, 
 		RULE_xLoc = 8, RULE_yLoc = 9, RULE_xVelocity = 10, RULE_yVelocity = 11, 
 		RULE_orientation = 12, RULE_width = 13, RULE_height = 14, RULE_fire = 15, 
-		RULE_trigger = 16, RULE_action = 17;
+		RULE_trigger = 16, RULE_action = 17, RULE_equalSign = 18;
 	public static final String[] ruleNames = {
 		"boardInfo", "board", "gravity", "friction1", "friction2", "object", "objectType", 
 		"objectName", "xLoc", "yLoc", "xVelocity", "yVelocity", "orientation", 
-		"width", "height", "fire", "trigger", "action"
+		"width", "height", "fire", "trigger", "action", "equalSign"
 	};
 
 	@Override
@@ -116,44 +116,44 @@ public class GrammarParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(36); board();
-			setState(42);
+			setState(38); board();
+			setState(44);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
-			while ((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << 6) | (1L << 11) | (1L << 12) | (1L << 16) | (1L << 17) | (1L << 19) | (1L << 20) | (1L << 21) | (1L << COMMENT))) != 0)) {
+			while ((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << 6) | (1L << 13) | (1L << 14) | (1L << 16) | (1L << 17) | (1L << 19) | (1L << 20) | (1L << 23) | (1L << COMMENT))) != 0)) {
 				{
-				setState(40);
+				setState(42);
 				switch (_input.LA(1)) {
 				case 6:
-				case 11:
+				case 13:
 				case 16:
 				case 17:
 				case 19:
 				case 20:
-				case 21:
+				case 23:
 					{
-					setState(37); object();
+					setState(39); object();
 					}
 					break;
 				case COMMENT:
 					{
-					setState(38); match(COMMENT);
+					setState(40); match(COMMENT);
 					}
 					break;
-				case 12:
+				case 14:
 					{
-					setState(39); fire();
+					setState(41); fire();
 					}
 					break;
 				default:
 					throw new NoViableAltException(this);
 				}
 				}
-				setState(44);
+				setState(46);
 				_errHandler.sync(this);
 				_la = _input.LA(1);
 			}
-			setState(45); match(EOF);
+			setState(47); match(EOF);
 			}
 		}
 		catch (RecognitionException re) {
@@ -168,14 +168,20 @@ public class GrammarParser extends Parser {
 	}
 
 	public static class BoardContext extends ParserRuleContext {
-		public Friction1Context friction1() {
-			return getRuleContext(Friction1Context.class,0);
+		public List<Friction1Context> friction1() {
+			return getRuleContexts(Friction1Context.class);
 		}
 		public ObjectNameContext objectName() {
 			return getRuleContext(ObjectNameContext.class,0);
 		}
-		public Friction2Context friction2() {
-			return getRuleContext(Friction2Context.class,0);
+		public Friction2Context friction2(int i) {
+			return getRuleContext(Friction2Context.class,i);
+		}
+		public Friction1Context friction1(int i) {
+			return getRuleContext(Friction1Context.class,i);
+		}
+		public List<Friction2Context> friction2() {
+			return getRuleContexts(Friction2Context.class);
 		}
 		public GravityContext gravity() {
 			return getRuleContext(GravityContext.class,0);
@@ -197,14 +203,27 @@ public class GrammarParser extends Parser {
 	public final BoardContext board() throws RecognitionException {
 		BoardContext _localctx = new BoardContext(_ctx, getState());
 		enterRule(_localctx, 2, RULE_board);
+		int _la;
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(47); match(5);
-			setState(48); objectName();
-			setState(49); gravity();
-			setState(50); friction1();
-			setState(51); friction2();
+			setState(49); match(5);
+			setState(50); objectName();
+			setState(51); gravity();
+			setState(57);
+			_errHandler.sync(this);
+			_la = _input.LA(1);
+			while (_la==3) {
+				{
+				{
+				setState(52); friction1();
+				setState(53); friction2();
+				}
+				}
+				setState(59);
+				_errHandler.sync(this);
+				_la = _input.LA(1);
+			}
 			}
 		}
 		catch (RecognitionException re) {
@@ -220,6 +239,9 @@ public class GrammarParser extends Parser {
 
 	public static class GravityContext extends ParserRuleContext {
 		public TerminalNode NUM() { return getToken(GrammarParser.NUM, 0); }
+		public EqualSignContext equalSign() {
+			return getRuleContext(EqualSignContext.class,0);
+		}
 		public GravityContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
@@ -240,8 +262,9 @@ public class GrammarParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(53); match(13);
-			setState(54); match(NUM);
+			setState(60); match(4);
+			setState(61); equalSign();
+			setState(62); match(NUM);
 			}
 		}
 		catch (RecognitionException re) {
@@ -257,6 +280,9 @@ public class GrammarParser extends Parser {
 
 	public static class Friction1Context extends ParserRuleContext {
 		public TerminalNode NUM() { return getToken(GrammarParser.NUM, 0); }
+		public EqualSignContext equalSign() {
+			return getRuleContext(EqualSignContext.class,0);
+		}
 		public Friction1Context(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
@@ -277,8 +303,9 @@ public class GrammarParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(56); match(9);
-			setState(57); match(NUM);
+			setState(64); match(3);
+			setState(65); equalSign();
+			setState(66); match(NUM);
 			}
 		}
 		catch (RecognitionException re) {
@@ -294,6 +321,9 @@ public class GrammarParser extends Parser {
 
 	public static class Friction2Context extends ParserRuleContext {
 		public TerminalNode NUM() { return getToken(GrammarParser.NUM, 0); }
+		public EqualSignContext equalSign() {
+			return getRuleContext(EqualSignContext.class,0);
+		}
 		public Friction2Context(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
@@ -314,8 +344,9 @@ public class GrammarParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(59); match(4);
-			setState(60); match(NUM);
+			setState(68); match(21);
+			setState(69); equalSign();
+			setState(70); match(NUM);
 			}
 		}
 		catch (RecognitionException re) {
@@ -393,39 +424,39 @@ public class GrammarParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(62); objectType();
-			setState(63); objectName();
-			setState(64); xLoc();
-			setState(65); yLoc();
-			setState(75);
+			setState(72); objectType();
+			setState(73); objectName();
+			setState(74); xLoc();
+			setState(75); yLoc();
+			setState(85);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
-			while ((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << 1) | (1L << 7) | (1L << 14))) != 0)) {
+			while ((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << 7) | (1L << 8) | (1L << 22))) != 0)) {
 				{
-				setState(73);
+				setState(83);
 				switch (_input.LA(1)) {
 				case 7:
 					{
-					setState(66); xVelocity();
-					setState(67); yVelocity();
+					setState(76); xVelocity();
+					setState(77); yVelocity();
 					}
 					break;
-				case 1:
+				case 8:
 					{
-					setState(69); orientation();
+					setState(79); orientation();
 					}
 					break;
-				case 14:
+				case 22:
 					{
-					setState(70); width();
-					setState(71); height();
+					setState(80); width();
+					setState(81); height();
 					}
 					break;
 				default:
 					throw new NoViableAltException(this);
 				}
 				}
-				setState(77);
+				setState(87);
 				_errHandler.sync(this);
 				_la = _input.LA(1);
 			}
@@ -464,9 +495,9 @@ public class GrammarParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(78);
+			setState(88);
 			_la = _input.LA(1);
-			if ( !((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << 6) | (1L << 11) | (1L << 16) | (1L << 17) | (1L << 19) | (1L << 20) | (1L << 21))) != 0)) ) {
+			if ( !((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << 6) | (1L << 13) | (1L << 16) | (1L << 17) | (1L << 19) | (1L << 20) | (1L << 23))) != 0)) ) {
 			_errHandler.recoverInline(this);
 			}
 			consume();
@@ -488,6 +519,9 @@ public class GrammarParser extends Parser {
 			return getToken(GrammarParser.ID, i);
 		}
 		public List<TerminalNode> ID() { return getTokens(GrammarParser.ID); }
+		public EqualSignContext equalSign() {
+			return getRuleContext(EqualSignContext.class,0);
+		}
 		public ObjectNameContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
@@ -509,17 +543,18 @@ public class GrammarParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(80); match(10);
-			setState(82); 
+			setState(90); match(2);
+			setState(91); equalSign();
+			setState(93); 
 			_errHandler.sync(this);
 			_la = _input.LA(1);
 			do {
 				{
 				{
-				setState(81); match(ID);
+				setState(92); match(ID);
 				}
 				}
-				setState(84); 
+				setState(95); 
 				_errHandler.sync(this);
 				_la = _input.LA(1);
 			} while ( _la==ID );
@@ -538,6 +573,9 @@ public class GrammarParser extends Parser {
 
 	public static class XLocContext extends ParserRuleContext {
 		public TerminalNode NUM() { return getToken(GrammarParser.NUM, 0); }
+		public EqualSignContext equalSign() {
+			return getRuleContext(EqualSignContext.class,0);
+		}
 		public XLocContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
@@ -558,8 +596,9 @@ public class GrammarParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(86); match(3);
-			setState(87); match(NUM);
+			setState(97); match(11);
+			setState(98); equalSign();
+			setState(99); match(NUM);
 			}
 		}
 		catch (RecognitionException re) {
@@ -575,6 +614,9 @@ public class GrammarParser extends Parser {
 
 	public static class YLocContext extends ParserRuleContext {
 		public TerminalNode NUM() { return getToken(GrammarParser.NUM, 0); }
+		public EqualSignContext equalSign() {
+			return getRuleContext(EqualSignContext.class,0);
+		}
 		public YLocContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
@@ -595,8 +637,9 @@ public class GrammarParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(89); match(15);
-			setState(90); match(NUM);
+			setState(101); match(12);
+			setState(102); equalSign();
+			setState(103); match(NUM);
 			}
 		}
 		catch (RecognitionException re) {
@@ -612,6 +655,9 @@ public class GrammarParser extends Parser {
 
 	public static class XVelocityContext extends ParserRuleContext {
 		public TerminalNode NUM() { return getToken(GrammarParser.NUM, 0); }
+		public EqualSignContext equalSign() {
+			return getRuleContext(EqualSignContext.class,0);
+		}
 		public XVelocityContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
@@ -632,8 +678,9 @@ public class GrammarParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(92); match(7);
-			setState(93); match(NUM);
+			setState(105); match(7);
+			setState(106); equalSign();
+			setState(107); match(NUM);
 			}
 		}
 		catch (RecognitionException re) {
@@ -649,6 +696,9 @@ public class GrammarParser extends Parser {
 
 	public static class YVelocityContext extends ParserRuleContext {
 		public TerminalNode NUM() { return getToken(GrammarParser.NUM, 0); }
+		public EqualSignContext equalSign() {
+			return getRuleContext(EqualSignContext.class,0);
+		}
 		public YVelocityContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
@@ -669,8 +719,9 @@ public class GrammarParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(95); match(18);
-			setState(96); match(NUM);
+			setState(109); match(1);
+			setState(110); equalSign();
+			setState(111); match(NUM);
 			}
 		}
 		catch (RecognitionException re) {
@@ -686,6 +737,9 @@ public class GrammarParser extends Parser {
 
 	public static class OrientationContext extends ParserRuleContext {
 		public TerminalNode NUM() { return getToken(GrammarParser.NUM, 0); }
+		public EqualSignContext equalSign() {
+			return getRuleContext(EqualSignContext.class,0);
+		}
 		public OrientationContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
@@ -706,8 +760,9 @@ public class GrammarParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(98); match(1);
-			setState(99); match(NUM);
+			setState(113); match(8);
+			setState(114); equalSign();
+			setState(115); match(NUM);
 			}
 		}
 		catch (RecognitionException re) {
@@ -723,6 +778,9 @@ public class GrammarParser extends Parser {
 
 	public static class WidthContext extends ParserRuleContext {
 		public TerminalNode NUM() { return getToken(GrammarParser.NUM, 0); }
+		public EqualSignContext equalSign() {
+			return getRuleContext(EqualSignContext.class,0);
+		}
 		public WidthContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
@@ -743,8 +801,9 @@ public class GrammarParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(101); match(14);
-			setState(102); match(NUM);
+			setState(117); match(22);
+			setState(118); equalSign();
+			setState(119); match(NUM);
 			}
 		}
 		catch (RecognitionException re) {
@@ -760,6 +819,9 @@ public class GrammarParser extends Parser {
 
 	public static class HeightContext extends ParserRuleContext {
 		public TerminalNode NUM() { return getToken(GrammarParser.NUM, 0); }
+		public EqualSignContext equalSign() {
+			return getRuleContext(EqualSignContext.class,0);
+		}
 		public HeightContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
@@ -780,8 +842,9 @@ public class GrammarParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(104); match(22);
-			setState(105); match(NUM);
+			setState(121); match(10);
+			setState(122); equalSign();
+			setState(123); match(NUM);
 			}
 		}
 		catch (RecognitionException re) {
@@ -801,6 +864,12 @@ public class GrammarParser extends Parser {
 		}
 		public ActionContext action() {
 			return getRuleContext(ActionContext.class,0);
+		}
+		public EqualSignContext equalSign(int i) {
+			return getRuleContext(EqualSignContext.class,i);
+		}
+		public List<EqualSignContext> equalSign() {
+			return getRuleContexts(EqualSignContext.class);
 		}
 		public FireContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
@@ -822,11 +891,13 @@ public class GrammarParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(107); match(12);
-			setState(108); match(2);
-			setState(109); trigger();
-			setState(110); match(8);
-			setState(111); action();
+			setState(125); match(14);
+			setState(126); match(18);
+			setState(127); equalSign();
+			setState(128); trigger();
+			setState(129); match(15);
+			setState(130); equalSign();
+			setState(131); action();
 			}
 		}
 		catch (RecognitionException re) {
@@ -862,7 +933,7 @@ public class GrammarParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(113); match(ID);
+			setState(133); match(ID);
 			}
 		}
 		catch (RecognitionException re) {
@@ -898,7 +969,42 @@ public class GrammarParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(115); match(ID);
+			setState(135); match(ID);
+			}
+		}
+		catch (RecognitionException re) {
+			_localctx.exception = re;
+			_errHandler.reportError(this, re);
+			_errHandler.recover(this, re);
+		}
+		finally {
+			exitRule();
+		}
+		return _localctx;
+	}
+
+	public static class EqualSignContext extends ParserRuleContext {
+		public EqualSignContext(ParserRuleContext parent, int invokingState) {
+			super(parent, invokingState);
+		}
+		@Override public int getRuleIndex() { return RULE_equalSign; }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof GrammarListener ) ((GrammarListener)listener).enterEqualSign(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof GrammarListener ) ((GrammarListener)listener).exitEqualSign(this);
+		}
+	}
+
+	public final EqualSignContext equalSign() throws RecognitionException {
+		EqualSignContext _localctx = new EqualSignContext(_ctx, getState());
+		enterRule(_localctx, 36, RULE_equalSign);
+		try {
+			enterOuterAlt(_localctx, 1);
+			{
+			setState(137); match(9);
 			}
 		}
 		catch (RecognitionException re) {
@@ -913,32 +1019,39 @@ public class GrammarParser extends Parser {
 	}
 
 	public static final String _serializedATN =
-		"\2\3\34x\4\2\t\2\4\3\t\3\4\4\t\4\4\5\t\5\4\6\t\6\4\7\t\7\4\b\t\b\4\t\t"+
-		"\t\4\n\t\n\4\13\t\13\4\f\t\f\4\r\t\r\4\16\t\16\4\17\t\17\4\20\t\20\4\21"+
-		"\t\21\4\22\t\22\4\23\t\23\3\2\3\2\3\2\3\2\7\2+\n\2\f\2\16\2.\13\2\3\2"+
-		"\3\2\3\3\3\3\3\3\3\3\3\3\3\3\3\4\3\4\3\4\3\5\3\5\3\5\3\6\3\6\3\6\3\7\3"+
-		"\7\3\7\3\7\3\7\3\7\3\7\3\7\3\7\3\7\3\7\7\7L\n\7\f\7\16\7O\13\7\3\b\3\b"+
-		"\3\t\3\t\6\tU\n\t\r\t\16\tV\3\n\3\n\3\n\3\13\3\13\3\13\3\f\3\f\3\f\3\r"+
-		"\3\r\3\r\3\16\3\16\3\16\3\17\3\17\3\17\3\20\3\20\3\20\3\21\3\21\3\21\3"+
-		"\21\3\21\3\21\3\22\3\22\3\23\3\23\3\23\2\24\2\4\6\b\n\f\16\20\22\24\26"+
-		"\30\32\34\36 \"$\2\3\6\b\b\r\r\22\23\25\27l\2&\3\2\2\2\4\61\3\2\2\2\6"+
-		"\67\3\2\2\2\b:\3\2\2\2\n=\3\2\2\2\f@\3\2\2\2\16P\3\2\2\2\20R\3\2\2\2\22"+
-		"X\3\2\2\2\24[\3\2\2\2\26^\3\2\2\2\30a\3\2\2\2\32d\3\2\2\2\34g\3\2\2\2"+
-		"\36j\3\2\2\2 m\3\2\2\2\"s\3\2\2\2$u\3\2\2\2&,\5\4\3\2\'+\5\f\7\2(+\7\31"+
-		"\2\2)+\5 \21\2*\'\3\2\2\2*(\3\2\2\2*)\3\2\2\2+.\3\2\2\2,*\3\2\2\2,-\3"+
-		"\2\2\2-/\3\2\2\2.,\3\2\2\2/\60\7\1\2\2\60\3\3\2\2\2\61\62\7\7\2\2\62\63"+
-		"\5\20\t\2\63\64\5\6\4\2\64\65\5\b\5\2\65\66\5\n\6\2\66\5\3\2\2\2\678\7"+
-		"\17\2\289\7\32\2\29\7\3\2\2\2:;\7\13\2\2;<\7\32\2\2<\t\3\2\2\2=>\7\6\2"+
-		"\2>?\7\32\2\2?\13\3\2\2\2@A\5\16\b\2AB\5\20\t\2BC\5\22\n\2CM\5\24\13\2"+
-		"DE\5\26\f\2EF\5\30\r\2FL\3\2\2\2GL\5\32\16\2HI\5\34\17\2IJ\5\36\20\2J"+
-		"L\3\2\2\2KD\3\2\2\2KG\3\2\2\2KH\3\2\2\2LO\3\2\2\2MK\3\2\2\2MN\3\2\2\2"+
-		"N\r\3\2\2\2OM\3\2\2\2PQ\t\2\2\2Q\17\3\2\2\2RT\7\f\2\2SU\7\33\2\2TS\3\2"+
-		"\2\2UV\3\2\2\2VT\3\2\2\2VW\3\2\2\2W\21\3\2\2\2XY\7\5\2\2YZ\7\32\2\2Z\23"+
-		"\3\2\2\2[\\\7\21\2\2\\]\7\32\2\2]\25\3\2\2\2^_\7\t\2\2_`\7\32\2\2`\27"+
-		"\3\2\2\2ab\7\24\2\2bc\7\32\2\2c\31\3\2\2\2de\7\3\2\2ef\7\32\2\2f\33\3"+
-		"\2\2\2gh\7\20\2\2hi\7\32\2\2i\35\3\2\2\2jk\7\30\2\2kl\7\32\2\2l\37\3\2"+
-		"\2\2mn\7\16\2\2no\7\4\2\2op\5\"\22\2pq\7\n\2\2qr\5$\23\2r!\3\2\2\2st\7"+
-		"\33\2\2t#\3\2\2\2uv\7\33\2\2v%\3\2\2\2\7*,KMV";
+		"\2\3\35\u008e\4\2\t\2\4\3\t\3\4\4\t\4\4\5\t\5\4\6\t\6\4\7\t\7\4\b\t\b"+
+		"\4\t\t\t\4\n\t\n\4\13\t\13\4\f\t\f\4\r\t\r\4\16\t\16\4\17\t\17\4\20\t"+
+		"\20\4\21\t\21\4\22\t\22\4\23\t\23\4\24\t\24\3\2\3\2\3\2\3\2\7\2-\n\2\f"+
+		"\2\16\2\60\13\2\3\2\3\2\3\3\3\3\3\3\3\3\3\3\3\3\7\3:\n\3\f\3\16\3=\13"+
+		"\3\3\4\3\4\3\4\3\4\3\5\3\5\3\5\3\5\3\6\3\6\3\6\3\6\3\7\3\7\3\7\3\7\3\7"+
+		"\3\7\3\7\3\7\3\7\3\7\3\7\7\7V\n\7\f\7\16\7Y\13\7\3\b\3\b\3\t\3\t\3\t\6"+
+		"\t`\n\t\r\t\16\ta\3\n\3\n\3\n\3\n\3\13\3\13\3\13\3\13\3\f\3\f\3\f\3\f"+
+		"\3\r\3\r\3\r\3\r\3\16\3\16\3\16\3\16\3\17\3\17\3\17\3\17\3\20\3\20\3\20"+
+		"\3\20\3\21\3\21\3\21\3\21\3\21\3\21\3\21\3\21\3\22\3\22\3\23\3\23\3\24"+
+		"\3\24\3\24\2\25\2\4\6\b\n\f\16\20\22\24\26\30\32\34\36 \"$&\2\3\7\b\b"+
+		"\17\17\22\23\25\26\31\31\u0082\2(\3\2\2\2\4\63\3\2\2\2\6>\3\2\2\2\bB\3"+
+		"\2\2\2\nF\3\2\2\2\fJ\3\2\2\2\16Z\3\2\2\2\20\\\3\2\2\2\22c\3\2\2\2\24g"+
+		"\3\2\2\2\26k\3\2\2\2\30o\3\2\2\2\32s\3\2\2\2\34w\3\2\2\2\36{\3\2\2\2 "+
+		"\177\3\2\2\2\"\u0087\3\2\2\2$\u0089\3\2\2\2&\u008b\3\2\2\2(.\5\4\3\2)"+
+		"-\5\f\7\2*-\7\32\2\2+-\5 \21\2,)\3\2\2\2,*\3\2\2\2,+\3\2\2\2-\60\3\2\2"+
+		"\2.,\3\2\2\2./\3\2\2\2/\61\3\2\2\2\60.\3\2\2\2\61\62\7\1\2\2\62\3\3\2"+
+		"\2\2\63\64\7\7\2\2\64\65\5\20\t\2\65;\5\6\4\2\66\67\5\b\5\2\678\5\n\6"+
+		"\28:\3\2\2\29\66\3\2\2\2:=\3\2\2\2;9\3\2\2\2;<\3\2\2\2<\5\3\2\2\2=;\3"+
+		"\2\2\2>?\7\6\2\2?@\5&\24\2@A\7\33\2\2A\7\3\2\2\2BC\7\5\2\2CD\5&\24\2D"+
+		"E\7\33\2\2E\t\3\2\2\2FG\7\27\2\2GH\5&\24\2HI\7\33\2\2I\13\3\2\2\2JK\5"+
+		"\16\b\2KL\5\20\t\2LM\5\22\n\2MW\5\24\13\2NO\5\26\f\2OP\5\30\r\2PV\3\2"+
+		"\2\2QV\5\32\16\2RS\5\34\17\2ST\5\36\20\2TV\3\2\2\2UN\3\2\2\2UQ\3\2\2\2"+
+		"UR\3\2\2\2VY\3\2\2\2WU\3\2\2\2WX\3\2\2\2X\r\3\2\2\2YW\3\2\2\2Z[\t\2\2"+
+		"\2[\17\3\2\2\2\\]\7\4\2\2]_\5&\24\2^`\7\34\2\2_^\3\2\2\2`a\3\2\2\2a_\3"+
+		"\2\2\2ab\3\2\2\2b\21\3\2\2\2cd\7\r\2\2de\5&\24\2ef\7\33\2\2f\23\3\2\2"+
+		"\2gh\7\16\2\2hi\5&\24\2ij\7\33\2\2j\25\3\2\2\2kl\7\t\2\2lm\5&\24\2mn\7"+
+		"\33\2\2n\27\3\2\2\2op\7\3\2\2pq\5&\24\2qr\7\33\2\2r\31\3\2\2\2st\7\n\2"+
+		"\2tu\5&\24\2uv\7\33\2\2v\33\3\2\2\2wx\7\30\2\2xy\5&\24\2yz\7\33\2\2z\35"+
+		"\3\2\2\2{|\7\f\2\2|}\5&\24\2}~\7\33\2\2~\37\3\2\2\2\177\u0080\7\20\2\2"+
+		"\u0080\u0081\7\24\2\2\u0081\u0082\5&\24\2\u0082\u0083\5\"\22\2\u0083\u0084"+
+		"\7\21\2\2\u0084\u0085\5&\24\2\u0085\u0086\5$\23\2\u0086!\3\2\2\2\u0087"+
+		"\u0088\7\34\2\2\u0088#\3\2\2\2\u0089\u008a\7\34\2\2\u008a%\3\2\2\2\u008b"+
+		"\u008c\7\13\2\2\u008c\'\3\2\2\2\b,.;UWa";
 	public static final ATN _ATN =
 		ATNSimulator.deserialize(_serializedATN.toCharArray());
 	static {

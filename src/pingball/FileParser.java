@@ -25,6 +25,8 @@ public class FileParser {
      */
     public static Board CreateBoard(String name, double gravity, double friction1, double friction2){
         //TODO:change board
+        
+        //if no friction is given, friction1 = friction2 = 0.0
         return new Board();
     }
     

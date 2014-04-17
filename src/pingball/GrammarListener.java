@@ -54,6 +54,9 @@ public interface GrammarListener extends ParseTreeListener {
 	void enterAction(GrammarParser.ActionContext ctx);
 	void exitAction(GrammarParser.ActionContext ctx);
 
+	void enterEqualSign(GrammarParser.EqualSignContext ctx);
+	void exitEqualSign(GrammarParser.EqualSignContext ctx);
+
 	void enterObjectType(GrammarParser.ObjectTypeContext ctx);
 	void exitObjectType(GrammarParser.ObjectTypeContext ctx);
 

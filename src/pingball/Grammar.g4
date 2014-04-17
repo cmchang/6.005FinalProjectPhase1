@@ -32,25 +32,27 @@ package pingball;
 
 boardInfo : board (object | COMMENT | fire)* EOF; 
 
-board : 'board' objectName gravity friction1 friction2;
-gravity : 'gravity=' NUM;
-friction1: 'friction1=' NUM;
-friction2:  'friction2=' NUM;
+board : 'board' objectName gravity (friction1 friction2)*;
+gravity : 'gravity' equalSign NUM;
+friction1: 'friction1' equalSign NUM;
+friction2:  'friction2' equalSign NUM;
 
 object  : objectType objectName xLoc yLoc (xVelocity yVelocity | orientation | width height)*;         // match keyword hello followed by an identifier
 objectType: 'ball' | 'squareBumper' | 'circleBumper' | 'triangleBumper' | 'leftFlipper' | 'rightFlipper' | 'absorber';
-objectName: 'name=' ID+;
-xLoc: 'x=' NUM;
-yLoc: 'y=' NUM;
-xVelocity: 'xVelocity=' NUM;
-yVelocity: 'yVelocity=' NUM;
-orientation: 'orientation=' NUM;
-width: 'width=' NUM;
-height: 'height=' NUM;
+objectName: 'name' equalSign ID+;
+xLoc: 'x' equalSign NUM;
+yLoc: 'y' equalSign NUM;
+xVelocity: 'xVelocity' equalSign NUM;
+yVelocity: 'yVelocity' equalSign NUM;
+orientation: 'orientation' equalSign NUM;
+width: 'width' equalSign NUM;
+height: 'height' equalSign NUM;
 
-fire: 'fire' 'trigger=' trigger 'action=' action;
+fire: 'fire' 'trigger' equalSign trigger 'action' equalSign action;
 trigger: ID;
 action: ID;
+
+equalSign: '=';
 
 COMMENT: '#' ~('\r' | '\n')* -> skip;
 
