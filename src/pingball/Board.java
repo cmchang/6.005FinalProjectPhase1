@@ -88,7 +88,6 @@ public class Board {
         }
         
         for (Gadget gadget: objects){ //includes walls,absorbers,bumpers,flipper
-            System.out.println(gadget);
             int xcoord;
             int ycoord;
             if (gadget.getType().equals("flipper")){
@@ -99,23 +98,23 @@ public class Board {
                 ycoord = ((Flipper) gadget).getY();
                 switch (orient) {
                 case 0:
-                    field[xcoord + 1][ycoord] = '|';
-                    if (side.equals(Side.RIGHT)) field[xcoord - 1 + 1][ycoord] = '|';
-                    if (side.equals(Side.LEFT)) field[xcoord + 1 + 1][ycoord] = '|';
+                    field[xcoord + 1][ycoord] = '-';
+                    if (side.equals(Side.RIGHT)) field[xcoord - 1 + 1][ycoord] = '-';
+                    if (side.equals(Side.LEFT)) field[xcoord + 1 + 1][ycoord] = '-';
                     break;
                 case 90:
-                    field[xcoord + 1][ycoord] = '-';
+                    field[xcoord + 1][ycoord] = '|';
                     if (side.equals(Side.RIGHT)) field[xcoord + 1][ycoord + 1] = '|';
                     if (side.equals(Side.LEFT)) field[xcoord + 1][ycoord - 1] = '|';
                     break;
                 case 180:
-                    field[xcoord + 1][ycoord] = '|';
-                    field[xcoord - 1 + 1][ycoord] = '|';
-                    if (side.equals(Side.RIGHT)) field[xcoord + 1 + 1][ycoord] = '|';
-                    if (side.equals(Side.LEFT)) field[xcoord - 1 + 1][ycoord] = '|';
+                    field[xcoord + 1][ycoord] = '-';
+                    field[xcoord - 1 + 1][ycoord] = '-';
+                    if (side.equals(Side.RIGHT)) field[xcoord + 1 + 1][ycoord] = '-';
+                    if (side.equals(Side.LEFT)) field[xcoord - 1 + 1][ycoord] = '-';
                     break;
                 case 270:
-                    field[xcoord + 1][ycoord] = '-';
+                    field[xcoord + 1][ycoord] = '|';
                     if (side.equals(Side.RIGHT)) field[xcoord + 1][ycoord - 1] = '|';
                     if (side.equals(Side.LEFT)) field[xcoord + 1][ycoord + 1] = '|';
                     break;
@@ -178,7 +177,7 @@ public class Board {
         
         for (int i = 0; i < xlength+2; i++) {
             for (int j = 0; j < ylength+2; j++) {
-                output.append(field[i][j]);
+                output.append(field[j][i]);
             }
             output.append('\n');
         }
