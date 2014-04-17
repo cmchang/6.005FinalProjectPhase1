@@ -15,11 +15,13 @@ import org.antlr.v4.runtime.tree.ParseTreeWalker;
 public class GrammarFactory {
     
     /**
-     * @param input string representing a conjunctive boolean expression
-     * @return Expression corresponding to the input
+     * This method takes in a file formatted as specified in the specifications in the 6.005 web page.
+     * @param file containing the information about the board and the objects it should contain.
+     * @return a new board.
      */
     public static Board parse(File file) {
         String input = FileToString(file);
+        
         // Create a stream of tokens using the lexer.
         CharStream stream = new ANTLRInputStream(input);
         GrammarLexer lexer = new GrammarLexer(stream);
@@ -33,15 +35,9 @@ public class GrammarFactory {
         // Generate the parse tree using the starter rule.
         ParseTree tree = parser.boardInfo(); // "expression" is the starter rule
         
-        // debugging option #1: print the tree to the console
-//        System.err.println(tree.toStringTree(parser));
-
-        // debugging option #2: show the tree in a window
+        // show the tree in a window
 //        ((RuleContext)tree).inspect(parser);
 
-        // debugging option #3: walk the tree with a listener
-//        new ParseTreeWalker().walk(new PrintEverythingListener(), tree);
-        
         // Finally, construct an Expression value by walking over the parse tree.
         ParseTreeWalker walker = new ParseTreeWalker();
         BoardCreatorListener listener = new BoardCreatorListener();
@@ -50,6 +46,13 @@ public class GrammarFactory {
         return BoardCreatorListener.getBoard();
     }
     
+    /**
+     * This method takes in a string containing the content of the file that is formatted as specified 
+     * in the specifications in the 6.005 web page.
+     * @param String containing the file which has the information about the board and the objects it should contain.
+     *        Note: there must be a "\n" at the end of each line in the file for this string to be parsed correctly.
+     * @return a new board.
+     */
     public static Board parse(String fileStr) {
         String input = fileStr;
         // Create a stream of tokens using the lexer.
@@ -64,15 +67,9 @@ public class GrammarFactory {
         
         // Generate the parse tree using the starter rule.
         ParseTree tree = parser.boardInfo(); // "expression" is the starter rule
-        
-        // debugging option #1: print the tree to the console
-//        System.err.println(tree.toStringTree(parser));
 
-        // debugging option #2: show the tree in a window
+        // show the tree in a window
 //        ((RuleContext)tree).inspect(parser);
-
-        // debugging option #3: walk the tree with a listener
-//        new ParseTreeWalker().walk(new PrintEverythingListener(), tree);
         
         // Finally, construct an Expression value by walking over the parse tree.
         ParseTreeWalker walker = new ParseTreeWalker();
@@ -82,6 +79,13 @@ public class GrammarFactory {
         return BoardCreatorListener.getBoard();
     }
     
+    /**
+     * This method takes in a file containing the board information and then puts all the content of the file
+     * into one large string.  Note: "\n" is added at the end of each line that is read in from the file.  This
+     * is necessary for ANTLR to parse correctly.
+     * @param file containing the board information
+     * @return a string 
+     */
     public static String FileToString(File file){
         String textString = "";
 
