@@ -80,6 +80,6 @@ public class Ball {
     public void move(double stepSize) {
         double x = circle.getCenter().x() + stepSize * move.dot(Vect.X_HAT) * move.length();
         double y = circle.getCenter().y() + stepSize * move.dot(Vect.Y_HAT) * move.length();
-        this.setCircle(new Circle(x, y, .01));
+        this.setCircle(new Circle(x, y, circle.getRadius()));
     }
 }

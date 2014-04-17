@@ -47,36 +47,6 @@ public class BoardsHandler {
         }        
     }
     
-//    private HashMap<String, List<Connection>> parseConnections(HashMap<String, List<String>> connections) {
-//        HashMap<String, List<Connection>> map = new HashMap<String, List<Connection>>(); 
-//        
-//        for (String key:connections.keySet()){
-//            List<Connection> connectionList = new ArrayList<Connection>();
-//            for (String value:connections.get(key)){
-//                String[] elements = value.split("/");
-//                
-//                String name = elements[0]; 
-//                String wallside = elements[1];
-//                Boundary wall = null;
-//                if (wallside.equals("left")){
-//                    wall = Boundary.LEFT;                            
-//                } else if (wallside.equals("top")){
-//                    wall = Boundary.TOP;
-//                } else if (wallside.equals("bottom")){
-//                    wall = Boundary.BOTTOM;
-//                } else if (wallside.equals("right")){
-//                    wall = Boundary.RIGHT;
-//                } else {
-//                    System.err.println("invalid connection within method: parseConnections");
-//                }
-//                connectionList.add(new Connection(name,wall));                     
-//            }
-//            map.put(key, connectionList);
-//        }
-//        return map;
-//        
-//    }
-    
     public enum Orientation {HORIZONTAL,VERTICAL};
     
     
@@ -148,24 +118,7 @@ public class BoardsHandler {
                 }                    
             }
         }        
-    }
-    
-//    /**
-//     * Given identifying IDs for two boards, this method returns a boolean indicating
-//     * if they have a wall connecting to eachother's board
-//     * @param board1ID
-//     * @param board2ID
-//     * @return
-//     */
-//    public boolean isConnected(String board1ID, String board2ID){
-//        for (Connection connection: map.get(board1ID)){
-//            if (connection.name.equals(board2ID)) return true;
-//        }
-//        for (Connection connection:map.get(board2ID)){
-//            if (connection.name.equals(board1ID)) return true;
-//        }
-//        return false;
-//    }
+    }    
 
     /**
      * Returns the List of active connections associated with a board.

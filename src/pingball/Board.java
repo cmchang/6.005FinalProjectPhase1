@@ -23,8 +23,8 @@ public class Board {
     
     private List<Ball> balls = new ArrayList<Ball>();
     private String name;
-    int xlength;
-    int ylength;
+    private final int xlength;
+    private final int ylength;
     
     List<Gadget> objects = new ArrayList<Gadget>();
     
