@@ -8,6 +8,7 @@ import java.util.Map;
 
 
 
+
 import physics.Angle;
 import physics.Circle;
 import physics.Vect;
@@ -20,9 +21,8 @@ class Update implements Runnable {
     private Board board;    
     double mu; // = board.friction1;
     double mu2;//  = board.friction2;
-
-    double deltaT = (long) (1.0 / 1000.0);
-    double minTime = deltaT * 10;
+    double deltaT = 1.0 / 1000.0;
+    double minTime = deltaT;
     private BufferedReader in;
     private Object lock;
     private BoardsHandler connectionsIn;
@@ -54,16 +54,16 @@ class Update implements Runnable {
      */
     
     public void run() {
-       try {
+      // try {
           while(true) {
               
               // read userInputs and start new boardConnections if necessary
               String userInput="";              
-              try {
-                userInput = in.readLine();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+//              try {
+//                userInput = in.readLine();
+//              } catch (IOException e) {
+//                  e.printStackTrace();
+//              }
               String[] cmds = userInput.split(" ");
               if (cmds.length==3){
                   Orientation o = null;
@@ -79,13 +79,11 @@ class Update implements Runnable {
               for (Gadget gadget: board.objects){
                   if (!gadget.getType().equals("wall")) continue;
                   Wall wall = (Wall) gadget; // for each wall....
-                  
                   for (Connection c: connectionsIn.getConnections(board)){ 
                       if (wall.boundary.equals(c.boundary)) { //the correct connection to the correct wall
                           visibleWalls.put(wall.boundary, Visibility.INVISIBLE); //if a wall matches a connection boundary, set as invisible
                           wall.setConnection(c);
-                      }
-                      
+                      }  
                   }
                   if (!visibleWalls.containsKey(wall.boundary)) {
                       visibleWalls.put(wall.boundary, Visibility.SOLID); // else set it as solid
@@ -97,15 +95,20 @@ class Update implements Runnable {
               
               // add in gravity and friction to the boards velocity based on the timestep
               Gadget closestGadg = null;
-              Thread.sleep((long) deltaT); 
+              try {
+                Thread.sleep((long) deltaT);
+              } catch (InterruptedException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+              } 
               for (int i = 0; i < board.getBalls().size(); i ++) {
                   Vect oldVect = board.getBalls().get(i).getMove();
-                  Vect frictScaled = oldVect.times(1.0 - mu * deltaT - mu2 * oldVect.length() * deltaT); // formula from spec sheet.
-                  double yComp = frictScaled.dot(Vect.Y_HAT); // gravity doesn't affect X-Velocity
-                  double xComp = frictScaled.dot(Vect.X_HAT) + board.gravity * deltaT; // gravity affects Y-Velocity by Vf = Vi + at                  
+                  Vect frictScaled = oldVect.times(1.0 - mu * deltaT / 1000.0 - mu2 * oldVect.length() * deltaT / 1000.0); // formula from spec sheet.
+                  double xComp = frictScaled.dot(Vect.X_HAT); // gravity doesn't affect X-Velocity
+                  double yComp = frictScaled.dot(Vect.Y_HAT) + board.gravity * deltaT; // gravity affects Y-Velocity by Vf = Vi + at                  
                   double magnitude = Math.hypot(xComp, yComp);
                   Vect frictGravVect;
-                  if (xComp == 0 && yComp == 0) {
+                  if (xComp == 0.0 && yComp == 0.0) {
                       frictGravVect = new Vect(new Angle(0.0)).times(0.0);
                   } else {
                       frictGravVect = new Vect(new Angle(xComp, yComp)).times(magnitude);
@@ -152,8 +155,12 @@ class Update implements Runnable {
               }
               
               //move the ball forward based on the timestep
-              for (int i = 0; i < board.getBalls().size(); i ++) {                 
-                  board.getBalls().get(i).move(deltaT);
+              for (int i = 0; i < board.getBalls().size(); i ++) {
+//                  System.out.println("Vect");
+//                  System.out.println(board.getBalls().get(i).getMove().length());
+//                  System.out.println("Pos");
+//                  System.out.println(board.getBalls().get(i).getX());
+                  board.getBalls().get(i).move(deltaT / 1000.0);
               }
   
               //move the flippers based on the timestep
@@ -163,9 +170,9 @@ class Update implements Runnable {
                   }
               }
           }
-      } catch (InterruptedException e) {
-          System.out.println("Thread interrupted.");
-      }
+      //} //catch (InterruptedException e) {
+          //System.out.println("Thread interrupted.");
+      //}
     }
 
 }

@@ -41,7 +41,7 @@ public class Server {
      * @throws IOException if the main server socket is broken
      *                     (IOExceptions from individual clients do *not* terminate serve())   
      */
-    public void serve(BoardsHandler handler) throws IOException {        
+    public void serve() throws IOException {        
         // block until a client connects. when a client connects, run it in a new thread
         while (true){   
             Socket socket = serverSocket.accept();
@@ -73,9 +73,8 @@ public class Server {
      * @throws Exception
      */
     public static void runPingballServer(int port) throws Exception {
-        BoardsHandler handler = new BoardsHandler();
         Server server = new Server(port);        
-        server.serve(handler);
+        server.serve();
     }
 
 }

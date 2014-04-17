@@ -1,6 +1,7 @@
 package pingball;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
@@ -27,7 +28,7 @@ public class Client implements Runnable{
     private final Socket socket;
     private final Board board;
     private final Object lock;
-    public static BoardsHandler connections = new BoardsHandler(); //global variable. even though its public, its protected by the lock
+    public static BoardsHandler connections; //global variable. even though its public, its protected by the lock
 
     /**
      * Instantiate a new client
@@ -36,17 +37,18 @@ public class Client implements Runnable{
      * @param connectionsIn boardHandler with all the relationships between boards
      */
     Client(Socket socket, Object lock, BoardsHandler connectionsIn){
-        this.board = new Board();
-        Angle start = new Angle(2.0);
-        Angle start2 = new Angle(3.0);
-        Circle cir1 = new Circle(5.0, 5.0, .01);
-        Circle cir2 = new Circle(2.0, 2.0, .01);
-        Vect v1 = new Vect(start, 10.0);
-        Vect v2 = new Vect(start2, 10.0);
-        Ball ball = new Ball(cir1, v1);
-        Ball ball2 = new Ball(cir2, v2);
-        board.addBall(ball);
-        board.addBall(ball2);
+//        this.board = new Board();
+//        Angle start = new Angle(2.0);
+//        Angle start2 = new Angle(3.0);
+//        Circle cir1 = new Circle(5.0, 5.0, .01);
+//        Circle cir2 = new Circle(2.0, 2.0, .01);
+//        Vect v1 = new Vect(start, 10.0);
+//        Vect v2 = new Vect(start2, 10.0);
+//        Ball ball = new Ball(cir1, v1);
+//        Ball ball2 = new Ball(cir2, v2);
+//        board.addBall(ball);
+//        board.addBall(ball2);
+        this.board = GrammarFactory.parse(new File("src/pingball/Boards/board2.txt"));
         this.socket = socket;
         this.lock = lock;
         Client.connections = connectionsIn;
@@ -80,7 +82,7 @@ public class Client implements Runnable{
         BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
         PrintWriter out = new PrintWriter(socket.getOutputStream(), true);
         try {
-            Runnable r = new Update(board, in, lock, connections);
+            Runnable r = new Update(board, in, lock, Client.connections);
             new Thread(r).start();
             board.animate(out, 20);        
         } finally {
