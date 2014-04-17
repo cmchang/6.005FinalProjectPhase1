@@ -21,7 +21,6 @@ import static org.junit.Assert.*;
  *      (B5) Contains at least one gadget
  *      (B6) Contains every possible gadget
  *      
- *
  */
 
 public class FileParsingTest {
