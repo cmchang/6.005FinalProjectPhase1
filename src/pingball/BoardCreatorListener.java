@@ -1,6 +1,8 @@
 package pingball;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 
 import pingball.Bumper.Shape;
 import pingball.Flipper.Side;
@@ -8,7 +10,8 @@ import pingball.Flipper.Side;
 public class BoardCreatorListener extends GrammarBaseListener{
    private static ArrayList<Gadget> gadgets = new ArrayList<Gadget>();
    private static ArrayList<Ball> balls = new ArrayList<Ball>();
-
+   private static ArrayList<ArrayList<String>> fireCmds = new ArrayList<ArrayList<String>>();
+   
    private static Board board;
    
    private static void resetBoardObjects(){
@@ -17,14 +20,34 @@ public class BoardCreatorListener extends GrammarBaseListener{
    }
    
    public static Board getBoard(){
+       board.addGizmos(createTriggerActions());
+       
        for(Gadget gadget: gadgets) board.addGadget(gadget);
        for(Ball ball: balls) board.addBall(ball);
        
-//       System.out.println("There are " + balls.size() + " balls and " + gadgets.size() + " gadgets in this board.");
        resetBoardObjects();
        return board;
    }
     
+   private static HashMap<String, List<String>> createTriggerActions(){
+       HashMap<String, List<String>> gizmos = new HashMap<String, List<String>>();
+       for(int x = 0; x < fireCmds.size(); x ++){
+           String trigger = fireCmds.get(x).get(0);
+           String action = fireCmds.get(x).get(1);
+           if(gizmos.containsKey(trigger)){
+               List<String> curList = gizmos.get(trigger);
+               curList.add(action);
+               gizmos.put(trigger, curList);
+           }else{
+               List<String> curList = new ArrayList<String>();
+               curList.add(action);
+               gizmos.put(trigger, curList);
+           }
+       }
+       
+       return gizmos;
+   }
+   
     public void exitBoard(GrammarParser.BoardContext ctx) {
 //        String ObjectType = ctx.getChild(0).toString();
         String ObjectName = ctx.getChild(1).getChild(2).toString();
@@ -76,6 +99,18 @@ public class BoardCreatorListener extends GrammarBaseListener{
         
     }
 
+    public void enterFire(GrammarParser.FireContext ctx) { 
+        
+        String trigger = ctx.getChild(3).getChild(0).toString();
+        String action = ctx.getChild(6).getChild(0).toString();
+        
+        ArrayList<String> gizmo = new ArrayList<String>();
+        gizmo.add(trigger);
+        gizmo.add(action);
+        
+        fireCmds.add(gizmo);
+    }
+    
 }
 
     

@@ -16,17 +16,18 @@ public class BoardsHandler {
      *  This class will keep track of all the connections between the boards' walls
      * Constructor method. Called when the first client is connected to the server and a board is created.
      */
-    
- // String: UniqueBoardName, Board: corresponding Board
+
+    // String: UniqueBoardName, Board: corresponding Board
     // List<Connection> are the list of connection objects that indicate that the board is connected to another board.
     //      Connection objects simply store the name of the otherBoard and the boundary that theyre connected on
     // ConcurrentLinkedQueue<Ball> is a threadsafe queue that stores balls that need to be put into the String that the balls are mapped to
     private HashMap<String, List<Connection>> map = new HashMap<String, List<Connection>>();
     private HashMap<String, ConcurrentLinkedQueue<Ball>> queue = new HashMap<String, ConcurrentLinkedQueue<Ball>>();
- 
+
+    
      public BoardsHandler() {
      }
-    
+         
     /**
      * This class is simply a storage unit for an invisible boundary:
      * It contains the name of the board that through the boundary and the boundary in question
@@ -128,6 +129,7 @@ public class BoardsHandler {
         if (map.containsKey(board.name())) return map.get(board.name());
         return new ArrayList<Connection>();
     }
+    
 
 
     /** Method called by individual clients in the update class to get the already position corrected 

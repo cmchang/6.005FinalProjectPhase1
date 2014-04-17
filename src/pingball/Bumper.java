@@ -167,7 +167,7 @@ public class Bumper implements Gadget {
     
     public double getTimeToCollision(Ball ball) {
         if (circle == null){
-            double time = 10000.0;
+            double time = Double.POSITIVE_INFINITY;
             for (int j = 0; j < walls.size(); j++) {                                              
                 double timeLine = Geometry.timeUntilWallCollision(walls.get(j), ball.getCircle(), ball.getMove());
                 if (timeLine < time) {
@@ -175,7 +175,7 @@ public class Bumper implements Gadget {
                     wallReflecting = walls.get(j);
                 }
             }
-            if (time == 10000.0) System.err.println("error in getting time for ball to hit bumper");
+            //if (time == 10000.0) System.err.println("error in getting time for ball to hit bumper");
             return time;
         } else {            
             return Geometry.timeUntilCircleCollision(circle, ball.getCircle(), ball.getMove());

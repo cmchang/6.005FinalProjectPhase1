@@ -139,8 +139,8 @@ public class Flipper implements Gadget {
 
     
     public double getTimeToCollision(Ball ball) {
-        double time = 10000.0;
-        double timeLine = 10000.0;
+        double time = Double.POSITIVE_INFINITY;
+        double timeLine = Double.POSITIVE_INFINITY;
         
         // not sure if this rotation code is doing what i want. I think its right though.
         if (side.equals(Side.LEFT)){
@@ -155,7 +155,7 @@ public class Flipper implements Gadget {
         if (timeLine < time) {
             time = timeLine;
         }        
-        if (time == 10000.0) System.err.println("error in getting time for ball to hit flipper");
+        //if (time == Double.POSITIVE_INFINITY) System.err.println("error in getting time for ball to hit flipper");
         return time;
     }
 
