@@ -1,13 +1,18 @@
 package pingball;
 
+import java.io.BufferedReader;
+import java.io.File;
 import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.PrintWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.Arrays;
 import java.util.LinkedList;
+import java.util.NoSuchElementException;
 import java.util.Queue;
 
-public class Server {
+public class PingballServer {
     /**
      * This will handle all of the clients and make sure the boards are updating in-sync
      * 
@@ -30,7 +35,7 @@ public class Server {
      * 
      * @param port port number, requires 0 <= port <= 65535
      */
-    public Server(int port) throws IOException {
+    public PingballServer(int port) throws IOException {
         serverSocket = new ServerSocket(port);
     }
 
@@ -45,11 +50,18 @@ public class Server {
         // block until a client connects. when a client connects, run it in a new thread
         while (true){   
             Socket socket = serverSocket.accept();
-            Thread client = new Thread(new Client(socket, lock, boardHandler));           
+            BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+            //PrintWriter out = new PrintWriter(socket.getOutputStream(), true);
+            
+            String fromSocket = in.readLine();
+            Board newBoard = GrammarFactory.parse(fromSocket); // Carolyn updating this
+            
+            Client client = new Client(socket, lock, boardHandler);
+            client.setBoard(newBoard);
+            Thread thread = new Thread(client);           
             // handle the client    
-            client.start();
-        }
-        
+            thread.start();
+        }        
     }
     
     /**
@@ -58,8 +70,33 @@ public class Server {
      * @throws Exception
      */
     public static void main(String[] args) throws Exception {
-        int port = 4444; // default port
+        int port = 10987; // default port
         Queue<String> arguments = new LinkedList<String>(Arrays.asList(args));
+        
+        try {
+            while (!arguments.isEmpty()){ 
+                String flag = arguments.remove();
+                try {
+                    if (flag.equals("--port")){
+                        port = Integer.parseInt(arguments.remove());
+                        if (port<0 || port > 655535){
+                            throw new IllegalArgumentException("port " +port+ " out of range");
+                        }
+                    } else {
+                        throw new IllegalArgumentException("unknown option: \"" + flag + "\"");
+                    }
+                } catch (NoSuchElementException nsee) {
+                    throw new IllegalArgumentException("missing argument for " + flag);
+                } catch (NumberFormatException nfe) {
+                    throw new IllegalArgumentException("unable to parse number for " + flag);
+                }      
+            }
+        } catch (IllegalArgumentException iae) {
+            System.err.println(iae.getMessage());
+            System.err.println("usage: PingballServer [--port PORT]");
+            return;
+        }        
+        
         try {            
             runPingballServer(port);
         } catch (IOException e) {
@@ -69,11 +106,11 @@ public class Server {
     
     /**
      * Runs a new server
-     * @param port
+     * @param port port that we are going to connect to
      * @throws Exception
      */
     public static void runPingballServer(int port) throws Exception {
-        Server server = new Server(port);        
+        PingballServer server = new PingballServer(port);        
         server.serve();
     }
 

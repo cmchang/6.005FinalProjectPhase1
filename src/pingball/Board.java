@@ -2,6 +2,7 @@ package pingball;
 
 import java.io.PrintWriter;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -22,11 +23,11 @@ public class Board {
     // similar as in warm-up
     // except walls --> gadgets
     // the BoardsHandler will keep track of the relationships between wall line segments
-    
-    private List<Ball> balls = new ArrayList<Ball>();
+    private List<Ball> balls = Collections.synchronizedList(new ArrayList<Ball>());
     private String name = "Default";
     private final int xlength = 20;
     private final int ylength = 20;
+
     
     List<Gadget> objects = new ArrayList<Gadget>();
     private HashMap<Gadget,List<Gadget>> gizmos;
@@ -59,6 +60,7 @@ public class Board {
         this.name = name;
         this.gravity = gravity;
         buildWalls();
+                
     }
     
     /**
@@ -103,9 +105,24 @@ public class Board {
             }
             gizmos.put(triggerGadget, curActionGadgets);
         }
-        this.gizmos = gizmos;
+        this.gizmos = gizmos;        
+        setGizmosToGadgets(gizmos);
     }
     
+    /**
+     * This method sets the corresponding fire commands in gizmos to the correct gadgets
+     * @param gizmos, the HashMap indicating the relationship between all the trigger objects and action objects
+     */
+    private void setGizmosToGadgets(HashMap<Gadget, List<Gadget>> gizmos) {
+        for (Gadget gadget:objects){
+            if (gizmos.containsKey(gadget)){
+                gadget.setGizmos(gizmos.get(gadget));
+            } else {
+                gadget.setGizmos(new ArrayList<Gadget>());
+            }
+        }   
+    }
+
     /**
      * A helper method for addGizmos.  
      * This method takes in a name of gadget and returns the actual Gadget it refers to.  
@@ -329,13 +346,13 @@ public class Board {
         return this.balls;
     }
     
-    /**
-     * Sets a the list of Balls currently contained in the board with the list passed in
-     * @param balls a list of balls contained in the board
-     */
-    public void setBalls(List<Ball> balls) {
-        this.balls = balls;
-    }
+//    /**
+//     * Sets a the list of Balls currently contained in the board with the list passed in
+//     * @param balls a list of balls contained in the board
+//     */
+//    public void setBalls(List<Ball> balls) {
+//        this.balls = balls;
+//    }
 
     /**
      * updates the visibilities of the wall given a map 

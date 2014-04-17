@@ -5,12 +5,6 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
-
-
-
-
-
-
 import physics.Angle;
 import physics.Circle;
 import physics.Geometry;
@@ -21,22 +15,29 @@ import pingball.BoardsHandler.Orientation;
 import pingball.Wall.Boundary;
 import pingball.Wall.Visibility;
 
+/**
+ * This class is basically a method for the clients. 
+ * 
+ * The clients run the runnable method of this class and the board is continually updated
+ * at a certain rate. The board is updated based on ball movements, collisons, flipper movements,
+ * gadget triggers/actions as well as gravity,friction and board connection considerations.
+ */
 class Update implements Runnable {
-    private Board board;    
-    double mu; // = board.friction1;
-    double mu2;//  = board.friction2;
-    double deltaT = 1.0 / 10000.0;
-    double minTime = deltaT * 10;
-    private BufferedReader in;
-    private Object lock;
-    private BoardsHandler connectionsIn;
+    private final Board board;    
+    private final double mu; // = board.friction1;
+    private final double mu2;//  = board.friction2;
+    private final double deltaT = 1.0 / 1000.0;
+    private final double minTime = deltaT* 10;
+    private final BufferedReader in;
+    private final Object lock;
+    private final BoardsHandler boardHandler;
+ 
 
-
-
-    
     /**
      * Constructor for Update class
      * @param boardIn board to update
+     * @param lock shared lock obtained from the server
+     * @param connectionsIn shared boardshandler obtained from the server
      */
     Update(Board boardIn, BufferedReader in, Object lock, BoardsHandler connectionsIn){
         board = boardIn;
@@ -44,7 +45,7 @@ class Update implements Runnable {
         mu2 = board.friction2;
         this.in = in;
         this.lock = lock;
-        this.connectionsIn = connectionsIn;
+        this.boardHandler = connectionsIn;
     }
     
     /**
@@ -62,27 +63,27 @@ class Update implements Runnable {
           while(true) {
               // read userInputs and start new boardConnections if necessary
               String userInput="";              
-//              try {
-//                userInput = in.readLine();
-//              } catch (IOException e) {
-//                  e.printStackTrace();
-//              }
+              try {
+                if (in.ready()) userInput = in.readLine();
+              } catch (IOException e) {
+                  e.printStackTrace();
+              }
               String[] cmds = userInput.split(" ");
               if (cmds.length==3){
                   Orientation o = null;
                   if (cmds[0].equals("v")) o = Orientation.VERTICAL;
                   if (cmds[0].equals("h")) o = Orientation.HORIZONTAL;
                   synchronized(lock){
-                      if (!o.equals(null)) connectionsIn.addConnection(cmds[1], cmds[2], o);
+                      if (!o.equals(null)) boardHandler.addConnection(cmds[1], cmds[2], o);
                   }
-              }
+              }                            
               
             //update wall visibilities based on connections
               Map<Boundary,Visibility> visibleWalls = new HashMap<Boundary,Visibility>();                                          
               for (Gadget gadget: board.objects){
                   if (!gadget.getType().equals("wall")) continue;
                   Wall wall = (Wall) gadget; // for each wall....
-                  for (Connection c: connectionsIn.getConnections(board)){ 
+                  for (Connection c: boardHandler.getConnections(board)){ 
                       if (wall.boundary.equals(c.boundary)) { //the correct connection to the correct wall
                           visibleWalls.put(wall.boundary, Visibility.INVISIBLE); //if a wall matches a connection boundary, set as invisible
                           wall.setConnection(c);
@@ -102,7 +103,6 @@ class Update implements Runnable {
 //                  System.out.println((long) deltaT * 10);
                 Thread.sleep(1);
               } catch (InterruptedException e) {
-                // TODO Auto-generated catch block
                 e.printStackTrace();
               } 
               for (int i = 0; i < board.getBalls().size(); i ++) {
@@ -120,7 +120,7 @@ class Update implements Runnable {
                   board.getBalls().get(i).setMove(frictGravVect);
               }
               //add in incoming balls
-              for (Ball ball: connectionsIn.receiveBalls(board.name())){
+              for (Ball ball: boardHandler.receiveBalls(board.name())){
                   board.addBall(ball);
               }
               
@@ -148,6 +148,7 @@ class Update implements Runnable {
                       }
                   }
                   if (time<minTime) { // if the time is small enough to be considered a collision
+
                       dirty = true;
                       if (!gadgetCollision) {
                           Vect vect1 = ball.getCircle().getCenter();
@@ -164,11 +165,11 @@ class Update implements Runnable {
                               if (closeWall.visible.equals(Visibility.SOLID)) closestGadg.reflectBall(ball);
                               if (closeWall.visible.equals(Visibility.INVISIBLE)){ //send the ball to the other board                              
                                   board.getBalls().remove(ball);                              
-                                  for (Connection c : connectionsIn.getConnections(board)){
+                                  for (Connection c : boardHandler.getConnections(board)){
                                       if (c.boundary.equals(closeWall.boundary)){  //then c contains the name of the board thats connected to it                                                                      
                                           Circle newCircle = board.newBallLocation(ball.getCircle(),closeWall.boundary);  //put ball on other side of board                              
                                           Ball newBall = new Ball(newCircle, ball.getMove());
-                                          connectionsIn.sendBall(c, newBall);      //send ball to other board through BoardsHandler                           
+                                          boardHandler.sendBall(c, newBall);      //send ball to other board through BoardsHandler                           
                                       }                                      
                                   }                              
                               }                      

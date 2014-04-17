@@ -48,42 +48,15 @@ public class Absorber implements Gadget {
         walls.add(new LineSegment(x,y, x,y+height)); // wall 3 - left
         walls.add(new LineSegment(x+width,y, x+width,y+height)); //wall 4 - right
         
-    }
-    
-    /**
-     * width and height must be positive integers <= 20
-     * @param name
-     * @param x
-     * @param y
-     * @param width
-     * @param height
-     * @param gizmos other Gadgets whos actions are connected to this gadget's trigger
-     */
-    public Absorber(String name, int x, int y, int width, int height, List<Gadget> gizmos) {
-        this.name = name;
-        this.x = x;
-        this.y = y;
-        this.width = width;
-        this.height = height;
-        walls.add(new LineSegment(x, x+width, y, y)); // wall 1 - top
-        walls.add(new LineSegment(x, x+width, y+height, y+height)); //wall 2 - bottom
-        walls.add(new LineSegment(x, x, y, y+height)); // wall 3 - left
-        walls.add(new LineSegment(x+width, x+width, y, y+height)); //wall 4 - right
-        this.gizmos = gizmos;
-        
-    }
-    
-    
+    }    
     
     public String getName() {
         return name;
     }
     
-    
     public String getType() {
         return "absorber";
     }
-
     
     public double getTimeToCollision(Ball ball) {        
         double time = Double.POSITIVE_INFINITY;
@@ -97,7 +70,6 @@ public class Absorber implements Gadget {
         return time;
     }
 
-    
     public void action() {
         Vect zeroVect = new Vect(new Angle(0)).times(0);
 
@@ -121,7 +93,6 @@ public class Absorber implements Gadget {
     /**
      * Absorbs the ball. If theres a ball inside it, it calls action() which shoots it out.
      */
-    
     public void reflectBall(Ball ball) {
         // doesn't reflectBall. ball is captured
         if (absorbedBall != null) {            
@@ -129,11 +100,9 @@ public class Absorber implements Gadget {
             action(); 
             return;
         }
-        
         absorbedBall = ball;
         ball.setMove(new Vect(new Angle(0)).times(0));
         ball.setCircle(new Circle(x+width-.25,y+height-.25, 0.5));
-        
     }
     
     
@@ -182,6 +151,10 @@ public class Absorber implements Gadget {
     
     public int getHeight() {
         return height;
+    }
+
+    public void setGizmos(List<Gadget> list) {
+        gizmos = list;        
     }
 
 }

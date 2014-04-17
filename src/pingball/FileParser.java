@@ -83,11 +83,7 @@ public class FileParser {
         int state = 0;
         
         List<Gadget> connectedGadgets = new ArrayList<Gadget>();
-        if (connectedGadgets.size()>0) {
-            return new Flipper(name, xLoc, yLoc, orientation, side, state, connectedGadgets);
-        } else {
-            return new Flipper(name, xLoc, yLoc, orientation, side, state);
-        }
+        return new Flipper(name, xLoc, yLoc, orientation, side, state);
     }
     
     /**

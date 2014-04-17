@@ -91,40 +91,6 @@ public class Flipper implements Gadget {
         } 
     }
     
-    public Flipper(String name,int x,int y,int orientation, Side leftOrRight, int state, List<Gadget> gizmos){
-        this.name = name;
-        this.x = x;
-        this.y = y;
-        this.orientation = orientation;
-        this.side = leftOrRight;
-        this.state = state;
-        this.gizmos = gizmos;
-           
-        this.angularVelocity = 0;
-        
-        switch (orientation) {
-        case 0:
-            if (side.equals(Side.LEFT)) wall = new LineSegment(x,y, x,y+2);
-            if (side.equals(Side.RIGHT)) wall = new LineSegment(x+2,y, x+2,y+2);
-            break;
-        case 90:
-            if (side.equals(Side.LEFT)) wall = new LineSegment(x+2,y, x,y);
-            if (side.equals(Side.RIGHT)) wall = new LineSegment(x+2,y+2, x,y+2);
-            break;
-        case 180:
-            if (side.equals(Side.LEFT)) wall = new LineSegment(x+2,y+2, x+2,y);
-            if (side.equals(Side.RIGHT)) wall = new LineSegment(x,y+2, x,y);
-            break;
-        case 270:
-            if (side.equals(Side.LEFT)) wall = new LineSegment(x,y+2, x+2,y+2);
-            if (side.equals(Side.RIGHT)) wall = new LineSegment(x,y, x+2,y);
-            break;
-        default:
-            System.err.println("Invalid orientation");
-            break;
-        } 
-    }
-    
     public enum Side { LEFT, RIGHT};
     
     
@@ -285,6 +251,10 @@ public class Flipper implements Gadget {
     
     public int getY() {
         return y;
+    }
+
+    public void setGizmos(List<Gadget> list) {
+        gizmos = list;        
     }
    
 }

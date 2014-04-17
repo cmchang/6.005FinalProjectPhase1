@@ -1,5 +1,7 @@
 package pingball;
 
+import java.util.List;
+
 public interface Gadget {
     /*
      * Interface
@@ -65,5 +67,7 @@ public interface Gadget {
      * @param ball ball that collides with the gadget
      */
     public void trigger(Ball ball);
+
+    public void setGizmos(List<Gadget> list);
     
 }
