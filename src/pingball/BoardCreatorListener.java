@@ -58,7 +58,7 @@ public class BoardCreatorListener extends GrammarBaseListener{
             board = FileParser.CreateBoard(ObjectName, Double.parseDouble(gravity), Double.parseDouble(friction1), Double.parseDouble(friction2));
         }else{
             //No friction was given in the file, so friction1 = friction2 = 0.0
-            board = FileParser.CreateBoard(ObjectName, Double.parseDouble(gravity), 0.0, 0.0);
+            board = FileParser.CreateBoard(ObjectName, Double.parseDouble(gravity));
 
         }
     }
