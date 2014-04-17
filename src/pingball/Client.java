@@ -54,7 +54,7 @@ public class Client implements Runnable{
     
     /**
      * Function that runs a specific client
-     */
+     */   
     public void run() {
         // handle the client
         try {
@@ -80,7 +80,7 @@ public class Client implements Runnable{
         BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
         PrintWriter out = new PrintWriter(socket.getOutputStream(), true);
         try {
-            Runnable r = new Update(board);
+            Runnable r = new Update(board, in, lock, connections);
             new Thread(r).start();
             board.animate(out, 20);        
         } finally {

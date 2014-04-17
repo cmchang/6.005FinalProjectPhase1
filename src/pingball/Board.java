@@ -3,8 +3,12 @@ package pingball;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
+import physics.Circle;
+import physics.LineSegment;
 import pingball.Ball;
+import pingball.Bumper.Shape;
 import pingball.Wall.Boundary;
 import pingball.Wall.Visibility;
 
@@ -34,13 +38,11 @@ public class Board {
     public Board() {
         xlength = 20;
         ylength = 20;
-        
         List<Wall> walls = new ArrayList<Wall>();
         walls.add(new Wall(Boundary.TOP, Visibility.SOLID));
         walls.add(new Wall(Boundary.BOTTOM, Visibility.SOLID));
         walls.add(new Wall(Boundary.LEFT, Visibility.SOLID));
-        walls.add(new Wall(Boundary.RIGHT, Visibility.SOLID));
-        
+        walls.add(new Wall(Boundary.RIGHT, Visibility.SOLID));        
         objects.addAll(walls);
     }
     
@@ -63,10 +65,13 @@ public class Board {
     /**
      * mutator, add a given gadget to board
      */
-    public void addGadget(Gadget gadget) {}
+    public void addGadget(Gadget gadget) {
+        objects.add(gadget);
+    }
     
     @Override
     public String toString() {
+        //TODO: FIX ORIENTATION
         StringBuilder output = new StringBuilder();
         char[][] field = new char[xlength+2][ylength+2];
         for (int i = 0; i < xlength+2; i++) {
@@ -81,6 +86,83 @@ public class Board {
         for (Ball b: balls) {
             field[b.getX() + 1][b.getY() + 1] = '*';
         }
+        
+        for (Gadget gadget: objects){ //includes walls,absorbers,bumpers,flipper
+            System.out.println(gadget);
+            if (gadget.getType().equals("flipper")){
+                List<LineSegment> position = ((Flipper) gadget).getPosition();
+                //TODO: FINISH FLIPPER
+            } else if (gadget.getType().equals("bumper")) {
+                int xcoord;
+                int ycoord;
+                if (((Bumper) gadget).getShape().equals(Shape.SQUARE)) {
+                    List<LineSegment> squareWalls = (List<LineSegment>) ((Bumper) gadget).getPosition();
+                    xcoord = (int) squareWalls.get(0).p1().x();
+                    ycoord = (int) squareWalls.get(0).p1().y();
+                    field[xcoord][ycoord] = '#';
+                } else if (((Bumper) gadget).getShape().equals(Shape.CIRCLE)) {
+                    Circle circ = (Circle) ((Bumper) gadget).getPosition();
+                    xcoord = (int) circ.getCenter().x();
+                    ycoord = (int) circ.getCenter().y();
+                    field[xcoord][ycoord] = '0';
+                } else if (((Bumper) gadget).getShape().equals(Shape.TRIANGLE)) {
+                    List<LineSegment> triWalls = (List<LineSegment>) ((Bumper) gadget).getPosition();
+                    int orient = ((Bumper) gadget).getOrientation();
+                    switch (orient) {
+                    case 0:
+                        xcoord = (int) triWalls.get(0).p1().x();
+                        ycoord = (int) triWalls.get(0).p1().y();
+                        field[xcoord][ycoord] = '/';
+                        break;
+                    case 90:
+                        xcoord = (int) triWalls.get(0).p1().x();
+                        ycoord = (int) triWalls.get(0).p1().y();
+                        field[xcoord][ycoord] = '\\';
+                        break;
+                    case 180:
+                        xcoord = (int) triWalls.get(0).p1().x();
+                        ycoord = (int) triWalls.get(1).p1().y();
+                        field[xcoord][ycoord] = '/';
+                        break;
+                    case 270:
+                        xcoord = (int) triWalls.get(0).p1().x();
+                        ycoord = (int) triWalls.get(1).p1().y();
+                        field[xcoord][ycoord] = '\\';
+                        break;
+                    default:
+                        System.err.println("invalid orientation");
+                        break;
+                    }
+                }
+            } else if (gadget.getType().equals("absorber")) {
+                //TODO: FINISH ABSORBER
+            } else if (gadget.getType().equals("wall")){
+                String otherBoard;
+                if (((Wall) gadget).visible.equals(Visibility.INVISIBLE)) {
+                    otherBoard = ((Wall) gadget).connection.name;
+                    otherBoard = otherBoard.substring(0, Math.min(20, otherBoard.length()));
+                    
+                    if (((Wall) gadget).boundary.equals(Boundary.BOTTOM)) {
+                        for (int i=1;i<otherBoard.length();i++){
+                            field[i][21] = otherBoard.charAt(i);
+                        }
+                    } else if (((Wall) gadget).boundary.equals(Boundary.TOP)) {
+                        for (int i=1;i<otherBoard.length();i++){
+                            field[i][0] = otherBoard.charAt(i);
+                        }
+                    } else if (((Wall) gadget).boundary.equals(Boundary.LEFT)) {
+                        for (int j=1;j<otherBoard.length();j++){
+                            field[0][j] = otherBoard.charAt(j);
+                        }
+                    } else if (((Wall) gadget).boundary.equals(Boundary.RIGHT)) {
+                        for (int j=1;j<otherBoard.length();j++){
+                            field[21][j] = otherBoard.charAt(j);
+                        }
+                    } 
+                }
+            }
+        }
+        
         for (int i = 0; i < xlength+2; i++) {
             for (int j = 0; j < ylength+2; j++) {
                 output.append(field[i][j]);
@@ -131,5 +213,32 @@ public class Board {
      */
     public void setBalls(List<Ball> balls) {
         this.balls = balls;
+    }
+
+    /**
+     * updates the visibilities of the wall given a map 
+     * @param map structure that maps a boundary to its visibility where Boundary and Visibility are both enums
+     */
+    public void setWallVisibilites(Map<Boundary, Visibility> map) {
+        for (Gadget gadget: objects){
+            if (!gadget.getType().equals("wall")) continue;
+            Wall wall = (Wall) gadget; // for each wall
+                        
+            wall.setVisibility(map.get(wall.boundary));             
+        }
+        
+    }
+    /**
+     * Method for passing a ball through an invisible wall. returns a circle that is on the opposite wall.
+     * @param circle representation of the location of the original circle
+     * @param boundary Boundary enum which is either Boundary.TOP,BOTTOM,LEFT,RIGHT
+     * @return new circle on the opposite side of the wall
+     */
+    public Circle newBallLocation(Circle circle, Boundary boundary) {
+        if (boundary.equals(Boundary.BOTTOM) || boundary.equals(Boundary.TOP)){
+            return new Circle(circle.getCenter().x(),20.0-circle.getCenter().y(),circle.getRadius());
+        } else {
+            return new Circle(20.0-circle.getCenter().x(),circle.getCenter().y(),circle.getRadius());
+        }
     }
 }

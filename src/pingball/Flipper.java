@@ -127,14 +127,17 @@ public class Flipper implements Gadget {
     
     public enum Side { LEFT, RIGHT};
     
+    
     public String getName() {
         return name;
     }
 
+    
     public String getType() {
         return "flipper";
     }
 
+    
     public double getTimeToCollision(Ball ball) {
         double time = 10000.0;
         double timeLine = 10000.0;
@@ -142,11 +145,11 @@ public class Flipper implements Gadget {
         // not sure if this rotation code is doing what i want. I think its right though.
         if (side.equals(Side.LEFT)){
             timeLine = Geometry.timeUntilRotatingWallCollision(wall, 
-                    new Vect(x,y).rotateBy(new Angle(((double) orientation)/180.0*Math.PI)), 
+                    new Vect(x,y).rotateBy(new Angle((orientation)/180.0*Math.PI)), 
                     angularVelocity, ball.getCircle(), ball.getMove());
         } else if (side.equals(Side.RIGHT)) { 
             timeLine = Geometry.timeUntilRotatingWallCollision(wall, 
-                    new Vect(x+2,y).rotateBy(new Angle(((double) orientation)/180.0*Math.PI)), 
+                    new Vect(x+2,y).rotateBy(new Angle((orientation)/180.0*Math.PI)), 
                     angularVelocity, ball.getCircle(), ball.getMove());
         }
         if (timeLine < time) {
@@ -156,26 +159,27 @@ public class Flipper implements Gadget {
         return time;
     }
 
+    
     public void action() { 
         //won't work action until its done rotating
         if (state == 90|state == -90|state == 0) {
             if (side.equals(Side.LEFT) && state < 45){ // in the 0 degrees position
-                finalWall = Geometry.rotateAround(wall, new Vect(x,y).rotateBy(new Angle(((double) orientation)/180.0*Math.PI))
+                finalWall = Geometry.rotateAround(wall, new Vect(x,y).rotateBy(new Angle((orientation)/180.0*Math.PI))
                         , new Angle(90.0 /180.0*Math.PI));
                 angularVelocity = 1080;            
             
             } else if (side.equals(Side.LEFT) && state > 45){ // in the 90 degrees position
-                finalWall = Geometry.rotateAround(wall, new Vect(x,y).rotateBy(new Angle(((double) orientation)/180.0*Math.PI))
+                finalWall = Geometry.rotateAround(wall, new Vect(x,y).rotateBy(new Angle((orientation)/180.0*Math.PI))
                         , new Angle(-90.0 /180.0*Math.PI));
                 angularVelocity = -1080;            
             
             } else if (side.equals(Side.RIGHT) && state > -45){ // in the 0 degrees position
-                finalWall = Geometry.rotateAround(wall, new Vect(x+2,y).rotateBy(new Angle(((double) orientation)/180.0*Math.PI))
+                finalWall = Geometry.rotateAround(wall, new Vect(x+2,y).rotateBy(new Angle((orientation)/180.0*Math.PI))
                         , new Angle(-90.0 /180.0*Math.PI));
                 angularVelocity = -1080;
                 
             } else if (side.equals(Side.RIGHT) && state < -45){ // in the -90 degrees position
-                finalWall = Geometry.rotateAround(wall, new Vect(x+2,y).rotateBy(new Angle(((double) orientation)/180.0*Math.PI))
+                finalWall = Geometry.rotateAround(wall, new Vect(x+2,y).rotateBy(new Angle((orientation)/180.0*Math.PI))
                         , new Angle(90.0 /180.0*Math.PI));
                 angularVelocity = 1080;
                 
@@ -185,22 +189,25 @@ public class Flipper implements Gadget {
         
     }
 
+    
     public double getCoefficient() {
         return 0.95;
     }
 
+    
     public void reflectBall(Ball ball) {
         if (side.equals(Side.LEFT)){
-            Vect newVect = Geometry.reflectRotatingWall(wall, new Vect(x,y).rotateBy(new Angle(((double) orientation)/180.0*Math.PI)), 
+            Vect newVect = Geometry.reflectRotatingWall(wall, new Vect(x,y).rotateBy(new Angle((orientation)/180.0*Math.PI)), 
                     angularVelocity, ball.getCircle(), ball.getMove(), getCoefficient());
             ball.setMove(newVect);
         } else if (side.equals(Side.RIGHT)){
-            Vect newVect = Geometry.reflectRotatingWall(wall, new Vect(x+2,y).rotateBy(new Angle(((double) orientation)/180.0*Math.PI)), 
+            Vect newVect = Geometry.reflectRotatingWall(wall, new Vect(x+2,y).rotateBy(new Angle((orientation)/180.0*Math.PI)), 
                     angularVelocity, ball.getCircle(), ball.getMove(), getCoefficient());
             ball.setMove(newVect);
         }                    
     }
 
+    
     public void trigger() {
         action();
         for (Gadget gizmo:gizmos){
@@ -208,6 +215,7 @@ public class Flipper implements Gadget {
         }       
     }
 
+    
     public void trigger(Ball ball) {
         System.err.println("Flipper doesn't need a ball passed in for the trigger. This method shouldnt be called");        
     }

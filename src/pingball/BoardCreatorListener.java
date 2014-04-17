@@ -2,7 +2,7 @@ package pingball;
 
 import java.util.ArrayList;
 
-import pingball.Bumper.Type;
+import pingball.Bumper.Shape;
 import pingball.Flipper.Side;
 
 public class BoardCreatorListener extends GrammarBaseListener{
@@ -40,35 +40,27 @@ public class BoardCreatorListener extends GrammarBaseListener{
             doubleContent.add(value);
         }
         
-        switch(ObjectType){
-        case "ball":
+        if (ObjectType.equals("ball")){        
             if(doubleContent.size() != 4) System.err.println("error creating ball: file was parsed incorrectly or did not contain the correct amount of information");
             balls.add(FileParser.createBall(ObjectName, doubleContent.get(0), doubleContent.get(1), doubleContent.get(2), doubleContent.get(3)));
-            break;
-        case "squareBumper":
+        } else if (ObjectType.equals("squareBumper")){
             if(doubleContent.size() != 2) System.err.println("error creating squareBumper: file was parsed incorrectly or did not contain the correct amount of information");
-            gadgets.add(FileParser.createBumper(Type.SQUARE, ObjectName, doubleContent.get(0).intValue(), doubleContent.get(1).intValue(), 0));
-            break;
-        case "circleBumper":
+            gadgets.add(FileParser.createBumper(Shape.SQUARE, ObjectName, doubleContent.get(0).intValue(), doubleContent.get(1).intValue(), 0));
+        } else if (ObjectType.equals("circleBumper")){
             if(doubleContent.size() != 2) System.err.println("error creating circleBumper: file was parsed incorrectly or did not contain the correct amount of information");
-            gadgets.add(FileParser.createBumper(Type.CIRCLE, ObjectName, doubleContent.get(0).intValue(), doubleContent.get(1).intValue(), 0));
-            break;
-        case "triangleBumper":
+            gadgets.add(FileParser.createBumper(Shape.CIRCLE, ObjectName, doubleContent.get(0).intValue(), doubleContent.get(1).intValue(), 0));
+        } else if (ObjectType.equals("triangleBumper")){
             if(doubleContent.size() != 3) System.err.println("error creating triangleBumper: file was parsed incorrectly or did not contain the correct amount of information");
-            gadgets.add(FileParser.createBumper(Type.TRIANGLE, ObjectName, doubleContent.get(0).intValue(), doubleContent.get(1).intValue(), doubleContent.get(2).intValue()));
-            break;
-        case "leftFlipper":
+            gadgets.add(FileParser.createBumper(Shape.TRIANGLE, ObjectName, doubleContent.get(0).intValue(), doubleContent.get(1).intValue(), doubleContent.get(2).intValue()));
+        } else if (ObjectType.equals("leftFlipper")){
             if(doubleContent.size() != 3) System.err.println("error creating leftFlipper: file was parsed incorrectly or did not contain the correct amount of information");
             gadgets.add(FileParser.createFlipper(Side.LEFT, ObjectName, doubleContent.get(0).intValue(), doubleContent.get(1).intValue(), doubleContent.get(2).intValue()));
-            break;
-        case "rightFlipper":
+        } else if (ObjectType.equals("rightFlipper")){
             if(doubleContent.size() != 3) System.err.println("error creating rightFlipper: file was parsed incorrectly or did not contain the correct amount of information");
             gadgets.add(FileParser.createFlipper(Side.RIGHT, ObjectName, doubleContent.get(0).intValue(), doubleContent.get(1).intValue(), doubleContent.get(2).intValue()));
-            break;
-        case "absorber":
+        } else if (ObjectType.equals("absorber")){
             if(doubleContent.size() != 4) System.err.println("error creating absorber: file was parsed incorrectly or did not contain the correct amount of information");
-            gadgets.add(FileParser.createAbsorber(ObjectName, doubleContent.get(0).intValue(), doubleContent.get(1).intValue(), doubleContent.get(2).intValue(), doubleContent.get(3).intValue()));
-            break;
+            gadgets.add(FileParser.createAbsorber(ObjectName, doubleContent.get(0).intValue(), doubleContent.get(1).intValue(), doubleContent.get(2).intValue(), doubleContent.get(3).intValue()));            
         }
         
     }
