@@ -29,7 +29,7 @@ public class Board {
     private final int ylength = 20;
     
     List<Gadget> objects = new ArrayList<Gadget>();
-    private HashMap<String,List<String>> gizmos;
+    private HashMap<Gadget,List<Gadget>> gizmos;
     
     double friction1 = 0.025; // will need some init methods to set up constants based on board parsing. or make not final
     double friction2 = 0.025;
@@ -62,8 +62,52 @@ public class Board {
         objects.addAll(walls);
     }
     
-    public void addGizmos(HashMap<String,List<String>> gizmos){
+    public void addGizmos(HashMap<String,List<String>> gizmosStr){
+        HashMap<Gadget,List<Gadget>> gizmos = new HashMap<Gadget, List<Gadget>>();
+        Gadget triggerGadget;
+
+        for(String triggerGadgetStr: gizmosStr.keySet()){
+            List<Gadget> curActionGadgets = new ArrayList<Gadget>();
+            if(GadgetExists(triggerGadgetStr)){
+                triggerGadget = nameToGadget(triggerGadgetStr);
+                if(gizmos.containsKey(triggerGadget)) curActionGadgets = gizmos.get(triggerGadget);
+            }else{
+                System.err.println("Board file must be incorrect.  Fire directions matches objects that don't exits in the board.");
+                triggerGadget = null;
+            }
+            
+            for(String actionGadgetStr: gizmosStr.get(triggerGadgetStr)){
+                System.out.println("Action: " + actionGadgetStr);
+                System.out.println("Gadget exists: " + GadgetExists(triggerGadgetStr));
+                if(GadgetExists(actionGadgetStr)){
+                    Gadget actionGadget = nameToGadget(actionGadgetStr);
+                    curActionGadgets.add(actionGadget);
+                }else{
+                    System.err.println("Board file must be incorrect.  Fire directions matches objects that don't exits in the board.");
+                }
+            }
+            gizmos.put(triggerGadget, curActionGadgets);
+        }
         this.gizmos = gizmos;
+    }
+    
+    private Gadget nameToGadget(String name){
+        for(Gadget gadget: objects){
+            if(gadget.getName().equals(name)){
+                return gadget;
+            }
+        }
+        System.err.println("Board file must be incorrect.  Fire directions matches objects that don't exits in the board.");
+        return null;
+    }
+    
+    private boolean GadgetExists(String name){
+        for(Gadget gadget: objects){
+            if(gadget.getName().equals(name)){
+                return true;
+            }
+        }
+        return false;
     }
     
     public String name(){
