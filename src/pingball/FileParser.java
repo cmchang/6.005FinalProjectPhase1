@@ -24,10 +24,14 @@ public class FileParser {
      * This method creates a new Board object, after calling helper methods to parse the file
      */
     public static Board CreateBoard(String name, double gravity, double friction1, double friction2){
-        //TODO:change board
-        
-        //if no friction is given, friction1 = friction2 = 0.0
-        return new Board();
+        return new Board(name, gravity, friction1, friction2);
+    }
+    
+    /**
+     * This method creates a new Board object, after calling helper methods to parse the file
+     */
+    public static Board CreateBoard(String name, double gravity){
+        return new Board(name, gravity);
     }
     
     /**

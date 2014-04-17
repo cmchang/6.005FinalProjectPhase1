@@ -14,7 +14,7 @@ import org.junit.Test;
  *      (A1) Contains a comment 
  *      (A2) Comment in file contains a keyword (i.e. 'ball', 'bumper', etc)
  *      (A2) Doesn't contain a comment
- *      (A3) Additional spaces added randomly
+ *      (A3) Additional spaces added randomly; contains indentation
  *      (A4) An object in the field doesn't contain all the correct fields
  *      (A5) Objects declared in the file over lap each other
  * (B) Objects in the board
@@ -34,6 +34,8 @@ import org.junit.Test;
 
 public class FileParsingTest {
 
+    
+    // Tests A1, A2, A3 in addition to C1
     @Test
     public void testC1(){
         Board myBoard = GrammarFactory.parse(new File("src/pingball/Boards/board1.txt"));

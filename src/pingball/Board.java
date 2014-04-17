@@ -24,37 +24,42 @@ public class Board {
     // the BoardsHandler will keep track of the relationships between wall line segments
     
     private List<Ball> balls = new ArrayList<Ball>();
-    private String name;
-    private final int xlength;
-    private final int ylength;
+    private String name = "Default";
+    private final int xlength = 20;
+    private final int ylength = 20;
     
     List<Gadget> objects = new ArrayList<Gadget>();
     private HashMap<String,List<String>> gizmos;
     
-    final double friction1 = 0.025; // will need some init methods to set up constants based on board parsing. or make not final
-    final double friction2 = 0.025;
-    final double gravity = 25.0;
+    double friction1 = 0.025; // will need some init methods to set up constants based on board parsing. or make not final
+    double friction2 = 0.025;
+    double gravity = 25.0;
+    
+    
+    public Board(String name, double gravity, double friction1, double friction2){
+        this.name = name;
+        this.gravity = gravity;
+        this.friction1 = friction1;
+        this.friction2 = friction2;
+        buildWalls();
+    }
+    
+    public Board(String name, double gravity){
+        this.name = name;
+        this.gravity = gravity;
+        buildWalls();
+    }
     
     /**
      * initialize the walls of a board. As a default, boards are of size 20L by 20L
      */
-    public Board() {
-        xlength = 20;
-        ylength = 20;
+    private void buildWalls(){
         List<Wall> walls = new ArrayList<Wall>();
         walls.add(new Wall(Boundary.TOP, Visibility.SOLID));
         walls.add(new Wall(Boundary.BOTTOM, Visibility.SOLID));
         walls.add(new Wall(Boundary.LEFT, Visibility.SOLID));
         walls.add(new Wall(Boundary.RIGHT, Visibility.SOLID));        
         objects.addAll(walls);
-    }
-    
-    /**
-     * Check the boundary condition of the wall
-     * @return boolean of whether to reflect or pass ball
-     */
-    private boolean checkBoundry(Wall wall) {
-        return (wall.visible.equals(Visibility.INVISIBLE));
     }
     
     public void addGizmos(HashMap<String,List<String>> gizmos){
@@ -64,11 +69,7 @@ public class Board {
     public String name(){
         return name;
     }
-    /**
-     * mutator, remove a given ball from the board
-     */
-    private void removeBall(Ball ball) {}
-    
+
     /**
      * mutator, add a given gadget to board
      */
@@ -284,4 +285,6 @@ public class Board {
             return new Circle(20.0-circle.getCenter().x(),circle.getCenter().y(),circle.getRadius());
         }
     }
+
+
 }
