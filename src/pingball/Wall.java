@@ -4,8 +4,11 @@ import physics.Geometry;
 import physics.LineSegment;
 import physics.Vect;
 import pingball.BoardsHandler.Connection;
-import pingball.Wall.Visibility;
 
+/**
+ * Representation of a side of a wall in board space. Compatible with gadget
+ *
+ */
 public class Wall implements Gadget {
 
     Boundary boundary;
@@ -13,9 +16,15 @@ public class Wall implements Gadget {
     Connection connection = null;
     
     LineSegment wall;
-    int xlength = 20;
-    int ylength = 20;
+    private final int xlength = 20;
+    private final int ylength = 20;
     
+    /**
+     * Initialize a side of a wall in board space.
+     * 
+     * @param boundary Boundary enum of the wall - either Boundary.LEFT,RIGHT,TOP,BOTTOM
+     * @param visible Visibiltiy enum of the wall, either Visibility.INVISIBLE.SOLID
+     */
     public Wall(Boundary boundary, Visibility visible){
         this.boundary = boundary;
         this.visible = visible;
@@ -73,15 +82,25 @@ public class Wall implements Gadget {
     public void trigger(Ball ball) {
 //        System.err.println("This shouldn't be called.(trigger ball for wall)");
     }
-    
+    /**
+     * sets the Connection object of the Wall
+     * @param connection connection object to be set
+     */
     public void setConnection(Connection connection){
         this.connection = connection;
     }
     
+    /**
+     * Removes the connection of the Wall
+     */
     public void removeConnetion(){
         this.connection = null;
     }
-
+    
+    /**
+     * sets the Visibility enum of the Wall - 
+     * @param visibility either Visibility.INVISIBLE or Visibility.SOLID
+     */
     public void setVisibility(Visibility visibility) {
         this.visible = visibility;        
     }

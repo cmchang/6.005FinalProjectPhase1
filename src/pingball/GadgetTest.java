@@ -1,7 +1,15 @@
 package pingball;
 
+import static org.junit.Assert.*;
+
 import org.junit.Before;
 import org.junit.Test;
+
+import physics.Angle;
+import physics.Circle;
+import physics.Vect;
+import pingball.Bumper.Shape;
+import pingball.Flipper.Side;
 
 /**
  * Testing strategy:
@@ -33,14 +41,21 @@ import org.junit.Test;
  *
  */
 public class GadgetTest {
+    Ball ball1;
+    double deltaT;
     
     @Before
     public void setUp() throws Exception {
+        ball1 = new Ball(new Circle(1,1,.5), new Vect(new Angle(0), 5));
+        deltaT = (double) (1.0 / 1000.0);
     }
     
     @Test
     public void testFlipper(){
-        //TODO
+        
+        Flipper flipper = new Flipper("flip1", 5, 5, 0, Side.LEFT, 0);
+        flipper.reflectBall(ball1);        
+        assertTrue(ball1.getMove().length()==5*flipper.getCoefficient());
     }
     
   
@@ -51,12 +66,25 @@ public class GadgetTest {
     
     @Test
     public void testBumper(){
-        //TODO
+        Bumper triBumper = new Bumper(Shape.CIRCLE, "tri1", 5, 5);
+        triBumper.reflectBall(ball1);        
+        assertTrue(ball1.getMove().length()==5*triBumper.getCoefficient());
+        
     }
     
     @Test
     public void testBall(){
-        //TODO
+        assertTrue(ball1.getType().equals("ball"));
+        assertTrue(ball1.getX()==1);
+        ball1.move(100*deltaT);
+        assertTrue(ball1.getX()==3);
+        ball1.move(100000*deltaT);
+        assertTrue(ball1.getX()==2503);
+        assertTrue(ball1.getY()==1);
+        
+        System.out.println(ball1.getCircle().getRadius());
+        assertTrue(ball1.getCircle().getRadius()==0.5);
+
     }    
     
     @Test
