@@ -175,7 +175,7 @@ public class Flipper implements Gadget {
 
     
     public void trigger() {
-        action();
+        //action(); should only flip if it is self triggering
         for (Gadget gizmo:gizmos){
             gizmo.action();
         }       

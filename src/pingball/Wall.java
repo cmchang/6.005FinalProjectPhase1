@@ -65,7 +65,7 @@ public class Wall implements Gadget {
     }
 
     public void action() {
-//        System.err.println("This shouldn't be called.(action for wall)");
+        //no action for wall
     }
 
     public double getCoefficient() {

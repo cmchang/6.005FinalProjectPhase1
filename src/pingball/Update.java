@@ -157,7 +157,7 @@ class Update implements Runnable {
                           ball.setMove(velocities.v1);
                           closestBall.setMove(velocities.v2);
                       } else {
-                          if (closestGadg.getType().equals("absorber")){ // if its an absorber, don't reflect ball
+                          if (closestGadg.getType().equals("absorber")){ // if its an absorber, don't reflect ball                              
                               closestGadg.trigger(ball); 
                           } else if (closestGadg.getType().equals("wall")){ // if its a wall, we need to check if its solid/invisible
     //                          dirty = true;

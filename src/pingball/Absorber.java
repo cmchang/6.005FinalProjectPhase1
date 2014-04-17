@@ -65,17 +65,14 @@ public class Absorber implements Gadget {
             if (timeLine < time) {
                 time = timeLine;
             }
-        }
-        if (time == 10000.0) System.err.println("error in getting time for ball to hit absorber");
+        }        
         return time;
     }
 
     public void action() {
-        Vect zeroVect = new Vect(new Angle(0)).times(0);
-
         if (absorbedBall != null){            
-            if (absorbedBall.getMove().equals(zeroVect)){ //we have a non-moving ball inside
-                absorbedBall.setMove(new Vect(new Angle(Math.PI/2.0)).times(50)); // start the ejection process
+            if (absorbedBall.getMove().length()<.0001){ //we have a non-moving ball inside
+                absorbedBall.setMove(new Vect(Angle.DEG_90,50.0)); // start the ejection process
             } else {
                 //absorber has a moving ball inside it -> no action                             
             }        
@@ -85,7 +82,6 @@ public class Absorber implements Gadget {
     }
     
     // not applicable
-    
     public double getCoefficient() {
         return Double.NEGATIVE_INFINITY;
     }
@@ -96,13 +92,13 @@ public class Absorber implements Gadget {
     public void reflectBall(Ball ball) {
         // doesn't reflectBall. ball is captured
         if (absorbedBall != null) {            
-            if (!ballIsInside()) absorbedBall = null; //check if ball is inside the absorber (could've already been moving)
+            if (!ballIsInside()) absorbedBall = null; //check if ball is inside the absorber (could've already been moving)     
             action(); 
             return;
         }
         absorbedBall = ball;
-        ball.setMove(new Vect(new Angle(0)).times(0));
-        ball.setCircle(new Circle(x+width-.25,y+height-.25, 0.5));
+        ball.setMove(new Vect(Angle.DEG_270,0.0));
+        ball.setCircle(new Circle( (double)(x+width)-.25/2.0,(double)(y+height)-.25/2.0, 0.25));
     }
     
     

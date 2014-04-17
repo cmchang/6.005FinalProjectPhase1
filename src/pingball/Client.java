@@ -103,8 +103,8 @@ public class Client implements Runnable{
         Queue<String> arguments = new LinkedList<String>(Arrays.asList(args));
         
         try {
-            if ( ! file.isFile()) throw new IllegalArgumentException("file not found: \"" + file + "\"");            
-            while (!(arguments.size()==(numArgs-1))){ // last arg is the filename, required.
+            if ( ! file.isFile()) throw new IllegalArgumentException("file not found: \"" + file + "\"");               
+            while ((arguments.size()>(numArgs-1))){ // last arg is the filename, required.
                 String flag = arguments.remove();
                 try {
                     if (flag.equals("--port")){
@@ -114,7 +114,7 @@ public class Client implements Runnable{
                         }
                     } else if (flag.equals("--host")){
                         hostname = arguments.remove();
-                        if (hostname.equals("localhost")) hostname = "192.168.1.1";
+                        //if (hostname.equals("localhost")) hostname = "192.168.1.1";
                         
                         //hostname of the server to connect to TODO                        
                     }  else {
@@ -149,7 +149,7 @@ public class Client implements Runnable{
             
         } else {
             // single-play
-            Socket socket = new Socket();
+            Socket socket = new Socket("192.168.1.1",10987); // local host, default port
             Object lock = new Object(); //used to protect global variable thread safety
             BoardsHandler connections = new BoardsHandler(); // global variable protected by the lock                        
             //TODO where does socket output go

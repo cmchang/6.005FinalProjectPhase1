@@ -54,7 +54,7 @@ public class PingballServer {
             //PrintWriter out = new PrintWriter(socket.getOutputStream(), true);
             
             String fromSocket = in.readLine();
-            Board newBoard = GrammarFactory.parse(fromSocket); // Carolyn updating this
+            Board newBoard = GrammarFactory.parse(fromSocket);
             
             Client client = new Client(socket, lock, boardHandler);
             client.setBoard(newBoard);
