@@ -2,6 +2,7 @@ package pingball;
 
 import java.io.PrintWriter;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -277,5 +278,10 @@ public class Board {
         } else {
             return new Circle(20.0-circle.getCenter().x(),circle.getCenter().y(),circle.getRadius());
         }
+    }
+
+    public void addGizmos(HashMap<String, List<String>> createTriggerActions) {
+        // TODO Auto-generated method stub
+        
     }
 }
