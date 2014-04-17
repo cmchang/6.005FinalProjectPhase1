@@ -1,5 +1,7 @@
 package pingball;
 
+import java.util.List;
+
 import physics.Geometry;
 import physics.LineSegment;
 import physics.Vect;
@@ -103,6 +105,9 @@ public class Wall implements Gadget {
      */
     public void setVisibility(Visibility visibility) {
         this.visible = visibility;        
+    }
+
+    public void setGizmos(List<Gadget> list) {        
     }
 
 }

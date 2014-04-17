@@ -23,25 +23,39 @@ public class Board {
     // similar as in warm-up
     // except walls --> gadgets
     // the BoardsHandler will keep track of the relationships between wall line segments
-    //Object x = Collections.synchronizedList(ArrayList<Ball>
     private List<Ball> balls = Collections.synchronizedList(new ArrayList<Ball>());
-    private String name;
-    private final int xlength;
-    private final int ylength;
+    private String name = "Default";
+    private final int xlength = 20;
+    private final int ylength = 20;
+
     
     List<Gadget> objects = new ArrayList<Gadget>();
-    private HashMap<String,List<String>> gizmos;
+    private HashMap<Gadget,List<Gadget>> gizmos;
     
-    final double friction1 = 0.025; // will need some init methods to set up constants based on board parsing. or make not final
-    final double friction2 = 0.025;
-    final double gravity = 25.0;
+    double friction1 = 0.025; // will need some init methods to set up constants based on board parsing. or make not final
+    double friction2 = 0.025;
+    double gravity = 25.0;
+    
+    
+    public Board(String name, double gravity, double friction1, double friction2){
+        this.name = name;
+        this.gravity = gravity;
+        this.friction1 = friction1;
+        this.friction2 = friction2;
+        buildWalls();
+    }
+    
+    public Board(String name, double gravity){
+        this.name = name;
+        this.gravity = gravity;
+        buildWalls();
+                
+    }
     
     /**
      * initialize the walls of a board. As a default, boards are of size 20L by 20L
      */
-    public Board() {
-        xlength = 20;
-        ylength = 20;
+    private void buildWalls(){
         List<Wall> walls = new ArrayList<Wall>();
         walls.add(new Wall(Boundary.TOP, Visibility.SOLID));
         walls.add(new Wall(Boundary.BOTTOM, Visibility.SOLID));
@@ -50,27 +64,69 @@ public class Board {
         objects.addAll(walls);
     }
     
-    
-    /**
-     * Check the boundary condition of the wall
-     * @return boolean of whether to reflect or pass ball
-     */
-    private boolean checkBoundry(Wall wall) {
-        return (wall.visible.equals(Visibility.INVISIBLE));
+    public void addGizmos(HashMap<String,List<String>> gizmosStr){
+        HashMap<Gadget,List<Gadget>> gizmos = new HashMap<Gadget, List<Gadget>>();
+        Gadget triggerGadget;
+
+        for(String triggerGadgetStr: gizmosStr.keySet()){
+            List<Gadget> curActionGadgets = new ArrayList<Gadget>();
+            if(GadgetExists(triggerGadgetStr)){
+                triggerGadget = nameToGadget(triggerGadgetStr);
+                if(gizmos.containsKey(triggerGadget)) curActionGadgets = gizmos.get(triggerGadget);
+            }else{
+                System.err.println("Board file must be incorrect.  Fire directions matches objects that don't exits in the board.");
+                triggerGadget = null;
+            }
+            
+            for(String actionGadgetStr: gizmosStr.get(triggerGadgetStr)){
+                System.out.println("Action: " + actionGadgetStr);
+                System.out.println("Gadget exists: " + GadgetExists(triggerGadgetStr));
+                if(GadgetExists(actionGadgetStr)){
+                    Gadget actionGadget = nameToGadget(actionGadgetStr);
+                    curActionGadgets.add(actionGadget);
+                }else{
+                    System.err.println("Board file must be incorrect.  Fire directions matches objects that don't exits in the board.");
+                }
+            }
+            gizmos.put(triggerGadget, curActionGadgets);
+        }
+        this.gizmos = gizmos;        
+        setGizmosToGadgets(gizmos);
     }
     
-    public void addGizmos(HashMap<String,List<String>> gizmos){
-        this.gizmos = gizmos;
+    private void setGizmosToGadgets(HashMap<Gadget, List<Gadget>> gizmos) {
+        for (Gadget gadget:objects){
+            if (gizmos.containsKey(gadget)){
+                gadget.setGizmos(gizmos.get(gadget));
+            } else {
+                gadget.setGizmos(new ArrayList<Gadget>());
+            }
+        }   
+    }
+
+    private Gadget nameToGadget(String name){
+        for(Gadget gadget: objects){
+            if(gadget.getName().equals(name)){
+                return gadget;
+            }
+        }
+        System.err.println("Board file must be incorrect.  Fire directions matches objects that don't exits in the board.");
+        return null;
+    }
+    
+    private boolean GadgetExists(String name){
+        for(Gadget gadget: objects){
+            if(gadget.getName().equals(name)){
+                return true;
+            }
+        }
+        return false;
     }
     
     public String name(){
         return name;
     }
-    /**
-     * mutator, remove a given ball from the board
-     */
-    private void removeBall(Ball ball) {}
-    
+
     /**
      * mutator, add a given gadget to board
      */
@@ -286,4 +342,6 @@ public class Board {
             return new Circle(20.0-circle.getCenter().x(),circle.getCenter().y(),circle.getRadius());
         }
     }
+
+
 }

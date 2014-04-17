@@ -20,11 +20,12 @@ public class BoardCreatorListener extends GrammarBaseListener{
    }
    
    public static Board getBoard(){
-       board.addGizmos(createTriggerActions());
        
        for(Gadget gadget: gadgets) board.addGadget(gadget);
        for(Ball ball: balls) board.addBall(ball);
        
+       board.addGizmos(createTriggerActions());
+
        resetBoardObjects();
        return board;
    }
@@ -57,8 +58,7 @@ public class BoardCreatorListener extends GrammarBaseListener{
             String friction2 = ctx.getChild(4).getChild(2).toString();
             board = FileParser.CreateBoard(ObjectName, Double.parseDouble(gravity), Double.parseDouble(friction1), Double.parseDouble(friction2));
         }else{
-            //No friction was given in the file, so friction1 = friction2 = 0.0
-            board = FileParser.CreateBoard(ObjectName, Double.parseDouble(gravity), 0.0, 0.0);
+            board = FileParser.CreateBoard(ObjectName, Double.parseDouble(gravity));
 
         }
     }
@@ -66,7 +66,8 @@ public class BoardCreatorListener extends GrammarBaseListener{
     public void exitObject(GrammarParser.ObjectContext ctx) {
         ArrayList<Double> doubleContent = new ArrayList<Double>();
         String ObjectType = ctx.getChild(0).getChild(0).toString();
-        String ObjectName = ctx.getChild(1).getChild(0).toString();
+        String ObjectName = ctx.getChild(1).getChild(2).toString();
+
         for(int x = 2; x < ctx.getChildCount(); x++){
             int lastIndex = ctx.getChild(x).getChildCount() - 1;
             String content = ctx.getChild(x).getChild(lastIndex).toString();
