@@ -11,21 +11,26 @@ public class BoardCreatorListener extends GrammarBaseListener{
 
    private static Board board;
    
+   private static void resetBoardObjects(){
+       gadgets = new ArrayList<Gadget>();
+       balls = new ArrayList<Ball>();
+   }
+   
    public static Board getBoard(){
        for(Gadget gadget: gadgets) board.addGadget(gadget);
        for(Ball ball: balls) board.addBall(ball);
        
-       System.out.println("There are " + balls.size() + " balls and " + gadgets.size() + " gadgets in this board.");
-       
+//       System.out.println("There are " + balls.size() + " balls and " + gadgets.size() + " gadgets in this board.");
+       resetBoardObjects();
        return board;
    }
     
     public void exitBoard(GrammarParser.BoardContext ctx) {
 //        String ObjectType = ctx.getChild(0).toString();
-        String ObjectName = ctx.getChild(1).getChild(1).toString();
-        String gravity = ctx.getChild(2).getChild(1).toString();
-        String friction1 = ctx.getChild(3).getChild(1).toString();
-        String friction2 = ctx.getChild(4).getChild(1).toString();
+        String ObjectName = ctx.getChild(1).getChild(2).toString();
+        String gravity = ctx.getChild(2).getChild(2).toString();
+        String friction1 = ctx.getChild(3).getChild(2).toString();
+        String friction2 = ctx.getChild(4).getChild(2).toString();
         board = FileParser.CreateBoard(ObjectName, Double.parseDouble(gravity), Double.parseDouble(friction1), Double.parseDouble(friction2));
     }
     
