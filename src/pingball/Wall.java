@@ -3,11 +3,14 @@ package pingball;
 import physics.Geometry;
 import physics.LineSegment;
 import physics.Vect;
+import pingball.BoardsHandler.Connection;
+import pingball.Wall.Visibility;
 
 public class Wall implements Gadget {
 
     Boundary boundary;
     Visibility visible;
+    Connection connection = null;
     
     LineSegment wall;
     int xlength = 20;
@@ -37,46 +40,50 @@ public class Wall implements Gadget {
     public enum Boundary { LEFT,RIGHT,TOP,BOTTOM };
     public enum Visibility { SOLID,INVISIBLE }; 
     
-    @Override
     public String getName() {
         return visible.toString();
     }
 
-    @Override
     public String getType() {
        return "wall";
     }
 
-    @Override
     public double getTimeToCollision(Ball ball) {                                                                                 
         return Geometry.timeUntilWallCollision(wall, ball.getCircle(), ball.getMove());
         
     }
 
-    @Override
     public void action() {
 //        System.err.println("This shouldn't be called.(action for wall)");
     }
 
-    @Override
     public double getCoefficient() {
         return 1.0;
     }
 
-    @Override
     public void reflectBall(Ball ball) {
         Vect newVect = Geometry.reflectWall(wall, ball.getMove());
         ball.setMove(newVect);
     }
 
-    @Override
     public void trigger() {
 //        System.err.println("This shouldn't be called.(trigger for wall)");
     }
 
-    @Override
     public void trigger(Ball ball) {
 //        System.err.println("This shouldn't be called.(trigger ball for wall)");
+    }
+    
+    public void setConnection(Connection connection){
+        this.connection = connection;
+    }
+    
+    public void removeConnetion(){
+        this.connection = null;
+    }
+
+    public void setVisibility(Visibility visibility) {
+        this.visible = visibility;        
     }
 
 }

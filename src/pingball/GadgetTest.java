@@ -2,6 +2,7 @@ package pingball;
 
 import org.junit.Before;
 import org.junit.Test;
+
 /**
  * Testing strategy:
  * 

@@ -74,17 +74,17 @@ public class Absorber implements Gadget {
     }
     
     
-    @Override
+    
     public String getName() {
         return name;
     }
     
-    @Override
+    
     public String getType() {
         return "absorber";
     }
 
-    @Override
+    
     public double getTimeToCollision(Ball ball) {        
         double time = 10000.0;
         for (int j = 0; j < walls.size(); j++) {                                              
@@ -97,7 +97,7 @@ public class Absorber implements Gadget {
         return time;
     }
 
-    @Override
+    
     public void action() {
         Vect zeroVect = new Vect(new Angle(0)).times(0);
 
@@ -113,7 +113,7 @@ public class Absorber implements Gadget {
     }
     
     // not applicable
-    @Override
+    
     public double getCoefficient() {
         return Double.NEGATIVE_INFINITY;
     }
@@ -121,7 +121,7 @@ public class Absorber implements Gadget {
     /**
      * Absorbs the ball. If theres a ball inside it, it calls action() which shoots it out.
      */
-    @Override
+    
     public void reflectBall(Ball ball) {
         // doesn't reflectBall. ball is captured
         if (absorbedBall != null) {            
@@ -136,12 +136,12 @@ public class Absorber implements Gadget {
         
     }
     
-    @Override
+    
     public void trigger(){
         System.err.println("Must pass in a ball to trigger for Absorber");
     }
     
-    @Override
+    
     public void trigger(Ball ball){
         reflectBall(ball);
         for (Gadget gizmo:gizmos){
