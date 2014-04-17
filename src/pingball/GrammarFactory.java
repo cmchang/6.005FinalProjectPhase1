@@ -37,7 +37,7 @@ public class GrammarFactory {
 //        System.err.println(tree.toStringTree(parser));
 
         // debugging option #2: show the tree in a window
-//        ((RuleContext)tree).inspect(parser);
+        ((RuleContext)tree).inspect(parser);
 
         // debugging option #3: walk the tree with a listener
 //        new ParseTreeWalker().walk(new PrintEverythingListener(), tree);
