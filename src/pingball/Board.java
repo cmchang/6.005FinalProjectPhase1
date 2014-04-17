@@ -49,14 +49,6 @@ public class Board {
         objects.addAll(walls);
     }
     
-    /**
-     * Check the boundary condition of the wall
-     * @return boolean of whether to reflect or pass ball
-     */
-    private boolean checkBoundry(Wall wall) {
-        return (wall.visible.equals(Visibility.INVISIBLE));
-    }
-    
     public void addGizmos(HashMap<String,List<String>> gizmos){
         this.gizmos = gizmos;
     }
@@ -64,11 +56,7 @@ public class Board {
     public String name(){
         return name;
     }
-    /**
-     * mutator, remove a given ball from the board
-     */
-    private void removeBall(Ball ball) {}
-    
+
     /**
      * mutator, add a given gadget to board
      */
@@ -285,8 +273,5 @@ public class Board {
         }
     }
 
-    public void addGizmos(HashMap<String, List<String>> createTriggerActions) {
-        // TODO Auto-generated method stub
-        
-    }
+
 }
