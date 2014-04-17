@@ -136,6 +136,30 @@ public class Board {
                 }
             } else if (gadget.getType().equals("absorber")) {
                 //TODO: FINISH ABSORBER
+            } else if (gadget.getType().equals("wall")){
+                String otherBoard;
+                if (((Wall) gadget).visible.equals(Visibility.INVISIBLE)) {
+                    otherBoard = ((Wall) gadget).connection.name;
+                    otherBoard = otherBoard.substring(0, Math.min(20, otherBoard.length()));
+                    
+                    if (((Wall) gadget).boundary.equals(Boundary.BOTTOM)) {
+                        for (int i=1;i<otherBoard.length();i++){
+                            field[i][21] = otherBoard.charAt(i);
+                        }
+                    } else if (((Wall) gadget).boundary.equals(Boundary.TOP)) {
+                        for (int i=1;i<otherBoard.length();i++){
+                            field[i][0] = otherBoard.charAt(i);
+                        }
+                    } else if (((Wall) gadget).boundary.equals(Boundary.LEFT)) {
+                        for (int j=1;j<otherBoard.length();j++){
+                            field[0][j] = otherBoard.charAt(j);
+                        }
+                    } else if (((Wall) gadget).boundary.equals(Boundary.RIGHT)) {
+                        for (int j=1;j<otherBoard.length();j++){
+                            field[21][j] = otherBoard.charAt(j);
+                        }
+                    } 
+                }
             }
         }
         
@@ -191,22 +215,30 @@ public class Board {
         this.balls = balls;
     }
 
-    /** updates the visibilities of the wall given a map of boundaries that correspond with their visibilities*/
-    public void setWallVisibilites(Map<Boundary, Visibility> visibleWalls) {
+    /**
+     * updates the visibilities of the wall given a map 
+     * @param map structure that maps a boundary to its visibility where Boundary and Visibility are both enums
+     */
+    public void setWallVisibilites(Map<Boundary, Visibility> map) {
         for (Gadget gadget: objects){
             if (!gadget.getType().equals("wall")) continue;
-            Wall wall = (Wall) gadget;
-            
-            Visibility visibility = visibleWalls.get(wall.boundary); 
-            gadget = new Wall(wall.boundary,visibility);
-            //objects.remove(gadget);
-            //objects.add(new Wall(wall.boundary, visibility));
+            Wall wall = (Wall) gadget; // for each wall
+                        
+            wall.setVisibility(map.get(wall.boundary));             
         }
         
     }
-
+    /**
+     * Method for passing a ball through an invisible wall. returns a circle that is on the opposite wall.
+     * @param circle representation of the location of the original circle
+     * @param boundary Boundary enum which is either Boundary.TOP,BOTTOM,LEFT,RIGHT
+     * @return new circle on the opposite side of the wall
+     */
     public Circle newBallLocation(Circle circle, Boundary boundary) {
-        // TODO Auto-generated method stub
-        return null;
+        if (boundary.equals(Boundary.BOTTOM) || boundary.equals(Boundary.TOP)){
+            return new Circle(circle.getCenter().x(),20.0-circle.getCenter().y(),circle.getRadius());
+        } else {
+            return new Circle(20.0-circle.getCenter().x(),circle.getCenter().y(),circle.getRadius());
+        }
     }
 }

@@ -78,18 +78,25 @@ class Update implements Runnable {
               Map<Boundary,Visibility> visibleWalls = new HashMap<Boundary,Visibility>();                                          
               for (Gadget gadget: board.objects){
                   if (!gadget.getType().equals("wall")) continue;
-                  Wall wall = (Wall) gadget;
+                  Wall wall = (Wall) gadget; // for each wall....
                   
-                  for (Connection c: connectionsIn.getConnections(board)){
-                      if (wall.boundary.equals(c.boundary)) visibleWalls.put(wall.boundary, Visibility.INVISIBLE);                                               
+                  for (Connection c: connectionsIn.getConnections(board)){ 
+                      if (wall.boundary.equals(c.boundary)) { //the correct connection to the correct wall
+                          visibleWalls.put(wall.boundary, Visibility.INVISIBLE); //if a wall matches a connection boundary, set as invisible
+                          wall.setConnection(c);
+                      }
+                      
                   }
-                  if (!visibleWalls.containsKey(wall.boundary)) visibleWalls.put(wall.boundary, Visibility.SOLID);
+                  if (!visibleWalls.containsKey(wall.boundary)) {
+                      visibleWalls.put(wall.boundary, Visibility.SOLID); // else set it as solid
+                      wall.removeConnetion();
+                  }
               }
               if (!(visibleWalls.size()==4)) System.err.println("Size of visibile walls should be 4.");
               board.setWallVisibilites(visibleWalls);
               
-
-              Gadget closerObj = null;
+              // add in gravity and friction to the boards velocity based on the timestep
+              Gadget closestGadg = null;
               Thread.sleep((long) deltaT); 
               for (int i = 0; i < board.getBalls().size(); i ++) {
                   Vect oldVect = board.getBalls().get(i).getMove();
@@ -105,53 +112,51 @@ class Update implements Runnable {
                   }
                   board.getBalls().get(i).setMove(frictGravVect);
               }
-              //handle incoming balls
+              //add in incoming balls
               for (Ball ball: connectionsIn.receiveBalls(board.name())){
                   board.addBall(ball);
               }
               
-              //update ball collisons
+              //update ball velocities based on collisons with other gadgets, including walls              
               for (Ball ball: board.getBalls()) {
                   double time = 10000.0;                  
                   for (Gadget gadget: board.objects){ //includes walls,absorbers,bumpers,flipper
                       double timeLine = gadget.getTimeToCollision(ball);
-                      if (timeLine < time) {
+                      if (timeLine < time) { // find the gadget that has the smallest collision time
                           time = timeLine;
-                          closerObj = gadget;                          
+                          closestGadg = gadget;                          
                       }
-                  }
-                  
-                  if (time<minTime) {
-                      if (closerObj.getType().equals("absorber")){
-                          closerObj.trigger(ball); //trigger method should be generated right here...
+                  }                  
+                  if (time<minTime) { // if the time is small enough to be considered a collision
+                      if (closestGadg.getType().equals("absorber")){ // if its an absorber, don't reflect ball
+                          closestGadg.trigger(ball); 
                       
-                      } else if (closerObj.getType().equals("wall")){
-                          Wall closeWall = (Wall) closerObj;
-                          if (closeWall.visible.equals(Visibility.SOLID)) closerObj.reflectBall(ball);
+                      } else if (closestGadg.getType().equals("wall")){ // if its a wall, we need to check if its solid/invisible
+                          Wall closeWall = (Wall) closestGadg;
+                          if (closeWall.visible.equals(Visibility.SOLID)) closestGadg.reflectBall(ball);
                           if (closeWall.visible.equals(Visibility.INVISIBLE)){ //send the ball to the other board                              
                               board.getBalls().remove(ball);                              
-                              //TODO fix ball location
                               for (Connection c : connectionsIn.getConnections(board)){
-                                  if (c.boundary.equals(closeWall.boundary)){  //this connection has the name of the board thats connected to it                                                                      
-                                      Circle newCircle = board.newBallLocation(ball.getCircle(),closeWall.boundary);                                      
+                                  if (c.boundary.equals(closeWall.boundary)){  //then c contains the name of the board thats connected to it                                                                      
+                                      Circle newCircle = board.newBallLocation(ball.getCircle(),closeWall.boundary);  //put ball on other side of board                              
                                       Ball newBall = new Ball(newCircle, ball.getMove());
-                                      connectionsIn.sendBall(c, newBall);                                      
+                                      connectionsIn.sendBall(c, newBall);      //send ball to other board through BoardsHandler                           
                                   }                                      
                               }                              
-                          }
-                      
-                      } else {
-                          closerObj.reflectBall(ball);
-                          closerObj.trigger();
+                          }                      
+                      } else { // its a bumper or flipper
+                          closestGadg.reflectBall(ball);
+                          closestGadg.trigger();
                       }
                   }
               }
               
+              //move the ball forward based on the timestep
               for (int i = 0; i < board.getBalls().size(); i ++) {                 
                   board.getBalls().get(i).move(deltaT);
               }
   
-              //move the flippers
+              //move the flippers based on the timestep
               for (Gadget flipper:board.objects){
                   if (flipper.getType().equals("flipper")){
                       ((Flipper) flipper).move(deltaT);

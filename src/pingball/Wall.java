@@ -3,11 +3,14 @@ package pingball;
 import physics.Geometry;
 import physics.LineSegment;
 import physics.Vect;
+import pingball.BoardsHandler.Connection;
+import pingball.Wall.Visibility;
 
 public class Wall implements Gadget {
 
     Boundary boundary;
     Visibility visible;
+    Connection connection = null;
     
     LineSegment wall;
     int xlength = 20;
@@ -69,6 +72,18 @@ public class Wall implements Gadget {
 
     public void trigger(Ball ball) {
 //        System.err.println("This shouldn't be called.(trigger ball for wall)");
+    }
+    
+    public void setConnection(Connection connection){
+        this.connection = connection;
+    }
+    
+    public void removeConnetion(){
+        this.connection = null;
+    }
+
+    public void setVisibility(Visibility visibility) {
+        this.visible = visibility;        
     }
 
 }

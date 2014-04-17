@@ -54,8 +54,7 @@ public class Client implements Runnable{
     
     /**
      * Function that runs a specific client
-     */
-   
+     */   
     public void run() {
         // handle the client
         try {
