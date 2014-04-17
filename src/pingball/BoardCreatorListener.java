@@ -20,7 +20,7 @@ public class BoardCreatorListener extends GrammarBaseListener{
    }
    
    public static Board getBoard(){
-       //board.addGizmos(createTriggerActions());
+       board.addGizmos(createTriggerActions());
        
        for(Gadget gadget: gadgets) board.addGadget(gadget);
        for(Ball ball: balls) board.addBall(ball);
@@ -29,7 +29,7 @@ public class BoardCreatorListener extends GrammarBaseListener{
        return board;
    }
     
-   private HashMap<String, List<String>> createTriggerActions(){
+   private static HashMap<String, List<String>> createTriggerActions(){
        HashMap<String, List<String>> gizmos = new HashMap<String, List<String>>();
        for(int x = 0; x < fireCmds.size(); x ++){
            String trigger = fireCmds.get(x).get(0);
