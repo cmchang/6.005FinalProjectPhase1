@@ -29,6 +29,7 @@ public class Board {
     private final int ylength;
     
     List<Gadget> objects = new ArrayList<Gadget>();
+    private HashMap<String,List<String>> gizmos;
     
     final double friction1 = 0.025; // will need some init methods to set up constants based on board parsing. or make not final
     final double friction2 = 0.025;
@@ -54,6 +55,10 @@ public class Board {
      */
     private boolean checkBoundry(Wall wall) {
         return (wall.visible.equals(Visibility.INVISIBLE));
+    }
+    
+    public void addGizmos(HashMap<String,List<String>> gizmos){
+        this.gizmos = gizmos;
     }
     
     public String name(){
