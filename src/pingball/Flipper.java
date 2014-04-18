@@ -132,22 +132,22 @@ public class Flipper implements Gadget {
             if (side.equals(Side.LEFT) && state < 45){ // in the 0 degrees position
                 finalWall = Geometry.rotateAround(wall, new Vect(x,y).rotateBy(new Angle((orientation)/180.0*Math.PI))
                         , new Angle(90.0 /180.0*Math.PI));
-                angularVelocity = 1080;            
+                angularVelocity = 1080.0/360.0*Math.PI;            
             
             } else if (side.equals(Side.LEFT) && state > 45){ // in the 90 degrees position
                 finalWall = Geometry.rotateAround(wall, new Vect(x,y).rotateBy(new Angle((orientation)/180.0*Math.PI))
                         , new Angle(-90.0 /180.0*Math.PI));
-                angularVelocity = -1080;            
+                angularVelocity = 1080.0/360.0*Math.PI;
             
             } else if (side.equals(Side.RIGHT) && state > -45){ // in the 0 degrees position
                 finalWall = Geometry.rotateAround(wall, new Vect(x+2,y).rotateBy(new Angle((orientation)/180.0*Math.PI))
                         , new Angle(-90.0 /180.0*Math.PI));
-                angularVelocity = -1080;
+                angularVelocity = 1080.0/360.0*Math.PI;
                 
             } else if (side.equals(Side.RIGHT) && state < -45){ // in the -90 degrees position
                 finalWall = Geometry.rotateAround(wall, new Vect(x+2,y).rotateBy(new Angle((orientation)/180.0*Math.PI))
                         , new Angle(90.0 /180.0*Math.PI));
-                angularVelocity = 1080;
+                angularVelocity = 1080.0/360.0*Math.PI;
                 
             }
         }
@@ -165,10 +165,12 @@ public class Flipper implements Gadget {
         if (side.equals(Side.LEFT)){
             Vect newVect = Geometry.reflectRotatingWall(wall, new Vect(x,y).rotateBy(new Angle((orientation)/180.0*Math.PI)), 
                     angularVelocity, ball.getCircle(), ball.getMove(), getCoefficient());
+            System.out.println("new vect: "+newVect);
             ball.setMove(newVect);
         } else if (side.equals(Side.RIGHT)){
             Vect newVect = Geometry.reflectRotatingWall(wall, new Vect(x+2,y).rotateBy(new Angle((orientation)/180.0*Math.PI)), 
                     angularVelocity, ball.getCircle(), ball.getMove(), getCoefficient());
+            System.out.println("new vect: "+newVect);
             ball.setMove(newVect);
         }                    
     }

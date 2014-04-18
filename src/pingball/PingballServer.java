@@ -56,9 +56,13 @@ public class PingballServer {
             BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
             //PrintWriter out = new PrintWriter(socket.getOutputStream(), true);
             
-            String boardFromSocket = in.readLine();
+            String boardFromSocket="";
+            while(in.ready()){//TODO need to convert the input stream to a readable string
+                boardFromSocket = boardFromSocket.concat(in.readLine());
+            }
             Board newBoard = GrammarFactory.parse(boardFromSocket);
-            
+            System.out.println(boardFromSocket);
+            System.out.println(newBoard.toString());
             Client client = new Client(socket, lock, boardHandler);
             client.setBoard(newBoard);
             Thread thread = new Thread(client);           

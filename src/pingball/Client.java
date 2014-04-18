@@ -84,8 +84,7 @@ public class Client implements Runnable{
      * @throws IOException if connection has an error or terminates unexpectedly
      */
     private void handleConnection(Socket socket) throws IOException { 
-        //TODO test socket.isConnected();
-        if (!socket.isConnected()) {
+        if (!socket.isConnected()) { // won't be connected if its a single player
             Runnable r = new Update(board, new BufferedReader(new StringReader("")), lock, connections);
             new Thread(r).start();
             board.animate(20);
@@ -147,11 +146,12 @@ public class Client implements Runnable{
 
     private static void runPingballClient(String hostname, int port, File file, String fileName) throws Exception{
         //System.out.println(myBoard.toString());
-        if (hostname != null) {
+        if (hostname != "") {
             //join the server
             Socket socket = new Socket(hostname,port);            
             //BufferedReader in1 = new BufferedReader(new InputStreamReader(socket1.getInputStream()));
             PrintWriter out = new PrintWriter(socket.getOutputStream(), true);
+           // System.out.println(GrammarFactory.FileToString(file));
             out.println(GrammarFactory.FileToString(file));
             
         } else {

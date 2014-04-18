@@ -187,6 +187,12 @@ public class Board {
             }
         }
         for (Ball b: balls) {
+            if (b.getX() > 20 || b.getY() > 20){
+
+                System.out.println(b.getCircle());
+                System.out.println(b.getMove());
+
+            }
             field[b.getX() + 1][b.getY() + 1] = '*';
         }
         
@@ -321,10 +327,10 @@ public class Board {
                 long startTime = System.currentTimeMillis();
                 //out.println(this.toString());
                 //out.flush();
-                System.out.println(this.toString());
+               // System.out.println(this.toString());
                 long endTime = System.currentTimeMillis();
                 long duration = endTime - startTime;
-                Thread.sleep(1000/framerate - duration);
+                Thread.sleep(Math.abs(1000/framerate - duration));
             }
         } catch (InterruptedException e) {
             e.printStackTrace();
