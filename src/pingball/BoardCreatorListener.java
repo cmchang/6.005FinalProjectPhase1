@@ -45,6 +45,7 @@ public class BoardCreatorListener extends GrammarBaseListener{
    private static void resetBoardObjects(){
        gadgets = new ArrayList<Gadget>();
        balls = new ArrayList<Ball>();
+       fireCmds = new ArrayList<ArrayList<String>>();
    }
 
    /**

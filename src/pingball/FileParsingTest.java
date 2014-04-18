@@ -68,30 +68,32 @@ public class FileParsingTest {
     @Test
     public void testIncorrectBoard_A5(){
         try{
-            GrammarFactory.parse(new File("src/pingball/Boards/boardC.txt"));
+            GrammarFactory.parse(new File("src/pingball/Boards/BoardC.txt"));
         }catch(Exception e){
             System.err.println("Previous err message was expected for this test!");
-            assertEquals("mismatched input 'squareBumper' expecting 'y'", e.getMessage());
+            String expectedErrMsg = "mismatched input 'squareBumper' expecting 'y'";
+            assertEquals(expectedErrMsg, e.getMessage());
         }
-        assert(false);
     }
     
     //Tests A6
     @Test
     public void testOverlappingObjects_A6(){
+        //TODO: fix board - throw a message when objects overlap
         try{
-            GrammarFactory.parse(new File("src/pingball/Boards/boardC.txt"));
+            GrammarFactory.parse(new File("src/pingball/Boards/boardD.txt"));
         }catch(Exception e){
             System.err.println("Previous err message was expected for this test!");
-            assertEquals("mismatched input 'squareBumper' expecting 'y'", e.getMessage());
+            String expectedErrMsg = "";
+            assertEquals(expectedErrMsg, e.getMessage());
         }
-        assert(false);
+        assertTrue(false); //just temporary so we remember to fix the board
     }
     
   //Tests B3, B4
     @Test
     public void testEmptyBoardNoObjects_B3_B4(){
-        Board myBoard = GrammarFactory.parse(new File("src/pingball/Boards/boardB.txt"));
+        Board myBoard = GrammarFactory.parse(new File("src/pingball/Boards/BoardB.txt"));
         String ExpectedAnswer = "......................\n"
                 + ".                    .\n"
                 + ". #                  .\n"
