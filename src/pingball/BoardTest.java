@@ -5,6 +5,10 @@ import static org.junit.Assert.*;
 import org.junit.Before;
 import org.junit.Test;
 
+import physics.Angle;
+import physics.Circle;
+import physics.Vect;
+
 public class BoardTest {
     
     private Board fullBoard, gravBoard;
@@ -25,6 +29,18 @@ public class BoardTest {
         assertEquals(gravBoard.friction2, 0.025, 0.001);
         assertEquals(fullBoard.gravity, 5.0, 0.001);
         assertEquals(gravBoard.gravity, 10.0, 0.001);
+    }
+    
+    @Test 
+    public void testBalls() {
+        Angle start = new Angle(2.0);
+        Circle cir1 = new Circle(5.0, 3.0, .01);
+        Vect v1 = new Vect(start, 10.0);
+        Ball testBall = new Ball(cir1, v1);
+        assertEquals(fullBoard.getBalls().size(), 0);
+        fullBoard.addBall(testBall);
+        assertEquals(fullBoard.getBalls().size(), 1);
+        assertEquals(fullBoard.getBalls().get(0), testBall);
     }
 
 }
