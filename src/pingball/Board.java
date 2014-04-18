@@ -289,13 +289,15 @@ public class Board {
             } else if (gadget.getType().equals("wall")){
                 String otherBoard;
                 if (((Wall) gadget).visible.equals(Visibility.INVISIBLE)) {
+                    
                     otherBoard = ((Wall) gadget).connection.name;
                     otherBoard = otherBoard.substring(0, Math.min(20, otherBoard.length()));
                     
                     if (((Wall) gadget).boundary.equals(Boundary.BOTTOM)) {
                         for (int i=1;i<otherBoard.length();i++){
-                            field[i][21] = otherBoard.charAt(i);
+                            field[i][21] = otherBoard.charAt(i);                            
                         }
+
                     } else if (((Wall) gadget).boundary.equals(Boundary.TOP)) {
                         for (int i=1;i<otherBoard.length();i++){
                             field[i][0] = otherBoard.charAt(i);
@@ -303,6 +305,7 @@ public class Board {
                     } else if (((Wall) gadget).boundary.equals(Boundary.LEFT)) {
                         for (int j=1;j<otherBoard.length();j++){
                             field[0][j] = otherBoard.charAt(j);
+                            //System.out.println(otherBoard.charAt(j)); 
                         }
                     } else if (((Wall) gadget).boundary.equals(Boundary.RIGHT)) {
                         for (int j=1;j<otherBoard.length();j++){
