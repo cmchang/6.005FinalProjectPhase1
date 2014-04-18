@@ -175,10 +175,13 @@ public class Board {
                 int ymin = ((Absorber) gadget).getY();
                 int width = ((Absorber) gadget).getWidth();
                 int height = ((Absorber) gadget).getHeight();
-                for (int i=0; i < height; i++) {
-                    for (int j=0; j < width; j++) {
-                        field[xmin + j + 1][ymin + i] = '=';
-                    }
+//                for (int i=0; i < height; i++) {
+//                field[xmin+1][ymin+1] = '=';
+//                field[xmin + width][ymin+1] = '=';
+//            }
+                for (int j=0; j < width; j++) {
+                    field[xmin + j + 1][ymin] = '=';
+                    field[xmin + j + 1][ymin + height + 1] = '=';
                 }
             } else if (gadget.getType().equals("wall")){
                 String otherBoard;
