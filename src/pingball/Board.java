@@ -200,7 +200,7 @@ public class Board {
             int xcoord;
             int ycoord;
             if (gadget.getType().equals("flipper")){
-                List<LineSegment> flipWalls = ((Flipper) gadget).getPosition();
+//                List<LineSegment> flipWalls = ((Flipper) gadget).getPosition();
                 int orient = ((Flipper) gadget).getOrientation();
                 Side side = ((Flipper) gadget).getSide();
                 xcoord = ((Flipper) gadget).getX();
@@ -233,6 +233,7 @@ public class Board {
                 }
             } else if (gadget.getType().equals("bumper")) {
                 if (((Bumper) gadget).getShape().equals(Shape.SQUARE)) {
+                    @SuppressWarnings("unchecked")
                     List<LineSegment> squareWalls = (List<LineSegment>) ((Bumper) gadget).getPosition();
                     xcoord = (int) squareWalls.get(0).p1().x();
                     ycoord = (int) squareWalls.get(0).p1().y();
@@ -243,6 +244,7 @@ public class Board {
                     ycoord = (int) circ.getCenter().y();
                     field[xcoord+1][ycoord] = '0';
                 } else if (((Bumper) gadget).getShape().equals(Shape.TRIANGLE)) {
+                    @SuppressWarnings("unchecked")
                     List<LineSegment> triWalls = (List<LineSegment>) ((Bumper) gadget).getPosition();
                     int orient = ((Bumper) gadget).getOrientation();
                     switch (orient) {

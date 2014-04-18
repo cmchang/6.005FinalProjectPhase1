@@ -158,7 +158,7 @@ public class Client implements Runnable{
             while(true){
                 String receiveReadyString = in.readLine().replaceAll("&", "\n");
                 System.out.println(receiveReadyString);
-            }   
+            }
             
         } else {
             // single-play
