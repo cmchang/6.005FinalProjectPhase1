@@ -138,7 +138,7 @@ public class Bumper implements Gadget {
     public void reflectBall(Ball ball) {
         if (circle == null){
             if (wallReflecting == null) System.err.println("error in getting the wall thats reflecting");
-            Vect newVect = Geometry.reflectWall(wallReflecting, ball.getMove(), getCoefficient());
+            Vect newVect = Geometry.reflectWall(wallReflecting, ball.getMove(), getCoefficient());            
             ball.setMove(newVect);
         } else {
             Vect newVect = Geometry.reflectCircle(circle.getCenter(), ball.getCircle().getCenter(), ball.getMove(), getCoefficient());
@@ -154,10 +154,6 @@ public class Bumper implements Gadget {
         }  
     }
 
-    
-    public void trigger(Ball ball) {    
-        System.err.println("Bumper doesn't need a ball passed in for the trigger. This method shouldnt be called");
-    }
 
     /** 
      * Returns the means for the location of  the bumper

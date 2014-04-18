@@ -30,7 +30,7 @@ public class BoardCreatorListener extends GrammarBaseListener{
        
        for(Gadget gadget: gadgets) board.addGadget(gadget);
        for(Ball ball: balls) board.addBall(ball);
-       
+
        board.addGizmos(createTriggerActions());
 
        resetBoardObjects();

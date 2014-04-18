@@ -44,8 +44,8 @@ public class Ball {
     }
 
     public void move(double minTime) {
-        double x = circle.getCenter().x() + minTime * move.dot(move.X_HAT) * move.length() * .001;
-        double y = circle.getCenter().y() + minTime * move.dot(move.Y_HAT) * move.length() * .001;
+        double x = circle.getCenter().x() + minTime * move.dot(Vect.X_HAT) * move.length() * .001;
+        double y = circle.getCenter().y() + minTime * move.dot(Vect.Y_HAT) * move.length() * .001;
         this.setCircle(new Circle(x, y, .01));
     }
 

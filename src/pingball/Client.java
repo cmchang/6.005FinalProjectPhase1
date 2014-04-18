@@ -54,6 +54,7 @@ public class Client implements Runnable{
         this.socket = socket;
         this.lock = lock;
         this.connections = connectionsIn;
+        
     }
     
     /**
@@ -84,20 +85,19 @@ public class Client implements Runnable{
      * @throws IOException if connection has an error or terminates unexpectedly
      */
     private void handleConnection(Socket socket) throws IOException { 
-        //TODO test socket.isConnected();
-        if (!socket.isConnected()) {
+        if (!socket.isConnected()) { // won't be connected if its a single player
             Runnable r = new Update(board, new BufferedReader(new StringReader("")), lock, connections);
-            new Thread(r).start();
-            board.animate(20);
+            new Thread(r).start();            
+            board.animate(new PrintWriter(System.out,true),20);
         } else {
             BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-            /*PrintWriter out = new PrintWriter(socket.getOutputStream(), true);*/
+            PrintWriter out = new PrintWriter(socket.getOutputStream(), true);
             try {
                 Runnable r = new Update(board, in, lock, connections);
                 new Thread(r).start();
-                board.animate(/*out, */20);        
+                board.animate(out, 20);        
             } finally {
-                /*out.close();*/
+                out.close();
                 in.close();
             }
         }
@@ -146,13 +146,19 @@ public class Client implements Runnable{
     }
 
     private static void runPingballClient(String hostname, int port, File file, String fileName) throws Exception{
-        //System.out.println(myBoard.toString());
-        if (hostname != null) {
+        if (hostname != "") {
             //join the server
-            Socket socket = new Socket(hostname,port);            
-            //BufferedReader in1 = new BufferedReader(new InputStreamReader(socket1.getInputStream()));
+            Socket socket = new Socket(hostname,port); // create a socket that sends the board and receives the server's finished processing
+                                                       // of the updated current board.
+            BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
             PrintWriter out = new PrintWriter(socket.getOutputStream(), true);
-            out.println(GrammarFactory.FileToString(file));
+            
+            String sendReadyString = GrammarFactory.FileToString(file).replaceAll("\n", "&");
+            out.println(sendReadyString);
+            while(true){
+                String receiveReadyString = in.readLine().replaceAll("&", "\n");
+                System.out.println(receiveReadyString);
+            }
             
         } else {
             // single-play

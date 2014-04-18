@@ -53,16 +53,14 @@ public class PingballServer {
         // block until a client connects. when a client connects, run it in a new thread
         while (true){
             Socket socket = serverSocket.accept();
-            BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-            //PrintWriter out = new PrintWriter(socket.getOutputStream(), true);
-            
-            String boardFromSocket = in.readLine();
+            BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));            
+            String boardFromSocket="";
+            boardFromSocket=in.readLine().replaceAll("&", "\n");
             Board newBoard = GrammarFactory.parse(boardFromSocket);
             
             Client client = new Client(socket, lock, boardHandler);
             client.setBoard(newBoard);
-            Thread thread = new Thread(client);           
-            // handle the client    
+            Thread thread = new Thread(client);            
             thread.start();
         }        
     }

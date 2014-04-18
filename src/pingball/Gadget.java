@@ -62,11 +62,6 @@ public interface Gadget {
     
     public void trigger();
     
-    /**
-     * Trigger this gadget. Called when a ball collides with this gadget.
-     * @param ball ball that collides with the gadget
-     */
-    public void trigger(Ball ball);
 
     public void setGizmos(List<Gadget> list);
     

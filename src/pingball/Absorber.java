@@ -23,7 +23,7 @@ public class Absorber implements Gadget {
     private final int width;
     private final int height;
     
-    private Ball absorbedBall = null;
+    List<Ball> absorbedBalls = new ArrayList<Ball>(); // this should be a list of balls
     List<LineSegment> walls = new ArrayList<LineSegment>();
     
     /**list of objects that react when this is triggered */
@@ -70,18 +70,15 @@ public class Absorber implements Gadget {
     }
 
     public void action() {
-        if (absorbedBall != null){            
-            if (absorbedBall.getMove().length()<.0001){ //we have a non-moving ball inside
-                absorbedBall.setMove(new Vect(Angle.DEG_90,50.0)); // start the ejection process
-            } else {
-                //absorber has a moving ball inside it -> no action                             
-            }        
-        } else {
-            //absorber is not holding a ball   -> no action       
+        if (ballIsInside()){
+            //System.out.println(absorbedBall.getMove());
+            absorbedBalls.get(0).setMove(new Vect(Angle.DEG_90,50.0)); // start the ejection process
+//            absorbedBalls.get(0).isTrapped = false;
+//            absorbedBalls.remove(0);
         }
     }
     
-    // not applicable
+    // not used
     public double getCoefficient() {
         return Double.NEGATIVE_INFINITY;
     }
@@ -90,25 +87,22 @@ public class Absorber implements Gadget {
      * Absorbs the ball. If theres a ball inside it, it calls action() which shoots it out.
      */
     public void reflectBall(Ball ball) {
-        // doesn't reflectBall. ball is captured
-        if (absorbedBall != null) {            
-            if (!ballIsInside()) absorbedBall = null; //check if ball is inside the absorber (could've already been moving)     
-            action(); 
-            return;
-        }
-        absorbedBall = ball;
-        ball.setMove(new Vect(Angle.DEG_270,0.0));
-        ball.setCircle(new Circle( (double)(x+width)-.25/2.0,(double)(y+height)-.25/2.0, 0.25));
+        // doesn't reflectBall. ball is captured. only shoots a ball out if is a self trigger
+        storeBall(ball);
     }
     
-    
+    /**
+     * Absorbs the ball. If theres a ball inside it, it calls action() which shoots it out.
+     */
+    private void storeBall(Ball ball) {
+        ball.isTrapped = true;
+        ball.setMove(new Vect(Angle.DEG_270,0.0));        
+        ball.setCircle(new Circle( (double)(x+width)-.25/2.0,(double)(y+height)-.25/2.0, ball.getCircle().getRadius()));
+        absorbedBalls.add(ball);
+        
+    }
+
     public void trigger(){
-        System.err.println("Must pass in a ball to trigger for Absorber");
-    }
-    
-    
-    public void trigger(Ball ball){
-        reflectBall(ball);
         for (Gadget gizmo:gizmos){
             gizmo.action();
         }
@@ -120,11 +114,16 @@ public class Absorber implements Gadget {
      * @return
      */
     private boolean ballIsInside(){
-        if (absorbedBall == null) return false;
-        double xLoc = absorbedBall.getCircle().getCenter().x();
-        double yLoc = absorbedBall.getCircle().getCenter().y();
-        
-        return x<=xLoc && xLoc<=x+width && y<=yLoc && yLoc<=y+height;                        
+        for (Ball ball:absorbedBalls){
+            double xLoc = ball.getCircle().getCenter().x();
+            double yLoc = ball.getCircle().getCenter().y();
+            boolean inside = x<=xLoc && xLoc<=x+width && y<=yLoc && yLoc<=y+height;
+            if (!inside) {
+                ball.isTrapped = false;
+                absorbedBalls.remove(ball);
+            }
+        }
+        return absorbedBalls.size()>0;                        
         
     }
     

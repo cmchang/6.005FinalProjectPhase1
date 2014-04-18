@@ -30,7 +30,7 @@ public class Board {
 
     
     List<Gadget> objects = new ArrayList<Gadget>();
-    private HashMap<Gadget,List<Gadget>> gizmos;
+    //private HashMap<Gadget,List<Gadget>> gizmos;
     
     double friction1 = 0.025; // will need some init methods to set up constants based on board parsing. or make not final
     double friction2 = 0.025;
@@ -105,7 +105,7 @@ public class Board {
             }
             gizmos.put(triggerGadget, curActionGadgets);
         }
-        this.gizmos = gizmos;        
+        //this.gizmos = gizmos;        
         setGizmosToGadgets(gizmos);
     }
     
@@ -187,6 +187,12 @@ public class Board {
             }
         }
         for (Ball b: balls) {
+            if (b.getX() > 20 || b.getY() > 20){
+
+                System.out.println(b.getCircle());
+                System.out.println(b.getMove());
+
+            }
             field[b.getX() + 1][b.getY() + 1] = '*';
         }
         
@@ -194,7 +200,7 @@ public class Board {
             int xcoord;
             int ycoord;
             if (gadget.getType().equals("flipper")){
-                List<LineSegment> flipWalls = ((Flipper) gadget).getPosition();
+//                List<LineSegment> flipWalls = ((Flipper) gadget).getPosition();
                 int orient = ((Flipper) gadget).getOrientation();
                 Side side = ((Flipper) gadget).getSide();
                 xcoord = ((Flipper) gadget).getX();
@@ -227,6 +233,7 @@ public class Board {
                 }
             } else if (gadget.getType().equals("bumper")) {
                 if (((Bumper) gadget).getShape().equals(Shape.SQUARE)) {
+                    @SuppressWarnings("unchecked")
                     List<LineSegment> squareWalls = (List<LineSegment>) ((Bumper) gadget).getPosition();
                     xcoord = (int) squareWalls.get(0).p1().x();
                     ycoord = (int) squareWalls.get(0).p1().y();
@@ -237,6 +244,7 @@ public class Board {
                     ycoord = (int) circ.getCenter().y();
                     field[xcoord+1][ycoord] = '0';
                 } else if (((Bumper) gadget).getShape().equals(Shape.TRIANGLE)) {
+                    @SuppressWarnings("unchecked")
                     List<LineSegment> triWalls = (List<LineSegment>) ((Bumper) gadget).getPosition();
                     int orient = ((Bumper) gadget).getOrientation();
                     switch (orient) {
@@ -270,10 +278,13 @@ public class Board {
                 int ymin = ((Absorber) gadget).getY();
                 int width = ((Absorber) gadget).getWidth();
                 int height = ((Absorber) gadget).getHeight();
-                for (int i=0; i < height; i++) {
-                    for (int j=0; j < width; j++) {
-                        field[xmin + j + 1][ymin + i] = '=';
-                    }
+//                for (int i=0; i < height; i++) {
+//                field[xmin+1][ymin+1] = '=';
+//                field[xmin + width][ymin+1] = '=';
+//            }
+                for (int j=0; j < width; j++) {
+                    field[xmin + j + 1][ymin] = '=';
+                    field[xmin + j + 1][ymin + height + 1] = '=';
                 }
             } else if (gadget.getType().equals("wall")){
                 String otherBoard;
@@ -314,17 +325,18 @@ public class Board {
     /**
      * observer, animate the board (ie print out repeatly
      * at specified framerate
+     * @param out 
      */
-    public void animate(/*PrintWriter out,*/ int framerate) {
+    public void animate(PrintWriter out,  int framerate) {
         try {
             while (true) {
                 long startTime = System.currentTimeMillis();
-                //out.println(this.toString());
-                //out.flush();
-                System.out.println(this.toString());
+                out.println(this.toString().replaceAll("/n", "&"));
+                out.flush();
+
                 long endTime = System.currentTimeMillis();
                 long duration = endTime - startTime;
-                Thread.sleep(1000/framerate - duration);
+                Thread.sleep(Math.abs(1000/framerate - duration));
             }
         } catch (InterruptedException e) {
             e.printStackTrace();
