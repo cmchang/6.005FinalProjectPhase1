@@ -1,24 +1,11 @@
 package pingball;
 
-import java.io.File;
-import java.util.ArrayList;
-import java.util.List;
-
 import physics.Circle;
 import physics.Vect;
 import pingball.Bumper.Shape;
 import pingball.Flipper.Side;
 
 public class FileParser {
-    // Reads in a given file, creates corresponding board
-    
-    /**
-     * The constructor method, given a file
-     * @param file
-     */
-    public FileParser(File file){
-        
-    }
     
     /**
      * This method creates a new Board object, after calling helper methods to parse the file
@@ -35,20 +22,13 @@ public class FileParser {
     }
     
     /**
-     * This method does the string manipulation to breakdown the text file
-     */
-    private void parseTextFile(){
-        
-    }
-    
-    /**
      * This method creates a new Ball object given a line of text that supplies the information
      * for the Ball (String:name, int:x, int:y, double:xVelocity, double:yVelocity)
      * @param text from File
      * @return new Ball object
      */
     public static Ball createBall(String name, double xLoc, double yLoc, double xVel, double yVel){
-        double r = .5;
+        double r = .25;
         Circle circleIn = new Circle(xLoc, yLoc,r);
         Vect vectIn = new Vect(xVel,yVel);
         return new Ball(circleIn, vectIn);
@@ -80,15 +60,10 @@ public class FileParser {
      */
     public static Flipper createFlipper(Side side, String name, int xLoc, int yLoc, int orientation){
 //        Side side = Side.LEFT;
-        int state = 0;
-        
-        List<Gadget> connectedGadgets = new ArrayList<Gadget>();
-        if (connectedGadgets.size()>0) {
-            return new Flipper(name, xLoc, yLoc, orientation, side, state, connectedGadgets);
-        } else {
-            return new Flipper(name, xLoc, yLoc, orientation, side, state);
-        }
+        int state = 0;        
+        return new Flipper(name, xLoc, yLoc, orientation, side, state);
     }
+   
     
     /**
      * This method creates a new Absorber object given a line of text that supplies the information

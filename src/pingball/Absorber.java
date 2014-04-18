@@ -23,7 +23,8 @@ public class Absorber implements Gadget {
     private final int width;
     private final int height;
     
-    private Ball absorbedBall = null;
+    private boolean hasBall = false;
+    Ball absorbedBall;
     List<LineSegment> walls = new ArrayList<LineSegment>();
     
     /**list of objects that react when this is triggered */
@@ -48,42 +49,15 @@ public class Absorber implements Gadget {
         walls.add(new LineSegment(x,y, x,y+height)); // wall 3 - left
         walls.add(new LineSegment(x+width,y, x+width,y+height)); //wall 4 - right
         
-    }
-    
-    /**
-     * width and height must be positive integers <= 20
-     * @param name
-     * @param x
-     * @param y
-     * @param width
-     * @param height
-     * @param gizmos other Gadgets whos actions are connected to this gadget's trigger
-     */
-    public Absorber(String name, int x, int y, int width, int height, List<Gadget> gizmos) {
-        this.name = name;
-        this.x = x;
-        this.y = y;
-        this.width = width;
-        this.height = height;
-        walls.add(new LineSegment(x, x+width, y, y)); // wall 1 - top
-        walls.add(new LineSegment(x, x+width, y+height, y+height)); //wall 2 - bottom
-        walls.add(new LineSegment(x, x, y, y+height)); // wall 3 - left
-        walls.add(new LineSegment(x+width, x+width, y, y+height)); //wall 4 - right
-        this.gizmos = gizmos;
-        
-    }
-    
-    
+    }    
     
     public String getName() {
         return name;
     }
     
-    
     public String getType() {
         return "absorber";
     }
-
     
     public double getTimeToCollision(Ball ball) {        
         double time = Double.POSITIVE_INFINITY;
@@ -92,18 +66,17 @@ public class Absorber implements Gadget {
             if (timeLine < time) {
                 time = timeLine;
             }
-        }
-        if (time == 10000.0) System.err.println("error in getting time for ball to hit absorber");
+        }        
         return time;
     }
 
-    
     public void action() {
-        Vect zeroVect = new Vect(new Angle(0)).times(0);
-
-        if (absorbedBall != null){            
-            if (absorbedBall.getMove().equals(zeroVect)){ //we have a non-moving ball inside
-                absorbedBall.setMove(new Vect(new Angle(Math.PI/2.0)).times(50)); // start the ejection process
+        //System.out.println("hi");
+        if (hasBall){
+            //System.out.println(absorbedBall.getMove());
+            if (absorbedBall.getCircle().equals(new Circle( (double)(x+width)-.25/2.0,(double)(y+height)-.25/2.0, .25))){ //we have a non-moving ball inside                
+                absorbedBall.setMove(new Vect(Angle.DEG_90,50.0)); // start the ejection process
+                absorbedBall.isTrapped = false;
             } else {
                 //absorber has a moving ball inside it -> no action                             
             }        
@@ -113,7 +86,6 @@ public class Absorber implements Gadget {
     }
     
     // not applicable
-    
     public double getCoefficient() {
         return Double.NEGATIVE_INFINITY;
     }
@@ -121,19 +93,23 @@ public class Absorber implements Gadget {
     /**
      * Absorbs the ball. If theres a ball inside it, it calls action() which shoots it out.
      */
-    
     public void reflectBall(Ball ball) {
         // doesn't reflectBall. ball is captured
-        if (absorbedBall != null) {            
-            if (!ballIsInside()) absorbedBall = null; //check if ball is inside the absorber (could've already been moving)
-            action(); 
-            return;
+        if (hasBall) {            
+            //TODO reflect the ball that just came in
+            
+            if (!ballIsInside()) {
+                hasBall = false;; //check if ball is inside the absorber (could've already been moving)                
+            } else {
+                action(); //fire the ball out
+                return;
+            }
         }
-        
         absorbedBall = ball;
-        ball.setMove(new Vect(new Angle(0)).times(0));
-        ball.setCircle(new Circle(x+width-.25,y+height-.25, 0.5));
-        
+        hasBall = true;
+        ball.isTrapped = true;
+        ball.setMove(new Vect(Angle.DEG_270,0.0));        
+        ball.setCircle(new Circle( (double)(x+width)-.25/2.0,(double)(y+height)-.25/2.0, ball.getCircle().getRadius()));
     }
     
     
@@ -155,10 +131,10 @@ public class Absorber implements Gadget {
      * @return
      */
     private boolean ballIsInside(){
-        if (absorbedBall == null) return false;
+        if (!hasBall) return false;
         double xLoc = absorbedBall.getCircle().getCenter().x();
         double yLoc = absorbedBall.getCircle().getCenter().y();
-        
+
         return x<=xLoc && xLoc<=x+width && y<=yLoc && yLoc<=y+height;                        
         
     }
@@ -182,6 +158,10 @@ public class Absorber implements Gadget {
     
     public int getHeight() {
         return height;
+    }
+
+    public void setGizmos(List<Gadget> list) {
+        gizmos = list;        
     }
 
 }

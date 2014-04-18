@@ -1,17 +1,19 @@
 package pingball;
 
+import java.util.List;
+/**
+ * Interface
+ * Defined by type, position, action, coefficient
+ * 
+ * Methods:
+ * timeToCollision, reflect, getPosition, getType, action
+ * 
+ * note: getPosition returns a different type of object depending on the type
+ *      circles --> Vect, LineSegments --> Vect(p1), Vect(p2)
+ * 
+ */
 public interface Gadget {
-    /*
-     * Interface
-     * Defined by type, position, action, coefficient
-     * 
-     * Methods:
-     * timeToCollision, reflect, getPosition, getType, action
-     * 
-     * note: getPosition returns a different type of object depending on the type
-     *      circles --> Vect, LineSegments --> Vect(p1), Vect(p2)
-     * 
-     */
+
     
     /**
      * Get the unique name/ID of the gadget.
@@ -65,5 +67,7 @@ public interface Gadget {
      * @param ball ball that collides with the gadget
      */
     public void trigger(Ball ball);
+
+    public void setGizmos(List<Gadget> list);
     
 }

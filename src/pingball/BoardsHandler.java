@@ -21,8 +21,8 @@ public class BoardsHandler {
     // List<Connection> are the list of connection objects that indicate that the board is connected to another board.
     //      Connection objects simply store the name of the otherBoard and the boundary that theyre connected on
     // ConcurrentLinkedQueue<Ball> is a threadsafe queue that stores balls that need to be put into the String that the balls are mapped to
-    private HashMap<String, List<Connection>> map = new HashMap<String, List<Connection>>();
-    private HashMap<String, ConcurrentLinkedQueue<Ball>> queue = new HashMap<String, ConcurrentLinkedQueue<Ball>>();
+    final private HashMap<String, List<Connection>> map = new HashMap<String, List<Connection>>();
+    final private HashMap<String, ConcurrentLinkedQueue<Ball>> queue = new HashMap<String, ConcurrentLinkedQueue<Ball>>();
 
     
      public BoardsHandler() {
@@ -36,8 +36,8 @@ public class BoardsHandler {
      * boundary an enum; can be Boundary.LEFT, Boundary.RIGHT, Boundary.RIGHT, Boundary.TPO
      */    
     public class Connection{
-        String name;
-        Boundary boundary;      
+        final String name;
+        final Boundary boundary;      
         
         /** can only be initialized inside BoardsHandler*/
         private Connection(String name, Boundary boundary){
@@ -58,43 +58,43 @@ public class BoardsHandler {
      * @param o an enum, defined as Orientation.HORIZONTAL or Orientation.VERTICAL
      */
     public void addConnection(String board1, String board2, Orientation o){
-        List<Connection> c1 = new ArrayList<Connection>();
-        List<Connection> c2 = new ArrayList<Connection>();
+        List<Connection> cList1 = new ArrayList<Connection>();
+        List<Connection> cList2 = new ArrayList<Connection>();
         if (o.equals(Orientation.HORIZONTAL)) {                                    
-            if (!map.get(board1).isEmpty()) c1.addAll(map.get(board1));
-            for (Connection existing:c1){
-                if (existing.name.equals(board2)) c1.remove(existing); // boards can be overridden in terms of connectivity 
+            if (!map.get(board1).isEmpty()) cList1.addAll(map.get(board1));
+            for (Connection existing:cList1){
+                if (existing.name.equals(board2)) cList1.remove(existing); // boards can be overridden in terms of connectivity 
             }            
-            c1.add(new Connection(board2,Boundary.BOTTOM));            
-            map.put(board1, c1);
+            cList1.add(new Connection(board2,Boundary.BOTTOM));            
+            map.put(board1, cList1);
             queue.put(board1, new ConcurrentLinkedQueue<Ball>());
             
             
-            if (!map.get(board2).isEmpty()) c2.addAll(map.get(board2));
-            for (Connection existing:c2){
-                if (existing.name.equals(board1)) c2.remove(existing); // boards can be overridden in terms of connectivity 
+            if (!map.get(board2).isEmpty()) cList2.addAll(map.get(board2));
+            for (Connection existing:cList2){
+                if (existing.name.equals(board1)) cList2.remove(existing); // boards can be overridden in terms of connectivity 
             }            
-            c2.add(new Connection(board1,Boundary.TOP));
-            map.put(board2, c2);
+            cList2.add(new Connection(board1,Boundary.TOP));
+            map.put(board2, cList2);
             queue.put(board2, new ConcurrentLinkedQueue<Ball>());
         
         } else if (o.equals(Orientation.VERTICAL)){
             
-            if (!map.get(board1).isEmpty()) c1.addAll(map.get(board1));
-            for (Connection existing:c1){
-                if (existing.name.equals(board2)) c1.remove(existing); // boards can be overridden in terms of connectivity 
+            if (!map.get(board1).isEmpty()) cList1.addAll(map.get(board1));
+            for (Connection existing:cList1){
+                if (existing.name.equals(board2)) cList1.remove(existing); // boards can be overridden in terms of connectivity 
             }
-            c1.add(new Connection(board2,Boundary.RIGHT));
-            map.put(board1, c1);
+            cList1.add(new Connection(board2,Boundary.RIGHT));
+            map.put(board1, cList1);
             queue.put(board1, new ConcurrentLinkedQueue<Ball>());
             
             
-            if (!map.get(board2).isEmpty()) c2.addAll(map.get(board2));
-            for (Connection existing:c2){
-                if (existing.name.equals(board1)) c2.remove(existing); // boards can be overridden in terms of connectivity 
+            if (!map.get(board2).isEmpty()) cList2.addAll(map.get(board2));
+            for (Connection existing:cList2){
+                if (existing.name.equals(board1)) cList2.remove(existing); // boards can be overridden in terms of connectivity 
             }       
-            c2.add(new Connection(board1,Boundary.LEFT));
-            map.put(board2, c2);
+            cList2.add(new Connection(board1,Boundary.LEFT));
+            map.put(board2, cList2);
             queue.put(board2, new ConcurrentLinkedQueue<Ball>());
         }
     }    

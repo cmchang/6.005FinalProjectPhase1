@@ -11,6 +11,8 @@ public class Ball {
     private Vect move;
     private Circle circle;
     
+    public boolean isTrapped = false;
+    
     /**
      * Constructor
      * @param circleIn circle defining ball location

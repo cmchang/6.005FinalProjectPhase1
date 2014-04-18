@@ -91,40 +91,6 @@ public class Flipper implements Gadget {
         } 
     }
     
-    public Flipper(String name,int x,int y,int orientation, Side leftOrRight, int state, List<Gadget> gizmos){
-        this.name = name;
-        this.x = x;
-        this.y = y;
-        this.orientation = orientation;
-        this.side = leftOrRight;
-        this.state = state;
-        this.gizmos = gizmos;
-           
-        this.angularVelocity = 0;
-        
-        switch (orientation) {
-        case 0:
-            if (side.equals(Side.LEFT)) wall = new LineSegment(x,y, x,y+2);
-            if (side.equals(Side.RIGHT)) wall = new LineSegment(x+2,y, x+2,y+2);
-            break;
-        case 90:
-            if (side.equals(Side.LEFT)) wall = new LineSegment(x+2,y, x,y);
-            if (side.equals(Side.RIGHT)) wall = new LineSegment(x+2,y+2, x,y+2);
-            break;
-        case 180:
-            if (side.equals(Side.LEFT)) wall = new LineSegment(x+2,y+2, x+2,y);
-            if (side.equals(Side.RIGHT)) wall = new LineSegment(x,y+2, x,y);
-            break;
-        case 270:
-            if (side.equals(Side.LEFT)) wall = new LineSegment(x,y+2, x+2,y+2);
-            if (side.equals(Side.RIGHT)) wall = new LineSegment(x,y, x+2,y);
-            break;
-        default:
-            System.err.println("Invalid orientation");
-            break;
-        } 
-    }
-    
     public enum Side { LEFT, RIGHT};
     
     
@@ -166,22 +132,22 @@ public class Flipper implements Gadget {
             if (side.equals(Side.LEFT) && state < 45){ // in the 0 degrees position
                 finalWall = Geometry.rotateAround(wall, new Vect(x,y).rotateBy(new Angle((orientation)/180.0*Math.PI))
                         , new Angle(90.0 /180.0*Math.PI));
-                angularVelocity = 1080;            
+                angularVelocity = 1080.0/360.0*Math.PI;            
             
             } else if (side.equals(Side.LEFT) && state > 45){ // in the 90 degrees position
                 finalWall = Geometry.rotateAround(wall, new Vect(x,y).rotateBy(new Angle((orientation)/180.0*Math.PI))
                         , new Angle(-90.0 /180.0*Math.PI));
-                angularVelocity = -1080;            
+                angularVelocity = 1080.0/360.0*Math.PI;
             
             } else if (side.equals(Side.RIGHT) && state > -45){ // in the 0 degrees position
                 finalWall = Geometry.rotateAround(wall, new Vect(x+2,y).rotateBy(new Angle((orientation)/180.0*Math.PI))
                         , new Angle(-90.0 /180.0*Math.PI));
-                angularVelocity = -1080;
+                angularVelocity = 1080.0/360.0*Math.PI;
                 
             } else if (side.equals(Side.RIGHT) && state < -45){ // in the -90 degrees position
                 finalWall = Geometry.rotateAround(wall, new Vect(x+2,y).rotateBy(new Angle((orientation)/180.0*Math.PI))
                         , new Angle(90.0 /180.0*Math.PI));
-                angularVelocity = 1080;
+                angularVelocity = 1080.0/360.0*Math.PI;
                 
             }
         }
@@ -199,17 +165,19 @@ public class Flipper implements Gadget {
         if (side.equals(Side.LEFT)){
             Vect newVect = Geometry.reflectRotatingWall(wall, new Vect(x,y).rotateBy(new Angle((orientation)/180.0*Math.PI)), 
                     angularVelocity, ball.getCircle(), ball.getMove(), getCoefficient());
+            System.out.println("new vect: "+newVect);
             ball.setMove(newVect);
         } else if (side.equals(Side.RIGHT)){
             Vect newVect = Geometry.reflectRotatingWall(wall, new Vect(x+2,y).rotateBy(new Angle((orientation)/180.0*Math.PI)), 
                     angularVelocity, ball.getCircle(), ball.getMove(), getCoefficient());
+            System.out.println("new vect: "+newVect);
             ball.setMove(newVect);
         }                    
     }
 
     
     public void trigger() {
-        action();
+        //action(); should only flip if it is self triggering
         for (Gadget gizmo:gizmos){
             gizmo.action();
         }       
@@ -285,6 +253,10 @@ public class Flipper implements Gadget {
     
     public int getY() {
         return y;
+    }
+
+    public void setGizmos(List<Gadget> list) {
+        gizmos = list;        
     }
    
 }

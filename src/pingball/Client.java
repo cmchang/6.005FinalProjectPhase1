@@ -5,11 +5,12 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
+import java.io.StringReader;
 import java.net.Socket;
-
-import physics.Angle;
-import physics.Circle;
-import physics.Vect;
+import java.util.Arrays;
+import java.util.LinkedList;
+import java.util.NoSuchElementException;
+import java.util.Queue;
 
 /**
  * The individual clients that are connecting to the server
@@ -26,9 +27,10 @@ import physics.Vect;
 public class Client implements Runnable{
     
     private final Socket socket;
-    private final Board board;
+    private Board board;
+    
     private final Object lock;
-    public static BoardsHandler connections; //global variable. even though its public, its protected by the lock
+    public final BoardsHandler connections; //global variable. even though its public, its protected by the lock
 
     /**
      * Instantiate a new client
@@ -48,10 +50,10 @@ public class Client implements Runnable{
 //        Ball ball2 = new Ball(cir2, v2);
 //        board.addBall(ball);
 //        board.addBall(ball2);
-        this.board = GrammarFactory.parse(new File("src/pingball/Boards/board2.txt"));
+        //this.board = GrammarFactory.parse(new File("src/pingball/Boards/board2.txt"));
         this.socket = socket;
         this.lock = lock;
-        Client.connections = connectionsIn;
+        this.connections = connectionsIn;
     }
     
     /**
@@ -59,6 +61,9 @@ public class Client implements Runnable{
      */   
     public void run() {
         // handle the client
+        // need to initialize a board
+        
+        
         try {
             handleConnection(socket);
         } catch (IOException e) {
@@ -78,16 +83,93 @@ public class Client implements Runnable{
      * @param socket socket where the client is connected
      * @throws IOException if connection has an error or terminates unexpectedly
      */
-    private void handleConnection(Socket socket) throws IOException {        
-        BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-        PrintWriter out = new PrintWriter(socket.getOutputStream(), true);
-        try {
-            Runnable r = new Update(board, in, lock, Client.connections);
+    private void handleConnection(Socket socket) throws IOException { 
+        if (!socket.isConnected()) { // won't be connected if its a single player
+            Runnable r = new Update(board, new BufferedReader(new StringReader("")), lock, connections);
             new Thread(r).start();
-            board.animate(out, 20);        
-        } finally {
-            out.close();
-            in.close();
+            board.animate(20);
+        } else {
+            BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+            /*PrintWriter out = new PrintWriter(socket.getOutputStream(), true);*/
+            try {
+                Runnable r = new Update(board, in, lock, connections);
+                new Thread(r).start();
+                board.animate(/*out, */20);        
+            } finally {
+                /*out.close();*/
+                in.close();
+            }
         }
+    }
+    
+    public static void main(String[] args) {
+        //Command-line argument parsing
+        final int numArgs = args.length;
+        String hostname = "";
+        String fileName = args[numArgs-1];
+        File file = new File(fileName); // file is required to be the last argument        
+        int port = 10987;  //default port
+        Queue<String> arguments = new LinkedList<String>(Arrays.asList(args));
+        
+        try {
+            if ( ! file.isFile()) throw new IllegalArgumentException("file not found: \"" + file + "\"");               
+            while ((arguments.size()>(numArgs-1))){ // last arg is the filename, required.
+                String flag = arguments.remove();
+                try {
+                    if (flag.equals("--port")){
+                        port = Integer.parseInt(arguments.remove());
+                        if (port<0 || port > 655535){
+                            throw new IllegalArgumentException("port " +port+ " out of range");
+                        }
+                    } else if (flag.equals("--host")){
+                        hostname = arguments.remove();
+                    }  else {
+                        throw new IllegalArgumentException("unknown option: \"" + flag + "\"");
+                    }
+                } catch (NoSuchElementException nsee) {
+                    throw new IllegalArgumentException("missing argument for " + flag);
+                } catch (NumberFormatException nfe) {
+                    throw new IllegalArgumentException("unable to parse number for " + flag);
+                }      
+            }
+        } catch (IllegalArgumentException iae) {
+            System.err.println(iae.getMessage());
+            System.err.println("usage: PingballClient [--host HOST] [--port PORT] FILE");
+            return;
+        }
+        try {
+            runPingballClient(hostname, port, file, fileName);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    private static void runPingballClient(String hostname, int port, File file, String fileName) throws Exception{
+        //System.out.println(myBoard.toString());
+        if (hostname != "") {
+            //join the server
+            Socket socket = new Socket(hostname,port);            
+            //BufferedReader in1 = new BufferedReader(new InputStreamReader(socket1.getInputStream()));
+            PrintWriter out = new PrintWriter(socket.getOutputStream(), true);
+           // System.out.println(GrammarFactory.FileToString(file));
+            out.println(GrammarFactory.FileToString(file));
+            
+        } else {
+            // single-play
+            Socket socket = new Socket(); // we don't need a socket.
+            Object lock = new Object(); //used to protect global variable thread safety
+            BoardsHandler connections = new BoardsHandler(); // global variable protected by the lock                        
+            
+            Client client = new Client(socket, lock, connections);
+            client.setBoard(GrammarFactory.parse(file));
+            Thread thread = new Thread(client);
+            thread.start();            
+        }
+        
+        //new File("src/pingball/Boards/board1.txt")
+    }
+
+    void setBoard(Board boardToSet) {
+        this.board = boardToSet;        
     }
 }

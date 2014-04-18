@@ -8,27 +8,54 @@ import pingball.Bumper.Shape;
 import pingball.Flipper.Side;
 
 public class BoardCreatorListener extends GrammarBaseListener{
+   /**
+    * gadgets, balls, and fireCmds
+    * 
+    * This objects store all the corresponding gadgets, balls, and fire commands that are being read
+    * from the file.  After all the objects are read from antlr, they are used to create the a new board.
+    */
    private static ArrayList<Gadget> gadgets = new ArrayList<Gadget>();
    private static ArrayList<Ball> balls = new ArrayList<Ball>();
    private static ArrayList<ArrayList<String>> fireCmds = new ArrayList<ArrayList<String>>();
    
    private static Board board;
    
-   private static void resetBoardObjects(){
-       gadgets = new ArrayList<Gadget>();
-       balls = new ArrayList<Ball>();
-   }
-   
+   /**
+    * This method is called after all of the objects on the board have been extracted from the file.
+    * This method creates a new board.
+    * 
+    * @return board containing all the objects indicated in the file
+    */
    public static Board getBoard(){
-       board.addGizmos(createTriggerActions());
        
        for(Gadget gadget: gadgets) board.addGadget(gadget);
        for(Ball ball: balls) board.addBall(ball);
-       
+
+       board.addGizmos(createTriggerActions());
+
        resetBoardObjects();
        return board;
    }
     
+   /**
+    * This method is called after all the objects in the board are actually put into the board.
+    * This prevents objects from one file being combined with object from another file if two file are
+    * read in, one after the other.
+    */
+   private static void resetBoardObjects(){
+       gadgets = new ArrayList<Gadget>();
+       balls = new ArrayList<Ball>();
+       fireCmds = new ArrayList<ArrayList<String>>();
+   }
+
+   /**
+    * This method is called after all the the objects have been read in from the file.
+    * This method creates a hash map of STRINGS indicating which trigger object is mapped to which
+    * actions objects.
+    * 
+    * @return a HashMap of strings indicating the connections between triggers and corresponding actions
+    *          note: in this project, we refer to this HashMap as "gizmos"
+    */
    private static HashMap<String, List<String>> createTriggerActions(){
        HashMap<String, List<String>> gizmos = new HashMap<String, List<String>>();
        for(int x = 0; x < fireCmds.size(); x ++){
@@ -48,6 +75,12 @@ public class BoardCreatorListener extends GrammarBaseListener{
        return gizmos;
    }
    
+   /**
+    * This method extends ANTLR's GrammarBaseListener.
+    * 
+    * When exiting out of the Board Object in the tree, this method extracts the necessary information
+    * in the file to create a new board.
+    */
     public void exitBoard(GrammarParser.BoardContext ctx) {
 //        String ObjectType = ctx.getChild(0).toString();
         String ObjectName = ctx.getChild(1).getChild(2).toString();
@@ -57,16 +90,22 @@ public class BoardCreatorListener extends GrammarBaseListener{
             String friction2 = ctx.getChild(4).getChild(2).toString();
             board = FileParser.CreateBoard(ObjectName, Double.parseDouble(gravity), Double.parseDouble(friction1), Double.parseDouble(friction2));
         }else{
-            //No friction was given in the file, so friction1 = friction2 = 0.0
             board = FileParser.CreateBoard(ObjectName, Double.parseDouble(gravity));
 
         }
     }
     
-    public void exitObject(GrammarParser.ObjectContext ctx) {
+    /**
+     * This method extends ANTLR's GrammarBaseListener.
+     * 
+     * When exiting out of an Object in the tree (i.e. a ball, bumper, flipper, or absorber),
+     * this method extracts the necessary information in the file to create a new corresponding ball or gadget.
+     */
+    public void exitObject(GrammarParser.ObjectContext ctx){
         ArrayList<Double> doubleContent = new ArrayList<Double>();
         String ObjectType = ctx.getChild(0).getChild(0).toString();
-        String ObjectName = ctx.getChild(1).getChild(0).toString();
+        String ObjectName = ctx.getChild(1).getChild(2).toString();
+
         for(int x = 2; x < ctx.getChildCount(); x++){
             int lastIndex = ctx.getChild(x).getChildCount() - 1;
             String content = ctx.getChild(x).getChild(lastIndex).toString();
@@ -99,7 +138,14 @@ public class BoardCreatorListener extends GrammarBaseListener{
         
     }
 
-    public void enterFire(GrammarParser.FireContext ctx) { 
+    /**
+     * This method extends ANTLR's GrammarBaseListener.
+     * 
+     * When exiting out of the a Fire Object in the tree, this method extracts the necessary information
+     * in the file to store the fire information.  This method stores the fire commands as a list of
+     * Strings -> [String trigger, String action] and adds it to the global object fireCmds.
+     */
+    public void exitFire(GrammarParser.FireContext ctx) { 
         
         String trigger = ctx.getChild(3).getChild(0).toString();
         String action = ctx.getChild(6).getChild(0).toString();

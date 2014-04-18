@@ -1,5 +1,7 @@
 package pingball;
 
+import java.util.List;
+
 import physics.Geometry;
 import physics.LineSegment;
 import physics.Vect;
@@ -63,7 +65,7 @@ public class Wall implements Gadget {
     }
 
     public void action() {
-//        System.err.println("This shouldn't be called.(action for wall)");
+        //no action for wall
     }
 
     public double getCoefficient() {
@@ -103,6 +105,9 @@ public class Wall implements Gadget {
      */
     public void setVisibility(Visibility visibility) {
         this.visible = visibility;        
+    }
+
+    public void setGizmos(List<Gadget> list) {        
     }
 
 }
