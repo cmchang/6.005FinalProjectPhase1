@@ -60,6 +60,10 @@ public class BoardsHandler {
     public void addConnection(String board1, String board2, Orientation o){
         List<Connection> cList1 = new ArrayList<Connection>();
         List<Connection> cList2 = new ArrayList<Connection>();
+        
+        if (!map.containsKey(board1))  map.put(board1, new ArrayList<Connection>());
+        if (!map.containsKey(board2))  map.put(board2, new ArrayList<Connection>());
+        
         if (o.equals(Orientation.HORIZONTAL)) {                                    
             if (!map.get(board1).isEmpty()) cList1.addAll(map.get(board1));
             for (Connection existing:cList1){

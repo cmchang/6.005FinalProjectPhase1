@@ -90,9 +90,9 @@ public class FileParsingTest {
         assertTrue(false); //just temporary so we remember to fix the board
     }
     
-  //Tests B3, B4
+  //Tests B4, B5
     @Test
-    public void testEmptyBoardNoObjects_B3_B4(){
+    public void testEmptyBoardNoBallJustObject_B4_B5(){
         Board myBoard = GrammarFactory.parse(new File("src/pingball/Boards/BoardB.txt"));
         String ExpectedAnswer = "......................\n"
                 + ".                    .\n"
@@ -145,6 +145,8 @@ public class FileParsingTest {
                 + ".====================.\n"
                 + ".                    .\n"
                 + "......................\n";
+
+        System.out.println(myBoard.toString());
         assertEquals(ExpectedAnswer, myBoard.toString());
     }
     
@@ -228,6 +230,36 @@ public class FileParsingTest {
                 + ".                    .\n"
                 + ".                    .\n"
                 + ".          *         .\n"
+                + ".                    .\n"
+                + ".                    .\n"
+                + ".          ==========.\n"
+                + ".          ==========.\n"
+                + ".                    .\n"
+                + ".                    .\n"
+                + "......................\n";
+
+        assertEquals(ExpectedAnswer, myBoard.toString());
+    }
+    
+    //Tests C5
+    @Test
+    public void testSampleBoard5_C5(){
+        Board myBoard = GrammarFactory.parse(new File("src/pingball/Boards/board5.txt"));
+        String ExpectedAnswer = "......................\n"
+                + ".                    .\n"
+                + ".                    .\n"
+                + ".    0              \\.\n"
+                + ".                    .\n"
+                + ". *                  .\n"
+                + ".                    .\n"
+                + ".          ---       .\n"
+                + ".                    .\n"
+                + ".                    .\n"
+                + ".####                .\n"
+                + ".                    .\n"
+                + ".                    .\n"
+                + ".                    .\n"
+                + ".                    .\n"
                 + ".                    .\n"
                 + ".                    .\n"
                 + ".          ==========.\n"

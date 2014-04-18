@@ -203,7 +203,7 @@ public class Board {
                 int orient = ((Flipper) gadget).getOrientation();
                 Side side = ((Flipper) gadget).getSide();
                 xcoord = ((Flipper) gadget).getX();
-                ycoord = ((Flipper) gadget).getY();
+                ycoord = ((Flipper) gadget).getY()+1;
                 switch (orient) {
                 case 0:
                     field[xcoord + 1][ycoord] = '-';
@@ -235,12 +235,12 @@ public class Board {
                     @SuppressWarnings("unchecked")
                     List<LineSegment> squareWalls = (List<LineSegment>) ((Bumper) gadget).getPosition();
                     xcoord = (int) squareWalls.get(0).p1().x();
-                    ycoord = (int) squareWalls.get(0).p1().y();
+                    ycoord = (int) squareWalls.get(0).p1().y()+1;
                     field[xcoord+1][ycoord] = '#';
                 } else if (((Bumper) gadget).getShape().equals(Shape.CIRCLE)) {
                     Circle circ = (Circle) ((Bumper) gadget).getPosition();
                     xcoord = (int) circ.getCenter().x();
-                    ycoord = (int) circ.getCenter().y();
+                    ycoord = (int) circ.getCenter().y()+1;
                     field[xcoord+1][ycoord] = '0';
                 } else if (((Bumper) gadget).getShape().equals(Shape.TRIANGLE)) {
                     @SuppressWarnings("unchecked")
@@ -249,22 +249,22 @@ public class Board {
                     switch (orient) {
                     case 0:
                         xcoord = (int) triWalls.get(0).p1().x();
-                        ycoord = (int) triWalls.get(0).p1().y();
+                        ycoord = (int) triWalls.get(0).p1().y()+1;
                         field[xcoord+1][ycoord] = '/';
                         break;
                     case 90:
                         xcoord = (int) triWalls.get(0).p1().x();
-                        ycoord = (int) triWalls.get(0).p1().y();
+                        ycoord = (int) triWalls.get(0).p1().y()+1;
                         field[xcoord+1][ycoord] = '\\';
                         break;
                     case 180:
                         xcoord = (int) triWalls.get(0).p1().x();
-                        ycoord = (int) triWalls.get(1).p1().y();
+                        ycoord = (int) triWalls.get(1).p1().y()+1;
                         field[xcoord+1][ycoord] = '/';
                         break;
                     case 270:
                         xcoord = (int) triWalls.get(0).p1().x();
-                        ycoord = (int) triWalls.get(1).p1().y();
+                        ycoord = (int) triWalls.get(1).p1().y()+1;
                         field[xcoord+1][ycoord] = '\\';
                         break;
                     default:
@@ -283,7 +283,7 @@ public class Board {
 //            }
                 for (int j=0; j < width; j++) {
                     field[xmin + j + 1][ymin] = '=';
-                    field[xmin + j + 1][ymin + height + 1] = '=';
+                    field[xmin + j + 1][ymin + height] = '=';
                 }
             } else if (gadget.getType().equals("wall")){
                 String otherBoard;

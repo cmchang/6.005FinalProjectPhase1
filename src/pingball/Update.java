@@ -66,7 +66,8 @@ class Update implements Runnable {
                   if (!gadget.getType().equals("wall")) continue;
                   Wall wall = (Wall) gadget; // for each wall....
                   synchronized(lock) {
-                      for (Connection c: boardHandler.getConnections(board)){                   
+                      for (Connection c: boardHandler.getConnections(board)){ 
+                          
                           if (wall.boundary.equals(c.boundary)) { //the correct connection to the correct wall
                               visibleWalls.put(wall.boundary, Visibility.INVISIBLE); //if a wall matches a connection boundary, set as invisible
                               wall.setConnection(c);
