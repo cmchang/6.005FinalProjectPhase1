@@ -284,7 +284,7 @@ public class Board {
 //            }
                 for (int j=0; j < width; j++) {
                     field[xmin + j + 1][ymin] = '=';
-                    field[xmin + j + 1][ymin + height + 1] = '=';
+                    field[xmin + j + 1][ymin + height] = '=';
                 }
             } else if (gadget.getType().equals("wall")){
                 String otherBoard;
