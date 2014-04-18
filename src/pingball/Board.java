@@ -295,21 +295,21 @@ public class Board {
                     
                     if (((Wall) gadget).boundary.equals(Boundary.BOTTOM)) {
                         for (int i=1;i<otherBoard.length();i++){
-                            field[i][21] = otherBoard.charAt(i);                            
+                            field[i][21] = otherBoard.charAt(i-1);                            
                         }
 
                     } else if (((Wall) gadget).boundary.equals(Boundary.TOP)) {
                         for (int i=1;i<otherBoard.length();i++){
-                            field[i][0] = otherBoard.charAt(i);
+                            field[i][0] = otherBoard.charAt(i-1);
                         }
                     } else if (((Wall) gadget).boundary.equals(Boundary.LEFT)) {
                         for (int j=1;j<otherBoard.length();j++){
-                            field[0][j] = otherBoard.charAt(j);
+                            field[0][j] = otherBoard.charAt(j-1);
                             //System.out.println(otherBoard.charAt(j)); 
                         }
                     } else if (((Wall) gadget).boundary.equals(Boundary.RIGHT)) {
                         for (int j=1;j<otherBoard.length();j++){
-                            field[21][j] = otherBoard.charAt(j);
+                            field[21][j] = otherBoard.charAt(j-1);
                         }
                     } 
                 }
