@@ -37,7 +37,7 @@ public class FileParsingTest {
     //Tests A3, B1
     @Test
     public void testEmptyBoardNoObjects_A3_B1(){
-        Board myBoard = GrammarFactory.parse(new File("src/pingball/Boards/boardA.txt"));
+        Board myBoard = GrammarFactory.parse(new File("src/../Boards/boardA.txt"));
         String ExpectedAnswer = "......................\n"
                 + ".                    .\n"
                 + ".                    .\n"
@@ -68,7 +68,7 @@ public class FileParsingTest {
     @Test
     public void testIncorrectBoard_A5(){
         try{
-            GrammarFactory.parse(new File("src/pingball/Boards/BoardC.txt"));
+            GrammarFactory.parse(new File("src/../Boards/BoardC.txt"));
         }catch(Exception e){
             System.err.println("Previous err message was expected for this test!");
             String expectedErrMsg = "mismatched input 'squareBumper' expecting 'y'";
@@ -81,7 +81,7 @@ public class FileParsingTest {
     public void testOverlappingObjects_A6(){
         //TODO: fix board - throw a message when objects overlap
         try{
-            GrammarFactory.parse(new File("src/pingball/Boards/boardD.txt"));
+            GrammarFactory.parse(new File("src/../Boards/boardD.txt"));
         }catch(Exception e){
             System.err.println("Previous err message was expected for this test!");
             String expectedErrMsg = "";
@@ -93,7 +93,7 @@ public class FileParsingTest {
   //Tests B4, B5
     @Test
     public void testEmptyBoardNoBallJustObject_B4_B5(){
-        Board myBoard = GrammarFactory.parse(new File("src/pingball/Boards/BoardB.txt"));
+        Board myBoard = GrammarFactory.parse(new File("src/../Boards/BoardB.txt"));
         String ExpectedAnswer = "......................\n"
                 + ".                    .\n"
                 + ".                    .\n"
@@ -123,7 +123,7 @@ public class FileParsingTest {
     // Tests A1, A2, A4, B2, B6, C1
     @Test
     public void testSampleBoard1_A1_A2_A4_B2_B6_C1(){
-        Board myBoard = GrammarFactory.parse(new File("src/pingball/Boards/board1.txt"));
+        Board myBoard = GrammarFactory.parse(new File("src/../Boards/board1.txt"));
         String ExpectedAnswer = "......................\n"
                 + ".*                   .\n"
                 + ".                    .\n"
@@ -153,7 +153,7 @@ public class FileParsingTest {
     //test C2
     @Test
     public void testSampleBoard2_C2(){
-        Board myBoard = GrammarFactory.parse(new File("src/pingball/Boards/board2.txt"));
+        Board myBoard = GrammarFactory.parse(new File("src/../Boards/board2.txt"));
         String ExpectedAnswer = "......................\n"
                 + ".*                   .\n"
                 + ".                    .\n"
@@ -183,7 +183,7 @@ public class FileParsingTest {
     //Tests C3
     @Test
     public void testSampleBoard3_C3(){
-        Board myBoard = GrammarFactory.parse(new File("src/pingball/Boards/board3.txt"));
+        Board myBoard = GrammarFactory.parse(new File("src/../Boards/board3.txt"));
         String ExpectedAnswer = "......................\n"
                 + ".                    .\n"
                 + ".                    .\n"
@@ -213,7 +213,7 @@ public class FileParsingTest {
     //Tests B3, C4
     @Test
     public void testSampleBoard4_B3_C4(){
-        Board myBoard = GrammarFactory.parse(new File("src/pingball/Boards/board4.txt"));
+        Board myBoard = GrammarFactory.parse(new File("src/../Boards/board4.txt"));
         String ExpectedAnswer = "......................\n"
                 + ".                    .\n"
                 + ".                    .\n"
@@ -244,7 +244,7 @@ public class FileParsingTest {
     //Tests C5
     @Test
     public void testSampleBoard5_C5(){
-        Board myBoard = GrammarFactory.parse(new File("src/pingball/Boards/board5.txt"));
+        Board myBoard = GrammarFactory.parse(new File("src/../Boards/board5.txt"));
         String ExpectedAnswer = "......................\n"
                 + ".                    .\n"
                 + ".                    .\n"
