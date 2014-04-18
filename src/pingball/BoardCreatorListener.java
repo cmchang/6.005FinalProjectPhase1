@@ -100,7 +100,7 @@ public class BoardCreatorListener extends GrammarBaseListener{
      * When exiting out of an Object in the tree (i.e. a ball, bumper, flipper, or absorber),
      * this method extracts the necessary information in the file to create a new corresponding ball or gadget.
      */
-    public void exitObject(GrammarParser.ObjectContext ctx) {
+    public void exitObject(GrammarParser.ObjectContext ctx){
         ArrayList<Double> doubleContent = new ArrayList<Double>();
         String ObjectType = ctx.getChild(0).getChild(0).toString();
         String ObjectName = ctx.getChild(1).getChild(2).toString();
