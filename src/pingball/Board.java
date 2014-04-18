@@ -308,7 +308,7 @@ public class Board {
                         }
                     } else if (((Wall) gadget).boundary.equals(Boundary.RIGHT)) {
                         for (int j=1;j<otherBoard.length();j++){
-                            field[21][j] = otherBoard.charAt(j-1);
+                            field[21][j] = otherBoard.charAt(j-1); //because j starts at 1
                         }
                     } 
                 }
