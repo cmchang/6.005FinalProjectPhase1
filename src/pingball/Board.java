@@ -174,7 +174,6 @@ public class Board {
     
     @Override
     public String toString() {
-        //TODO: FIX ORIENTATION
         StringBuilder output = new StringBuilder();
         char[][] field = new char[xlength+2][ylength+2];
         for (int i = 0; i < xlength+2; i++) {
