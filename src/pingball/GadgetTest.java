@@ -89,6 +89,7 @@ public class GadgetTest {
    
     }
     
+    @SuppressWarnings("unchecked")
     @Test 
     public void testTriangleBumper(){
         Bumper triBumper = new Bumper(Shape.TRIANGLE, "tri1", 5, 5, 0);
