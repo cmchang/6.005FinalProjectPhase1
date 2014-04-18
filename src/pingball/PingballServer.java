@@ -1,10 +1,8 @@
 package pingball;
 
 import java.io.BufferedReader;
-import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.io.PrintWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.Arrays;
@@ -47,14 +45,19 @@ public class PingballServer {
      *                     (IOExceptions from individual clients do *not* terminate serve())   
      */
     public void serve() throws IOException {        
+        // reads server commands as they come in and updates boardHandler as necessary
+        BufferedReader stream = new BufferedReader(new InputStreamReader(System.in));
+        Thread addConnections = new Thread(new ServerReader(stream,lock,boardHandler));
+        addConnections.start();
+        
         // block until a client connects. when a client connects, run it in a new thread
-        while (true){   
+        while (true){
             Socket socket = serverSocket.accept();
             BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
             //PrintWriter out = new PrintWriter(socket.getOutputStream(), true);
             
-            String fromSocket = in.readLine();
-            Board newBoard = GrammarFactory.parse(fromSocket);
+            String boardFromSocket = in.readLine();
+            Board newBoard = GrammarFactory.parse(boardFromSocket);
             
             Client client = new Client(socket, lock, boardHandler);
             client.setBoard(newBoard);

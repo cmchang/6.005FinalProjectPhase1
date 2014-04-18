@@ -5,6 +5,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
+import java.io.StringReader;
 import java.net.Socket;
 import java.util.Arrays;
 import java.util.LinkedList;
@@ -61,6 +62,8 @@ public class Client implements Runnable{
     public void run() {
         // handle the client
         // need to initialize a board
+        
+        
         try {
             handleConnection(socket);
         } catch (IOException e) {
@@ -80,16 +83,23 @@ public class Client implements Runnable{
      * @param socket socket where the client is connected
      * @throws IOException if connection has an error or terminates unexpectedly
      */
-    private void handleConnection(Socket socket) throws IOException {        
-        BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-        PrintWriter out = new PrintWriter(socket.getOutputStream(), true);
-        try {
-            Runnable r = new Update(board, in, lock, connections);
+    private void handleConnection(Socket socket) throws IOException { 
+        //TODO test socket.isConnected();
+        if (!socket.isConnected()) {
+            Runnable r = new Update(board, new BufferedReader(new StringReader("")), lock, connections);
             new Thread(r).start();
-            board.animate(out, 20);        
-        } finally {
-            out.close();
-            in.close();
+            board.animate(20);
+        } else {
+            BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+            /*PrintWriter out = new PrintWriter(socket.getOutputStream(), true);*/
+            try {
+                Runnable r = new Update(board, in, lock, connections);
+                new Thread(r).start();
+                board.animate(/*out, */20);        
+            } finally {
+                /*out.close();*/
+                in.close();
+            }
         }
     }
     
@@ -114,9 +124,6 @@ public class Client implements Runnable{
                         }
                     } else if (flag.equals("--host")){
                         hostname = arguments.remove();
-                        //if (hostname.equals("localhost")) hostname = "192.168.1.1";
-                        
-                        //hostname of the server to connect to TODO                        
                     }  else {
                         throw new IllegalArgumentException("unknown option: \"" + flag + "\"");
                     }
@@ -149,10 +156,10 @@ public class Client implements Runnable{
             
         } else {
             // single-play
-            Socket socket = new Socket("192.168.1.1",10987); // local host, default port
+            Socket socket = new Socket(); // we don't need a socket.
             Object lock = new Object(); //used to protect global variable thread safety
             BoardsHandler connections = new BoardsHandler(); // global variable protected by the lock                        
-            //TODO where does socket output go
+            
             Client client = new Client(socket, lock, connections);
             client.setBoard(GrammarFactory.parse(file));
             Thread thread = new Thread(client);
