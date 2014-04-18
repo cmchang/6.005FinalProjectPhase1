@@ -96,6 +96,7 @@ public class FileParsingTest {
         Board myBoard = GrammarFactory.parse(new File("src/pingball/Boards/BoardB.txt"));
         String ExpectedAnswer = "......................\n"
                 + ".                    .\n"
+                + ".                    .\n"
                 + ". #                  .\n"
                 + ".                    .\n"
                 + ".                    .\n"
@@ -114,9 +115,9 @@ public class FileParsingTest {
                 + ".                    .\n"
                 + ".                    .\n"
                 + ".                    .\n"
-                + ".                    .\n"
                 + "......................\n";
         assertEquals(ExpectedAnswer, myBoard.toString());
+
     }
     
     // Tests A1, A2, A4, B2, B6, C1
@@ -125,6 +126,7 @@ public class FileParsingTest {
         Board myBoard = GrammarFactory.parse(new File("src/pingball/Boards/board1.txt"));
         String ExpectedAnswer = "......................\n"
                 + ".*                   .\n"
+                + ".                    .\n"
                 + ".########----########.\n"
                 + ".    0          0    .\n"
                 + ".     0        0     .\n"
@@ -141,12 +143,10 @@ public class FileParsingTest {
                 + ".                    .\n"
                 + ".                    .\n"
                 + ".                    .\n"
-                + ".                    .\n"
                 + ".====================.\n"
-                + ".                    .\n"
+                + ".====================.\n"
                 + "......................\n";
 
-        System.out.println(myBoard.toString());
         assertEquals(ExpectedAnswer, myBoard.toString());
     }
     
@@ -156,6 +156,7 @@ public class FileParsingTest {
         Board myBoard = GrammarFactory.parse(new File("src/pingball/Boards/board2.txt"));
         String ExpectedAnswer = "......................\n"
                 + ".*                   .\n"
+                + ".                    .\n"
                 + ".################--  .\n"
                 + ".          0         .\n"
                 + ".           0        .\n"
@@ -172,9 +173,8 @@ public class FileParsingTest {
                 + ".                    .\n"
                 + ".                    .\n"
                 + ".                    .\n"
-                + ".                    .\n"
                 + ".====================.\n"
-                + ".                    .\n"
+                + ".====================.\n"
                 + "......................\n";
 
         assertEquals(ExpectedAnswer, myBoard.toString());
@@ -185,6 +185,7 @@ public class FileParsingTest {
     public void testSampleBoard3_C3(){
         Board myBoard = GrammarFactory.parse(new File("src/pingball/Boards/board3.txt"));
         String ExpectedAnswer = "......................\n"
+                + ".                    .\n"
                 + ".                    .\n"
                 + ".  --################.\n"
                 + ".         0          .\n"
@@ -202,11 +203,9 @@ public class FileParsingTest {
                 + ".                    .\n"
                 + ".                    .\n"
                 + ".                    .\n"
-                + ".                    .\n"
                 + ".====================.\n"
-                + ".                    .\n"
+                + ".====================.\n"
                 + "......................\n";
-
         assertEquals(ExpectedAnswer, myBoard.toString());
     }
     
@@ -218,9 +217,10 @@ public class FileParsingTest {
         String ExpectedAnswer = "......................\n"
                 + ".                    .\n"
                 + ".                    .\n"
-                + ".    0              \\.\n"
                 + ".                    .\n"
+                + ".    0              \\.\n"
                 + ". *                  .\n"
+                + ".                    .\n"
                 + ".                    .\n"
                 + ".          ---       .\n"
                 + ".                    .\n"
@@ -228,15 +228,15 @@ public class FileParsingTest {
                 + ".########            .\n"
                 + ".                    .\n"
                 + ".                    .\n"
-                + ".                    .\n"
                 + ".          *         .\n"
                 + ".                    .\n"
                 + ".                    .\n"
                 + ".          ==========.\n"
+                + ".                    .\n"
                 + ".          ==========.\n"
                 + ".                    .\n"
-                + ".                    .\n"
                 + "......................\n";
+        System.out.println(myBoard.toString());
 
         assertEquals(ExpectedAnswer, myBoard.toString());
     }
@@ -248,9 +248,10 @@ public class FileParsingTest {
         String ExpectedAnswer = "......................\n"
                 + ".                    .\n"
                 + ".                    .\n"
-                + ".    0              \\.\n"
                 + ".                    .\n"
+                + ".    0              \\.\n"
                 + ". *                  .\n"
+                + ".                    .\n"
                 + ".                    .\n"
                 + ".          ---       .\n"
                 + ".                    .\n"
@@ -261,13 +262,11 @@ public class FileParsingTest {
                 + ".                    .\n"
                 + ".                    .\n"
                 + ".                    .\n"
-                + ".                    .\n"
-                + ".          ==========.\n"
                 + ".          ==========.\n"
                 + ".                    .\n"
+                + ".          ==========.\n"
                 + ".                    .\n"
                 + "......................\n";
-
         assertEquals(ExpectedAnswer, myBoard.toString());
     }
 }
