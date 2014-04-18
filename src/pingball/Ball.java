@@ -5,7 +5,6 @@ import physics.Vect;
 
 public class Ball {
     //same as in warmup
-    
     // move is the vector of the balls movement
     // circle is the shape representing the ball
     private Vect move;
@@ -36,14 +35,26 @@ public class Ball {
         this.name = name;
     }
     
+    /**
+     * returns the name of the ball
+     * @return
+     */
     public String name(){
         return name;
     }
     
+    /**
+     * Check if the ball is named
+     * @return
+     */
     public boolean hasName(){
         return !name.equals("");
     }
     
+    /**
+     * Get the type of the object
+     * @return always returns "ball
+     */
     public String getType(){
         return "ball";
     }
@@ -101,7 +112,6 @@ public class Ball {
      * @param stepSize
      */
     public void move(double stepSize) {
-//        System.out.println(stepSize * move.dot(Vect.Y_HAT) * move.length());
         double x = circle.getCenter().x() + stepSize * move.dot(Vect.X_HAT) * move.length();
         double y = circle.getCenter().y() + stepSize * move.dot(Vect.Y_HAT) * move.length();
         this.setCircle(new Circle(x, y, circle.getRadius()));
