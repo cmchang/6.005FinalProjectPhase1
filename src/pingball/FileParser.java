@@ -1,24 +1,11 @@
 package pingball;
 
-import java.io.File;
-import java.util.ArrayList;
-import java.util.List;
-
 import physics.Circle;
 import physics.Vect;
 import pingball.Bumper.Shape;
 import pingball.Flipper.Side;
 
 public class FileParser {
-    // Reads in a given file, creates corresponding board
-    
-    /**
-     * The constructor method, given a file
-     * @param file
-     */
-    public FileParser(File file){
-        
-    }
     
     /**
      * This method creates a new Board object, after calling helper methods to parse the file
@@ -32,13 +19,6 @@ public class FileParser {
      */
     public static Board CreateBoard(String name, double gravity){
         return new Board(name, gravity);
-    }
-    
-    /**
-     * This method does the string manipulation to breakdown the text file
-     */
-    private void parseTextFile(){
-        
     }
     
     /**
