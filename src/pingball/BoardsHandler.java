@@ -64,9 +64,9 @@ public class BoardsHandler {
         if (!map.containsKey(board1))  map.put(board1, new ArrayList<Connection>());
         if (!map.containsKey(board2))  map.put(board2, new ArrayList<Connection>());
         
-        if (o.equals(Orientation.HORIZONTAL)) {                                    
-            if (!map.get(board1).isEmpty()) cList1.addAll(map.get(board1));
-            for (Connection existing:cList1){
+        if (o.equals(Orientation.VERTICAL)) { // if we have a horizontal connection between two boards                                   
+            if (!map.get(board1).isEmpty()) cList1.addAll(map.get(board1)); // add all existing connections
+            for (Connection existing:cList1){ 
                 if (existing.name.equals(board2)) cList1.remove(existing); // boards can be overridden in terms of connectivity 
             }            
             cList1.add(new Connection(board2,Boundary.BOTTOM));            
@@ -82,7 +82,7 @@ public class BoardsHandler {
             map.put(board2, cList2);
             queue.put(board2, new ConcurrentLinkedQueue<Ball>());
         
-        } else if (o.equals(Orientation.VERTICAL)){
+        } else if (o.equals(Orientation.HORIZONTAL)){
             
             if (!map.get(board1).isEmpty()) cList1.addAll(map.get(board1));
             for (Connection existing:cList1){
