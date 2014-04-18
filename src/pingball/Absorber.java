@@ -24,7 +24,7 @@ public class Absorber implements Gadget {
     private final int height;
     
     private boolean hasBall = false;
-    Ball absorbedBall;
+    List<Ball> absorbedBall; // this should be a list of balls
     List<LineSegment> walls = new ArrayList<LineSegment>();
     
     /**list of objects that react when this is triggered */
@@ -78,7 +78,7 @@ public class Absorber implements Gadget {
                 absorbedBall.setMove(new Vect(Angle.DEG_90,50.0)); // start the ejection process
                 absorbedBall.isTrapped = false;
             } else {
-                //absorber has a moving ball inside it -> no action                             
+                //take ball into absorber                             
             }        
         } else {
             //absorber is not holding a ball   -> no action       
