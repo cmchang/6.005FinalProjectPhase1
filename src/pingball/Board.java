@@ -30,7 +30,7 @@ public class Board {
 
     
     List<Gadget> objects = new ArrayList<Gadget>();
-    private HashMap<Gadget,List<Gadget>> gizmos;
+    //private HashMap<Gadget,List<Gadget>> gizmos;
     
     double friction1 = 0.025; // will need some init methods to set up constants based on board parsing. or make not final
     double friction2 = 0.025;
@@ -105,7 +105,7 @@ public class Board {
             }
             gizmos.put(triggerGadget, curActionGadgets);
         }
-        this.gizmos = gizmos;        
+        //this.gizmos = gizmos;        
         setGizmosToGadgets(gizmos);
     }
     
@@ -320,14 +320,15 @@ public class Board {
     /**
      * observer, animate the board (ie print out repeatly
      * at specified framerate
+     * @param out 
      */
-    public void animate(/*PrintWriter out,*/ int framerate) {
+    public void animate(PrintWriter out,  int framerate) {
         try {
             while (true) {
                 long startTime = System.currentTimeMillis();
-                //out.println(this.toString());
-                //out.flush();
-               // System.out.println(this.toString());
+                out.println(this.toString().replaceAll("/n", "&"));
+                out.flush();
+
                 long endTime = System.currentTimeMillis();
                 long duration = endTime - startTime;
                 Thread.sleep(Math.abs(1000/framerate - duration));

@@ -3,12 +3,16 @@ package pingball;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.PrintWriter;
+import java.io.StringWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.NoSuchElementException;
 import java.util.Queue;
+
+import sun.misc.IOUtils;
 
 public class PingballServer {
     /**
@@ -54,19 +58,15 @@ public class PingballServer {
         while (true){
             Socket socket = serverSocket.accept();
             BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-            //PrintWriter out = new PrintWriter(socket.getOutputStream(), true);
+            PrintWriter out = new PrintWriter(socket.getOutputStream(), true);
             
             String boardFromSocket="";
-            while(in.ready()){//TODO need to convert the input stream to a readable string
-                boardFromSocket = boardFromSocket.concat(in.readLine());
-            }
+            boardFromSocket=in.readLine().replaceAll("&", "\n");
             Board newBoard = GrammarFactory.parse(boardFromSocket);
-            System.out.println(boardFromSocket);
-            System.out.println(newBoard.toString());
+            
             Client client = new Client(socket, lock, boardHandler);
             client.setBoard(newBoard);
-            Thread thread = new Thread(client);           
-            // handle the client    
+            Thread thread = new Thread(client);            
             thread.start();
         }        
     }

@@ -10,6 +10,7 @@ public class Ball {
     // circle is the shape representing the ball
     private Vect move;
     private Circle circle;
+    private String name = "";
     
     public boolean isTrapped = false;
     
@@ -21,6 +22,26 @@ public class Ball {
     public Ball(Circle circleIn, Vect vectIn) {
         this.circle = circleIn;
         this.move = vectIn;
+    }
+    
+    /**
+     * Constructor
+     * @param circleIn circle defining ball location
+     * @param vectIn vector defining ball movement
+     * @param name Name of the ball--unique
+     */
+    public Ball(Circle circleIn, Vect vectIn, String name) {
+        this.circle = circleIn;
+        this.move = vectIn;
+        this.name = name;
+    }
+    
+    public String name(){
+        return name;
+    }
+    
+    public boolean hasName(){
+        return !name.equals("");
     }
     
     public String getType(){

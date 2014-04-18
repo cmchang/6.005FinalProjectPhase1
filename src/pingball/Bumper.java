@@ -154,10 +154,6 @@ public class Bumper implements Gadget {
         }  
     }
 
-    
-    public void trigger(Ball ball) {    
-        System.err.println("Bumper doesn't need a ball passed in for the trigger. This method shouldnt be called");
-    }
 
     /** 
      * Returns the means for the location of  the bumper

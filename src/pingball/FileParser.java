@@ -31,7 +31,7 @@ public class FileParser {
         double r = .25;
         Circle circleIn = new Circle(xLoc, yLoc,r);
         Vect vectIn = new Vect(xVel,yVel);
-        return new Ball(circleIn, vectIn);
+        return new Ball(circleIn, vectIn, name);
     }
     
     /**

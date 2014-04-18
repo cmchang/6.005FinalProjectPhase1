@@ -184,10 +184,6 @@ public class Flipper implements Gadget {
     }
 
     
-    public void trigger(Ball ball) {
-        System.err.println("Flipper doesn't need a ball passed in for the trigger. This method shouldnt be called");        
-    }
-    
     public void move(double stepSize) {
         // .001 is millisecond conversion
 

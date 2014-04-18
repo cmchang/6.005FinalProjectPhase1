@@ -26,7 +26,7 @@ class Update implements Runnable {
     private final double mu2;//  = board.friction2;
     private final double deltaT = 1.0 / 1000.0;
     private final double minTime = deltaT* 10;
-    private final BufferedReader in;
+    //private final BufferedReader in;
     private final Object lock;
     private final BoardsHandler boardHandler;
  
@@ -41,7 +41,7 @@ class Update implements Runnable {
         board = boardIn;
         mu = board.friction1;
         mu2 = board.friction2;
-        this.in = in;
+        //this.in = in;
         this.lock = lock;
         this.boardHandler = connectionsIn;
     }
@@ -146,9 +146,7 @@ class Update implements Runnable {
                               ball.setMove(velocities.v1);
                               closestBall.setMove(velocities.v2);
                           } else {
-                              if (closestGadg.getType().equals("absorber")){ // if its an absorber, don't reflect ball                              
-                                  closestGadg.trigger(ball); 
-                              } else if (closestGadg.getType().equals("wall")){ // if its a wall, we need to check if its solid/invisible
+                              if (closestGadg.getType().equals("wall")){ // if its a wall, we need to check if its solid/invisible
         //                          dirty = true;
                                   Wall closeWall = (Wall) closestGadg;
                                   if (closeWall.visible.equals(Visibility.SOLID)) closestGadg.reflectBall(ball);
@@ -158,13 +156,13 @@ class Update implements Runnable {
                                           for (Connection c : boardHandler.getConnections(board)){
                                               if (c.boundary.equals(closeWall.boundary)){  //then c contains the name of the board thats connected to it                                                                      
                                                   Circle newCircle = board.newBallLocation(ball.getCircle(),closeWall.boundary);  //put ball on other side of board                              
-                                                  Ball newBall = new Ball(newCircle, ball.getMove());
+                                                  Ball newBall = new Ball(newCircle, ball.getMove(), ball.name());
                                                   boardHandler.sendBall(c, newBall);      //send ball to other board through BoardsHandler                           
                                               }                                      
                                           }
                                       }
                                   }                      
-                              } else { // its a bumper or flipper
+                              } else { // its a bumper or flipper or absorber
         //                          dirty = true;
                                   closestGadg.reflectBall(ball);
                                   closestGadg.trigger();
