@@ -76,8 +76,8 @@ public class Ball {
      * Sets the circle defining the ball location with the parameter passed in
      * @param circle A Circle object that defines ball location
      */
-    public void setCircle(Circle circle) {
-        this.circle = circle;
+    public void setCircle(Circle circle) {        
+        if (inBoard(circle)) this.circle = circle;
     }
     
     /**
@@ -102,8 +102,20 @@ public class Ball {
      */
     public void move(double stepSize) {
 //        System.out.println(stepSize * move.dot(Vect.Y_HAT) * move.length());
+        
         double x = circle.getCenter().x() + stepSize * move.dot(Vect.X_HAT) * move.length();
         double y = circle.getCenter().y() + stepSize * move.dot(Vect.Y_HAT) * move.length();
         this.setCircle(new Circle(x, y, circle.getRadius()));
+    }
+    
+    /**
+     * check if the circle is in the board
+     * @param circle circle to check
+     * @return true if the circle is in the board
+     */
+    private boolean inBoard(Circle circle){
+        double x = circle.getCenter().x();
+        double y = circle.getCenter().y();
+        return true;//(0.0<=x && x>=20.0 && 0.0<=y && y>=20.0);
     }
 }

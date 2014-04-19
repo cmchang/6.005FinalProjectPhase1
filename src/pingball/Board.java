@@ -292,21 +292,21 @@ public class Board {
                     otherBoard = otherBoard.substring(0, Math.min(20, otherBoard.length()));
                     
                     if (((Wall) gadget).boundary.equals(Boundary.BOTTOM)) {
-                        for (int i=1;i<otherBoard.length();i++){
+                        for (int i=1;i<otherBoard.length()+1;i++){
                             field[i][21] = otherBoard.charAt(i-1);                            
                         }
 
                     } else if (((Wall) gadget).boundary.equals(Boundary.TOP)) {
-                        for (int i=1;i<otherBoard.length();i++){
+                        for (int i=1;i<otherBoard.length()+1;i++){
                             field[i][0] = otherBoard.charAt(i-1);
                         }
                     } else if (((Wall) gadget).boundary.equals(Boundary.LEFT)) {
-                        for (int j=1;j<otherBoard.length();j++){
+                        for (int j=1;j<otherBoard.length()+1;j++){
                             field[0][j] = otherBoard.charAt(j-1);
                             //System.out.println(otherBoard.charAt(j)); 
                         }
                     } else if (((Wall) gadget).boundary.equals(Boundary.RIGHT)) {
-                        for (int j=1;j<otherBoard.length();j++){
+                        for (int j=1;j<otherBoard.length()+1;j++){
                             field[21][j] = otherBoard.charAt(j-1); //because j starts at 1
                         }
                     } 

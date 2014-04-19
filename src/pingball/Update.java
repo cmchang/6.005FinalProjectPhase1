@@ -152,7 +152,7 @@ class Update implements Runnable {
                                   closestBall.setMove(velocities.v2);
                               } else {
                                   if (closestGadg.getType().equals("wall")){ // if its a wall, we need to check if its solid/invisible
-            //                          dirty = true;
+                                      dirty = true;
                                       Wall closeWall = (Wall) closestGadg;
                                       if (closeWall.visible.equals(Visibility.SOLID)) closestGadg.reflectBall(ball);
                                       if (closeWall.visible.equals(Visibility.INVISIBLE)){ //send the ball to the other board                                      
@@ -169,7 +169,7 @@ class Update implements Runnable {
                                           }
                                       }                      
                                   } else { // its a bumper or flipper or absorber
-            //                          dirty = true;
+                                      dirty = true;
                                       closestGadg.reflectBall(ball);
                                       closestGadg.trigger();
                                   }

@@ -96,7 +96,7 @@ public class Absorber implements Gadget {
      */
     private void storeBall(Ball ball) {
         ball.isTrapped = true;
-        ball.setMove(new Vect(Angle.DEG_270,0.0));        
+        ball.setMove(new Vect(Angle.DEG_270,0.0));
         ball.setCircle(new Circle( (double)(x+width)-.25/2.0,(double)(y+height)-.25/2.0, ball.getCircle().getRadius()));
         absorbedBalls.add(ball);
         
