@@ -187,10 +187,16 @@ public class Board {
         }
         for (Ball b: balls) {
             if (b.getX() > 20 || b.getY() > 20){
-
                 System.out.println(b.getCircle());
                 System.out.println(b.getMove());
-
+            }
+            int x = b.getX();
+            int y = b.getY();
+            if (x == 20) {
+                x = 19;
+            }
+            if (y == 20) {
+                y = 19;
             }
             field[b.getX() + 1][b.getY() + 1] = '*';
         }

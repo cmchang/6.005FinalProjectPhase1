@@ -27,7 +27,7 @@ class Update implements Runnable {
     private final double mu; // = board.friction1;
     private final double mu2;//  = board.friction2;
     private final double deltaT = 1.0 / 1000.0;
-    private final double minTime = deltaT* 10;
+    private final double minTime = deltaT * 100;
     //private final BufferedReader in;
     private final Object lock;
     private final BoardsHandler boardHandler;
