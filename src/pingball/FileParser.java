@@ -60,8 +60,7 @@ public class FileParser {
      */
     public static Flipper createFlipper(Side side, String name, int xLoc, int yLoc, int orientation){
 //        Side side = Side.LEFT;
-        int state = 0;        
-        return new Flipper(name, xLoc, yLoc, orientation, side, state);
+        return new Flipper(name, xLoc, yLoc, orientation, side);
     }
    
     

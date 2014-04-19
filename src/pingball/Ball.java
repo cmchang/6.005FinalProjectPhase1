@@ -1,5 +1,6 @@
 package pingball;
 
+import physics.Angle;
 import physics.Circle;
 import physics.Vect;
 
@@ -116,7 +117,12 @@ public class Ball {
 
         double x = circle.getCenter().x() + stepSize * move.dot(Vect.X_HAT) * move.length();
         double y = circle.getCenter().y() + stepSize * move.dot(Vect.Y_HAT) * move.length();
-        this.setCircle(new Circle(x, y, circle.getRadius()));
+        if (inBoard(new Circle(x, y, 0.1))) {
+            this.setCircle(new Circle(x, y, circle.getRadius()));
+        } else {
+            Vect moveSwitch = move.rotateBy(Angle.DEG_180);
+            this.setMove(moveSwitch);
+        }
     }
     
     /**
@@ -127,6 +133,6 @@ public class Ball {
     private boolean inBoard(Circle circle){
         double x = circle.getCenter().x();
         double y = circle.getCenter().y();
-        return true;//(0.0<=x && x>=20.0 && 0.0<=y && y>=20.0);
+        return (0.0<=x && x>=20.0 && 0.0<=y && y>=20.0);
     }
 }

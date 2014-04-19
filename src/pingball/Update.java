@@ -87,7 +87,6 @@ class Update implements Runnable {
               // add in gravity and friction to the boards velocity based on the timestep
               Gadget closestGadg = null;
               try {
-//                  System.out.println((long) deltaT * 10);
                 Thread.sleep(1);
               } catch (InterruptedException e) {
                 e.printStackTrace();
@@ -131,7 +130,7 @@ class Update implements Runnable {
                               }
                           }
                           for (Ball otherBall: board.getBalls()) {
-                              if (!otherBall.isTrapped){
+                              if (!otherBall.isTrapped) {
                                   if (!ball.equals(otherBall)) {
                                       double timeBall = Geometry.timeUntilBallBallCollision(ball.getCircle(), ball.getMove(), otherBall.getCircle(), otherBall.getMove());
                                       if (timeBall < time) {
@@ -152,7 +151,6 @@ class Update implements Runnable {
                                   closestBall.setMove(velocities.v2);
                               } else {
                                   if (closestGadg.getType().equals("wall")){ // if its a wall, we need to check if its solid/invisible
-                                      dirty = true;
                                       Wall closeWall = (Wall) closestGadg;
                                       if (closeWall.visible.equals(Visibility.SOLID)) closestGadg.reflectBall(ball);
                                       if (closeWall.visible.equals(Visibility.INVISIBLE)){ //send the ball to the other board                                      
@@ -169,13 +167,11 @@ class Update implements Runnable {
                                           }
                                       }                      
                                   } else { // its a bumper or flipper or absorber
-                                      dirty = true;
                                       closestGadg.reflectBall(ball);
                                       closestGadg.trigger();
                                   }
                               }
                           }
-        //              }
                           if (!dirty) {
             //                  move the ball forward based on the timestep
             //                  for (int i = 0; i < board.getBalls().size(); i ++) {
