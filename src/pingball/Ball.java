@@ -89,7 +89,7 @@ public class Ball {
      * @param circle A Circle object that defines ball location
      */
     public void setCircle(Circle circle) {        
-        if (inBoard(circle)) this.circle = circle;
+        /*if (inBoard(circle))*/ this.circle = circle;
     }
     
     /**
@@ -133,8 +133,8 @@ public class Ball {
     private boolean inBoard(Circle circle){
         double x = circle.getCenter().x();
         double y = circle.getCenter().y();
-        System.out.println(x);
-        System.out.println(y);
+        //System.out.println(x);
+        //System.out.println(y);
         return (0.0<=x && x<=20.0 && 0.0<=y && y<=20.0);
     }
 }
