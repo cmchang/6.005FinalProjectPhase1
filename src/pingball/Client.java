@@ -39,18 +39,6 @@ public class Client implements Runnable{
      * @param connectionsIn boardHandler with all the relationships between boards
      */
     Client(Socket socket, Object lock, BoardsHandler connectionsIn){
-//        this.board = new Board();
-//        Angle start = new Angle(2.0);
-//        Angle start2 = new Angle(3.0);
-//        Circle cir1 = new Circle(5.0, 5.0, .01);
-//        Circle cir2 = new Circle(2.0, 2.0, .01);
-//        Vect v1 = new Vect(start, 10.0);
-//        Vect v2 = new Vect(start2, 10.0);
-//        Ball ball = new Ball(cir1, v1);
-//        Ball ball2 = new Ball(cir2, v2);
-//        board.addBall(ball);
-//        board.addBall(ball2);
-        //this.board = GrammarFactory.parse(new File("src/pingball/Boards/board2.txt"));
         this.socket = socket;
         this.lock = lock;
         this.connections = connectionsIn;
@@ -63,7 +51,6 @@ public class Client implements Runnable{
     public void run() {
         // handle the client
         // need to initialize a board
-        
         
         try {
             handleConnection(socket);
@@ -158,8 +145,7 @@ public class Client implements Runnable{
             while(true){
                 String receiveReadyString = in.readLine().replaceAll("&", "\n");
                 System.out.println(receiveReadyString);
-            }
-            
+            }     
         } else {
             // single-play
             Socket socket = new Socket(); // we don't need a socket.
@@ -170,9 +156,7 @@ public class Client implements Runnable{
             client.setBoard(GrammarFactory.parse(file));
             Thread thread = new Thread(client);
             thread.start();            
-        }
-        
-        //new File("src/pingball/Boards/board1.txt")
+        }        
     }
 
     void setBoard(Board boardToSet) {

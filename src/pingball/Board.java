@@ -28,10 +28,8 @@ public class Board {
     private final int ylength = 20;
 
     
-    List<Gadget> objects = new ArrayList<Gadget>();
-    //private HashMap<Gadget,List<Gadget>> gizmos;
-    
-    double friction1 = 0.025; // will need some init methods to set up constants based on board parsing. or make not final
+    List<Gadget> objects = new ArrayList<Gadget>();    
+    double friction1 = 0.025; //default values
     double friction2 = 0.025;
     double gravity = 25.0;
     
@@ -104,7 +102,6 @@ public class Board {
             }
             gizmos.put(triggerGadget, curActionGadgets);
         }
-        //this.gizmos = gizmos;        
         setGizmosToGadgets(gizmos);
     }
     
@@ -171,6 +168,10 @@ public class Board {
         objects.add(gadget);
     }
     
+    /**
+     * This method converts a board object into a string
+     * This is the string that is displayed to the client
+     */
     @Override
     public String toString() {
         StringBuilder output = new StringBuilder();
@@ -276,10 +277,6 @@ public class Board {
                 int ymin = ((Absorber) gadget).getY();
                 int width = ((Absorber) gadget).getWidth();
                 int height = ((Absorber) gadget).getHeight();
-//                for (int i=0; i < height; i++) {
-//                field[xmin+1][ymin+1] = '=';
-//                field[xmin + width][ymin+1] = '=';
-//            }
                 for (int j=0; j < width; j++) {
                     field[xmin + j + 1][ymin] = '=';
                     field[xmin + j + 1][ymin + height] = '=';
@@ -359,14 +356,6 @@ public class Board {
     public List<Ball> getBalls() {
         return this.balls;
     }
-    
-//    /**
-//     * Sets a the list of Balls currently contained in the board with the list passed in
-//     * @param balls a list of balls contained in the board
-//     */
-//    public void setBalls(List<Ball> balls) {
-//        this.balls = balls;
-//    }
 
     /**
      * updates the visibilities of the wall given a map 

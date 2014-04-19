@@ -118,7 +118,8 @@ class Update implements Runnable {
                   List<Ball> ballToRemove = new ArrayList<Ball>(); 
                   for (Ball ball: board.getBalls()) {
                       if (!ball.isTrapped){
-                          boolean dirty = false;
+                          boolean dirty = false; //If a ball has to change direction, then the system should recheck
+                          //if there are any collisions before moving the ball. dirty ensures we dont move until we recheck
                           double time = 10000.0;
                           Ball closestBall = null;
                           boolean gadgetCollision = true;
@@ -142,7 +143,6 @@ class Update implements Runnable {
                               }
                           }
                           if (time<minTime) { // if the time is small enough to be considered a collision
-        
                               dirty = true;
                               if (!gadgetCollision) {
                                   Vect vect1 = ball.getCircle().getCenter();
