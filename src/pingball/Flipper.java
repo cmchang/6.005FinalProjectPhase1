@@ -37,7 +37,7 @@ public class Flipper implements Gadget {
     /** state is between 0 and 90 for left bumper. 
      * state is between -90 and 0 for right bumper.
      */
-    private int state;
+    private double state;
     
     /** defined by x1,y1 -> x2,y2 where p1 is the pivot point*/
     LineSegment wall;
@@ -56,15 +56,14 @@ public class Flipper implements Gadget {
      * @param y
      * @param orientation
      * @param leftOrRight
-     * @param state
      */
-    public Flipper(String name,int x,int y,int orientation, Side leftOrRight, int state){
-        this.name = name;
+    public Flipper(String name,int x,int y,int orientation, Side leftOrRight){
+        this.name  = name;
         this.x = x;
         this.y = y;
         this.orientation = orientation;
         this.side = leftOrRight;
-        this.state = state;
+        this.state = 0;
            
         this.angularVelocity = 0;
         
@@ -132,22 +131,22 @@ public class Flipper implements Gadget {
             if (side.equals(Side.LEFT) && state < 45){ // in the 0 degrees position
                 finalWall = Geometry.rotateAround(wall, new Vect(x,y).rotateBy(new Angle((orientation)/180.0*Math.PI))
                         , new Angle(90.0 /180.0*Math.PI));
-                angularVelocity = 1080.0/360.0*Math.PI;            
+                angularVelocity = 1080.0/180.0*Math.PI;            
             
             } else if (side.equals(Side.LEFT) && state > 45){ // in the 90 degrees position
                 finalWall = Geometry.rotateAround(wall, new Vect(x,y).rotateBy(new Angle((orientation)/180.0*Math.PI))
                         , new Angle(-90.0 /180.0*Math.PI));
-                angularVelocity = 1080.0/360.0*Math.PI;
+                angularVelocity = 1080.0/180.0*Math.PI;
             
             } else if (side.equals(Side.RIGHT) && state > -45){ // in the 0 degrees position
                 finalWall = Geometry.rotateAround(wall, new Vect(x+2,y).rotateBy(new Angle((orientation)/180.0*Math.PI))
                         , new Angle(-90.0 /180.0*Math.PI));
-                angularVelocity = 1080.0/360.0*Math.PI;
+                angularVelocity = 1080.0/180.0*Math.PI;
                 
             } else if (side.equals(Side.RIGHT) && state < -45){ // in the -90 degrees position
                 finalWall = Geometry.rotateAround(wall, new Vect(x+2,y).rotateBy(new Angle((orientation)/180.0*Math.PI))
                         , new Angle(90.0 /180.0*Math.PI));
-                angularVelocity = 1080.0/360.0*Math.PI;
+                angularVelocity = 1080.0/180.0*Math.PI;
                 
             }
         }
@@ -165,12 +164,10 @@ public class Flipper implements Gadget {
         if (side.equals(Side.LEFT)){
             Vect newVect = Geometry.reflectRotatingWall(wall, new Vect(x,y).rotateBy(new Angle((orientation)/180.0*Math.PI)), 
                     angularVelocity, ball.getCircle(), ball.getMove(), getCoefficient());
-            System.out.println("new vect: "+newVect);
             ball.setMove(newVect);
         } else if (side.equals(Side.RIGHT)){
             Vect newVect = Geometry.reflectRotatingWall(wall, new Vect(x+2,y).rotateBy(new Angle((orientation)/180.0*Math.PI)), 
-                    angularVelocity, ball.getCircle(), ball.getMove(), getCoefficient());
-            System.out.println("new vect: "+newVect);
+                    angularVelocity, ball.getCircle(), ball.getMove(), getCoefficient());            
             ball.setMove(newVect);
         }                    
     }

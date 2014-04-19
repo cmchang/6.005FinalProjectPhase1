@@ -33,7 +33,7 @@ public class Bumper implements Gadget {
     private int orientation;
     
     public Bumper(Shape shape, String name, int x, int y){
-        this.name=name;
+        this.name =name;
         this.shape=shape;
         if (shape.equals(Shape.CIRCLE)){
             circle = new Circle(x, y, .5);
@@ -48,7 +48,7 @@ public class Bumper implements Gadget {
     }
     
     public Bumper(Shape shape, String name, int x, int y, int orientation){
-        this.name=name;
+        this.name =name;
         this.shape=shape;
         this.orientation=orientation;
         if (shape.equals(Shape.CIRCLE)){
@@ -137,7 +137,10 @@ public class Bumper implements Gadget {
     
     public void reflectBall(Ball ball) {
         if (circle == null){
-            if (wallReflecting == null) System.err.println("error in getting the wall thats reflecting");
+            if (wallReflecting == null) {
+                //System.err.println("error in getting the wall thats reflecting");
+                return;
+            }
             Vect newVect = Geometry.reflectWall(wallReflecting, ball.getMove(), getCoefficient());            
             ball.setMove(newVect);
         } else {
@@ -163,6 +166,7 @@ public class Bumper implements Gadget {
     public Object getPosition(){
         if (circle==null) return walls;
         else return circle;
+
     }
 
     public int getOrientation() {
