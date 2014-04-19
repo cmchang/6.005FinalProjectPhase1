@@ -125,8 +125,8 @@ public class FileParsingTest {
     public void testSampleBoard1_A1_A2_A4_B2_B6_C1(){
         Board myBoard = GrammarFactory.parse(new File("src/../Boards/board1.txt"));
         String ExpectedAnswer = "......................\n"
-                + ".*                   .\n"
                 + ".                    .\n"
+                + ". *                  .\n"
                 + ".########----########.\n"
                 + ".    0          0    .\n"
                 + ".     0        0     .\n"
@@ -146,7 +146,7 @@ public class FileParsingTest {
                 + ".====================.\n"
                 + ".====================.\n"
                 + "......................\n";
-        System.out.println(myBoard.toString());
+//        System.out.println(myBoard.toString());
         assertEquals(ExpectedAnswer, myBoard.toString());
     }
     
@@ -155,8 +155,8 @@ public class FileParsingTest {
     public void testSampleBoard2_C2(){
         Board myBoard = GrammarFactory.parse(new File("src/../Boards/board2.txt"));
         String ExpectedAnswer = "......................\n"
-                + ".*                   .\n"
                 + ".                    .\n"
+                + ". *                  .\n"
                 + ".################--  .\n"
                 + ".          0         .\n"
                 + ".           0        .\n"
@@ -219,8 +219,8 @@ public class FileParsingTest {
                 + ".                    .\n"
                 + ".                    .\n"
                 + ".    0              \\.\n"
-                + ". *                  .\n"
                 + ".                    .\n"
+                + ".  *                 .\n"
                 + ".                    .\n"
                 + ".          ---       .\n"
                 + ".                    .\n"
@@ -250,8 +250,8 @@ public class FileParsingTest {
                 + ".                    .\n"
                 + ".                    .\n"
                 + ".    0              \\.\n"
-                + ". *                  .\n"
                 + ".                    .\n"
+                + ".  *                 .\n"
                 + ".                    .\n"
                 + ".          ---       .\n"
                 + ".                    .\n"
