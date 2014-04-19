@@ -183,6 +183,7 @@ class Update implements Runnable {
                           }
                       }
                   }
+                  //remove balls that left the board
                   board.getBalls().removeAll(ballToRemove);
               }
               //move the flippers based on the timestep

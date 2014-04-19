@@ -377,11 +377,16 @@ public class Board {
      * @return new circle on the opposite side of the wall
      */
     public Circle newBallLocation(Circle circle, Boundary boundary) {
-        if (boundary.equals(Boundary.BOTTOM) || boundary.equals(Boundary.TOP)){
-            return new Circle(circle.getCenter().x(),20.0-circle.getCenter().y(),circle.getRadius());
+        if (boundary.equals(Boundary.BOTTOM)){
+            return new Circle(circle.getCenter().x(),0.01,circle.getRadius());
+        } else if (boundary.equals(Boundary.TOP)) {
+            return new Circle(circle.getCenter().x(),19.9,circle.getRadius());
+        } else if (boundary.equals(Boundary.RIGHT)){            
+            return new Circle(0.01,circle.getCenter().y(),circle.getRadius());
         } else {
-            return new Circle(20.0-circle.getCenter().x(),circle.getCenter().y(),circle.getRadius());
+            return new Circle(19.9,circle.getCenter().y(),circle.getRadius());
         }
+        
     }
 
 
