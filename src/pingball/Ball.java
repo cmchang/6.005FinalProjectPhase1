@@ -64,7 +64,7 @@ public class Ball {
      * @return returns the X coordinate of the center of the ball 
      */
     public int getX() {
-        return (int) circle.getCenter().x();
+        return (int) Math.round(circle.getCenter().x());
     }
     
     /** 
@@ -72,7 +72,7 @@ public class Ball {
      * @return returns the Y coordinate of the center of the ball 
      */
     public int getY() {
-        return (int) circle.getCenter().y();
+        return (int) Math.round(circle.getCenter().y());
     }
     
     /** 
