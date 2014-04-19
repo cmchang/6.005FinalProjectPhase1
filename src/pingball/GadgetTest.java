@@ -247,9 +247,9 @@ public class GadgetTest {
         
         assertTrue(ball1.getX()==4);
         
-        ball1.move(100000*deltaT);
-        
-        assertTrue(ball1.getX()==2504);
+        ball1.move(500*deltaT);
+
+        assertTrue(ball1.getX()==16);
 
         assertTrue(ball1.getY()==1);
         

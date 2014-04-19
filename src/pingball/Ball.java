@@ -133,6 +133,6 @@ public class Ball {
     private boolean inBoard(Circle circle){
         double x = circle.getCenter().x();
         double y = circle.getCenter().y();
-        return (0.0<=x && x>=20.0 && 0.0<=y && y>=20.0);
+        return (0.0<=x && x<=20.0 && 0.0<=y && y<=20.0);
     }
 }
