@@ -60,7 +60,7 @@ public class BallTest {
         testBall.move(0.0);
         assertEquals(testBall.getCircle(), cir1);
         assertEquals(testBall.getMove(), v1);
-        testBall.move(1.0);
+        testBall.move(1.0/1000.0);
         assertEquals(testBall.getCircle().equals(cir1), false);
         assertEquals(testBall.getMove().equals(v1), true);
     }
