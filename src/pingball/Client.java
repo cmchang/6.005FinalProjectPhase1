@@ -132,6 +132,7 @@ public class Client implements Runnable{
         }
     }
 
+    
     private static void runPingballClient(String hostname, int port, File file, String fileName) throws Exception{
         if (hostname != "") {
             //join the server
@@ -158,7 +159,10 @@ public class Client implements Runnable{
             thread.start();            
         }        
     }
-
+    /**
+     * Sets the board of the client.
+     * @param boardToSet board to be set
+     */
     void setBoard(Board boardToSet) {
         this.board = boardToSet;        
     }

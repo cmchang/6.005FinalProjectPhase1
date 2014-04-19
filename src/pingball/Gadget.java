@@ -62,7 +62,11 @@ public interface Gadget {
     
     public void trigger();
     
-
+    /**
+     * Sets the gizmos of the object, which are the list of gadgets that can set off the action of the
+     * object. 
+     * @param list list of valid gadgets in the board
+     */
     public void setGizmos(List<Gadget> list);
     
 }
