@@ -47,10 +47,19 @@ public class Wall implements Gadget {
         }
         
     }
-    
+    /**
+     * Boundary of the wall -- either left,right,top or bottom 
+     */
     public enum Boundary { LEFT,RIGHT,TOP,BOTTOM };
+    
+    /**
+     * Enum to keep track of whether the wall is solid or invisible. 
+     */
     public enum Visibility { SOLID,INVISIBLE }; 
     
+    /**
+     * Returns the visibility of the wall. 
+     */
     public String getName() {
         return visible.toString();
     }
@@ -59,6 +68,7 @@ public class Wall implements Gadget {
        return "wall";
     }
 
+    
     public double getTimeToCollision(Ball ball) {                                                                                 
         return Geometry.timeUntilWallCollision(wall, ball.getCircle(), ball.getMove());
         
@@ -78,12 +88,8 @@ public class Wall implements Gadget {
     }
 
     public void trigger() {
-//        System.err.println("This shouldn't be called.(trigger for wall)");
     }
 
-    public void trigger(Ball ball) {
-//        System.err.println("This shouldn't be called.(trigger ball for wall)");
-    }
     /**
      * sets the Connection object of the Wall
      * @param connection connection object to be set
@@ -107,6 +113,7 @@ public class Wall implements Gadget {
         this.visible = visibility;        
     }
 
+    
     public void setGizmos(List<Gadget> list) {        
     }
 
