@@ -6,6 +6,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
 import physics.Circle;
 import physics.LineSegment;
 import pingball.Ball;
@@ -17,6 +18,7 @@ import pingball.Wall.Visibility;
 /**
  * Representation of all the walls, gadgets and balls on a single Pingball board. Each client plays on a single board.
  *
+ * Representation Invariant: No two gadgets occupy same space
  */
 public class Board {
     // similar as in warm-up
@@ -32,6 +34,152 @@ public class Board {
     double friction1 = 0.025; //default values
     double friction2 = 0.025;
     double gravity = 25.0;
+    
+    //checkRep method enforces Rep Invariant. 
+    private void checkRep() throws Exception {
+        StringBuilder output = new StringBuilder();
+        char[][] field = new char[xlength+2][ylength+2];
+        for (int i = 0; i < xlength+2; i++) {
+            for (int j = 0; j < ylength+2; j++) {
+                    field[i][j] = ' ';
+            }
+        }
+        for (Gadget gadget: objects){ //includes walls,absorbers,bumpers,flipper
+            int xcoord;
+            int ycoord;
+            if (gadget.getType().equals("flipper")){
+//                List<LineSegment> flipWalls = ((Flipper) gadget).getPosition();
+                int orient = ((Flipper) gadget).getOrientation();
+                Side side = ((Flipper) gadget).getSide();
+                xcoord = ((Flipper) gadget).getX();
+                ycoord = ((Flipper) gadget).getY()+1;
+                switch (orient) {
+                case 0:
+                    field[xcoord + 1][ycoord] = '-';
+                    if (side.equals(Side.RIGHT) && field[xcoord - 1 + 1][ycoord] != ' ') throw new Exception("Objects in same place");
+                    if (side.equals(Side.RIGHT)) field[xcoord - 1 + 1][ycoord] = '-';
+                    if (side.equals(Side.LEFT) && field[xcoord + 1 + 1][ycoord] != ' ') throw new Exception("Objects in same place");
+                    if (side.equals(Side.LEFT)) field[xcoord + 1 + 1][ycoord] = '-';
+                    break;
+                case 90:
+                    field[xcoord + 1][ycoord] = '|';
+                    if (side.equals(Side.RIGHT) && field[xcoord + 1 + 1][ycoord + 1] != ' ') throw new Exception("Objects in same place");
+                    if (side.equals(Side.RIGHT)) field[xcoord + 1][ycoord + 1] = '|';
+                    if (side.equals(Side.LEFT) && field[xcoord + 1 + 1][ycoord - 1] != ' ') throw new Exception("Objects in same place");
+                    if (side.equals(Side.LEFT)) field[xcoord + 1][ycoord - 1] = '|';
+                    break;
+                case 180:
+                    field[xcoord + 1][ycoord] = '-';
+                    field[xcoord - 1 + 1][ycoord] = '-';
+                    if (side.equals(Side.RIGHT) && field[xcoord + 1 + 1][ycoord] != ' ') throw new Exception("Objects in same place");
+                    if (side.equals(Side.RIGHT)) field[xcoord + 1 + 1][ycoord] = '-';
+                    if (side.equals(Side.LEFT) && field[xcoord - 1 + 1][ycoord] != ' ') throw new Exception("Objects in same place");
+                    if (side.equals(Side.LEFT)) field[xcoord - 1 + 1][ycoord] = '-';
+                    break;
+                case 270:
+                    field[xcoord + 1][ycoord] = '|';
+                    if (side.equals(Side.RIGHT) && field[xcoord + 1][ycoord - 1] != ' ') throw new Exception("Objects in same place");
+                    if (side.equals(Side.RIGHT)) field[xcoord + 1][ycoord - 1] = '|';
+                    if (side.equals(Side.LEFT) && field[xcoord + 1][ycoord + 1] != ' ') throw new Exception("Objects in same place");
+                    if (side.equals(Side.LEFT)) field[xcoord + 1][ycoord + 1] = '|';
+                    break;
+                default:
+                    System.err.println("invalid orientation");
+                    break;
+                }
+            } else if (gadget.getType().equals("bumper")) {
+                if (((Bumper) gadget).getShape().equals(Shape.SQUARE)) {
+                    @SuppressWarnings("unchecked")
+                    List<LineSegment> squareWalls = (List<LineSegment>) ((Bumper) gadget).getPosition();
+                    xcoord = (int) squareWalls.get(0).p1().x();
+                    ycoord = (int) squareWalls.get(0).p1().y()+1;
+                    if (field[xcoord+1][ycoord] != ' ') throw new Exception("Objects in same place");
+                    field[xcoord+1][ycoord] = '#';
+                } else if (((Bumper) gadget).getShape().equals(Shape.CIRCLE)) {
+                    Circle circ = (Circle) ((Bumper) gadget).getPosition();
+                    xcoord = (int) circ.getCenter().x();
+                    ycoord = (int) circ.getCenter().y()+1;
+                    if (field[xcoord+1][ycoord] != ' ') throw new Exception("Objects in same place");
+                    field[xcoord+1][ycoord] = '0';
+                } else if (((Bumper) gadget).getShape().equals(Shape.TRIANGLE)) {
+                    @SuppressWarnings("unchecked")
+                    List<LineSegment> triWalls = (List<LineSegment>) ((Bumper) gadget).getPosition();
+                    int orient = ((Bumper) gadget).getOrientation();
+                    switch (orient) {
+                    case 0:
+                        xcoord = (int) triWalls.get(0).p1().x();
+                        ycoord = (int) triWalls.get(0).p1().y()+1;
+                        if (field[xcoord+1][ycoord] != ' ') throw new Exception("Objects in same place");
+                        field[xcoord+1][ycoord] = '/';
+                        break;
+                    case 90:
+                        xcoord = (int) triWalls.get(0).p1().x();
+                        ycoord = (int) triWalls.get(0).p1().y()+1;
+                        if (field[xcoord+1][ycoord] != ' ') throw new Exception("Objects in same place");
+                        field[xcoord+1][ycoord] = '\\';
+                        break;
+                    case 180:
+                        xcoord = (int) triWalls.get(0).p1().x();
+                        ycoord = (int) triWalls.get(1).p1().y()+1;
+                        if (field[xcoord+1][ycoord] != ' ') throw new Exception("Objects in same place");
+                        field[xcoord+1][ycoord] = '/';
+                        break;
+                    case 270:
+                        xcoord = (int) triWalls.get(0).p1().x();
+                        ycoord = (int) triWalls.get(1).p1().y()+1;
+                        if (field[xcoord+1][ycoord] != ' ') throw new Exception("Objects in same place");
+                        field[xcoord+1][ycoord] = '\\';
+                        break;
+                    default:
+                        System.err.println("invalid orientation");
+                        break;
+                    }
+                }
+            } else if (gadget.getType().equals("absorber")) {
+                int xmin = ((Absorber) gadget).getX();
+                int ymin = ((Absorber) gadget).getY();
+                int width = ((Absorber) gadget).getWidth();
+                int height = ((Absorber) gadget).getHeight();
+                for (int j=0; j < width; j++) {
+                    if (field[xmin+j+1][ymin] != ' ') throw new Exception("Objects in same place");
+                    field[xmin + j + 1][ymin] = '=';
+                    if (field[xmin+j+1][ymin] != ' ') throw new Exception("Objects in same place");
+                    field[xmin + j + 1][ymin + height] = '=';
+                }
+            } else if (gadget.getType().equals("wall")){
+                String otherBoard;
+                if (((Wall) gadget).visible.equals(Visibility.INVISIBLE)) {
+                    
+                    otherBoard = ((Wall) gadget).connection.name;
+                    otherBoard = otherBoard.substring(0, Math.min(20, otherBoard.length()));
+                    
+                    if (((Wall) gadget).boundary.equals(Boundary.BOTTOM)) {
+                        for (int i=1;i<otherBoard.length()+1;i++){
+                            if (field[i][21] != ' ') throw new Exception();
+                            field[i][21] = otherBoard.charAt(i-1);                            
+                        }
+
+                    } else if (((Wall) gadget).boundary.equals(Boundary.TOP)) {
+                        for (int i=1;i<otherBoard.length()+1;i++){
+                            if (field[i][0] != ' ') throw new Exception("Objects in same place");
+                            field[i][0] = otherBoard.charAt(i-1);
+                        }
+                    } else if (((Wall) gadget).boundary.equals(Boundary.LEFT)) {
+                        for (int j=1;j<otherBoard.length()+1;j++){
+                            if (field[0][j] != ' ') throw new Exception("Objects in same place");
+                            field[0][j] = otherBoard.charAt(j-1);
+                            //System.out.println(otherBoard.charAt(j)); 
+                        }
+                    } else if (((Wall) gadget).boundary.equals(Boundary.RIGHT)) {
+                        for (int j=1;j<otherBoard.length()+1;j++){
+                            if (field[21][j] != ' ') throw new Exception("Objects in same place");
+                            field[21][j] = otherBoard.charAt(j-1); //because j starts at 1
+                        }
+                    } 
+                }
+            }
+        }
+    }
     
     /**
      * This method is a constructor for the board given a name, gravity, AND friction.
@@ -394,6 +542,4 @@ public class Board {
         }
         
     }
-
-
 }
