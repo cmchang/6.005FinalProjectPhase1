@@ -46,6 +46,10 @@ public class BoardsHandler {
         }        
     }
     
+    /**
+     * Orientation of the connection. Can be either a horizontal or vertical connection
+     *
+     */
     public enum Orientation {HORIZONTAL,VERTICAL};
     
     

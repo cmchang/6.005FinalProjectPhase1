@@ -346,7 +346,7 @@ public class Board {
             if (y == 20) {
                 y = 19;
             }
-            field[b.getX() + 1][b.getY() + 1] = '*';
+            field[x + 1][y + 1] = '*';
         }
         
         for (Gadget gadget: objects){ //includes walls,absorbers,bumpers,flipper

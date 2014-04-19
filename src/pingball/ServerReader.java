@@ -14,7 +14,9 @@ public class ServerReader implements Runnable{
         this.lock = lock;
         this.boardHandler = boardHandler;
     }
-    
+    /**
+     * continually reads the inputs from server.in to add connections
+     */
     public void run() {
          // contains join messages
         while(true){
