@@ -2,6 +2,7 @@ package pingball;
 
 import static org.junit.Assert.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.junit.Before;
@@ -45,11 +46,13 @@ import pingball.Flipper.Side;
  */
 public class GadgetTest {
     Ball ball1;
+    Ball ball2;
     double deltaT;
     
     @Before
     public void setUp() throws Exception {
         ball1 = new Ball(new Circle(1,1,.5), new Vect(new Angle(0), 5));
+        ball2 = new Ball(new Circle(1,1,.5), new Vect(new Angle(0), 10));
         deltaT = (double) (1.0 / 1000.0);
     }
     
@@ -121,6 +124,44 @@ public class GadgetTest {
         assertTrue(absAligned.getTimeToCollision(ball1)==.7);
         ball1.move(5*deltaT);
         assertTrue(absAligned.getTimeToCollision(ball1)==.675);
+        
+        Vect initialMove = ball1.getMove();
+        Circle initialCirc = ball1.getCircle();
+        Circle initialCirc2 = ball2.getCircle();
+        
+        absAligned.reflectBall(ball1);
+        assertFalse(ball1.getMove().equals(initialMove));
+        assertTrue(ball1.getMove().length()==0);        
+        assertTrue(absAligned.absorbedBalls.size()==1);
+        assertTrue(ball1.getX()==Math.round(absAligned.getX()+absAligned.getWidth()-.25));
+        assertTrue(ball1.getY()==Math.round(absAligned.getY()+absAligned.getHeight()-.25));
+        absAligned.reflectBall(ball2);
+        
+        assertFalse(ball1.getCircle().equals(initialCirc));
+        assertFalse(ball2.getCircle().equals(initialCirc2));
+        
+        Circle absorbedCircle = ball2.getCircle(); 
+        assertTrue(ball2.getMove().length()==0);        
+        assertTrue(absAligned.absorbedBalls.size()==2);
+        absAligned.action();
+        assertTrue(absAligned.absorbedBalls.size()==2);
+        assertTrue(ball1.getMove().length()>0);
+        assertTrue(ball2.getMove().length()==0);
+        assertTrue(ball1.getMove().length()==50);
+        ball1.move(deltaT);
+        ball2.move(deltaT);
+        assertTrue(ball2.getCircle().equals(absorbedCircle));
+        assertFalse(ball1.getCircle().equals(absorbedCircle));
+        
+        Bumper bumpTrigger = new Bumper(Shape.SQUARE, "bump", 19, 19);
+        List<Gadget> gizmos = new ArrayList<Gadget>();
+        gizmos.add(absAligned);
+        bumpTrigger.setGizmos(gizmos);
+        bumpTrigger.trigger(); // should set off action of absorber
+        assertTrue(absAligned.absorbedBalls.size()==1);
+        assertTrue(ball2.getMove().length()>0);
+        
+        
         
         
     }
@@ -204,11 +245,12 @@ public class GadgetTest {
         
         ball1.move(100*deltaT);
         
-        assertTrue(ball1.getX()==3);
+        assertTrue(ball1.getX()==4);
         
         ball1.move(100000*deltaT);
         
-        assertTrue(ball1.getX()==2503);
+        assertTrue(ball1.getX()==2504);
+
         assertTrue(ball1.getY()==1);
         
         assertTrue(ball1.getCircle().getRadius()==0.5);        
