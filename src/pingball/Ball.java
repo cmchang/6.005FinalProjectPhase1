@@ -117,12 +117,12 @@ public class Ball {
 
         double x = circle.getCenter().x() + stepSize * move.dot(Vect.X_HAT) * move.length();
         double y = circle.getCenter().y() + stepSize * move.dot(Vect.Y_HAT) * move.length();
-        if (inBoard(new Circle(x, y, 0.1))) {
+//        if (inBoard(new Circle(x, y, 0.1))) {
             this.setCircle(new Circle(x, y, circle.getRadius()));
-        } else {
-            Vect moveSwitch = move.rotateBy(Angle.DEG_180);
-            this.setMove(moveSwitch);
-        }
+//        } else {
+//            Vect moveSwitch = move.rotateBy(Angle.DEG_180);
+//            this.setMove(moveSwitch);
+//        }
     }
     
     /**
@@ -133,6 +133,8 @@ public class Ball {
     private boolean inBoard(Circle circle){
         double x = circle.getCenter().x();
         double y = circle.getCenter().y();
+        System.out.println(x);
+        System.out.println(y);
         return (0.0<=x && x<=20.0 && 0.0<=y && y<=20.0);
     }
 }
