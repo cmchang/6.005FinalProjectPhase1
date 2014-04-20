@@ -36,7 +36,7 @@ public class FileParsingTest {
 
     //Tests A3, B1
     @Test
-    public void testEmptyBoardNoObjects_A3_B1(){
+    public void testEmptyBoardNoObjects_A3_B1() throws Exception{
         Board myBoard = GrammarFactory.parse(new File("src/../Boards/boardA.txt"));
         String ExpectedAnswer = "......................\n"
                 + ".                    .\n"
@@ -66,10 +66,14 @@ public class FileParsingTest {
     
     //Tests A5
     @Test
-    public void testIncorrectBoard_A5(){
+    public void testIncorrectBoard_A5() throws Exception{
         try{
             GrammarFactory.parse(new File("src/../Boards/BoardC.txt"));
         }catch(Exception e){
+            /*
+             * Note: Coulnd't test this without having something printed out in the
+             * console because the exception is thrown by antlr 
+             */
             System.err.println("Previous err message was expected for this test!");
             String expectedErrMsg = "mismatched input 'squareBumper' expecting 'y'";
             assertEquals(expectedErrMsg, e.getMessage());
@@ -83,16 +87,14 @@ public class FileParsingTest {
         try{
             GrammarFactory.parse(new File("src/../Boards/boardD.txt"));
         }catch(Exception e){
-            System.err.println("Previous err message was expected for this test!");
-            String expectedErrMsg = "";
+            String expectedErrMsg = "Objects in same place";
             assertEquals(expectedErrMsg, e.getMessage());
         }
-        assertTrue(false); //just temporary so we remember to fix the board
     }
     
   //Tests B4, B5
     @Test
-    public void testEmptyBoardNoBallJustObject_B4_B5(){
+    public void testEmptyBoardNoBallJustObject_B4_B5() throws Exception{
         Board myBoard = GrammarFactory.parse(new File("src/../Boards/BoardB.txt"));
         String ExpectedAnswer = "......................\n"
                 + ".                    .\n"
@@ -122,7 +124,7 @@ public class FileParsingTest {
     
     // Tests A1, A2, A4, B2, B6, C1
     @Test
-    public void testSampleBoard1_A1_A2_A4_B2_B6_C1(){
+    public void testSampleBoard1_A1_A2_A4_B2_B6_C1() throws Exception{
         Board myBoard = GrammarFactory.parse(new File("src/../Boards/board1.txt"));
         String ExpectedAnswer = "......................\n"
                 + ".                    .\n"
@@ -152,7 +154,7 @@ public class FileParsingTest {
     
     //test C2
     @Test
-    public void testSampleBoard2_C2(){
+    public void testSampleBoard2_C2() throws Exception{
         Board myBoard = GrammarFactory.parse(new File("src/../Boards/board2.txt"));
         String ExpectedAnswer = "......................\n"
                 + ".                    .\n"
@@ -182,7 +184,7 @@ public class FileParsingTest {
     
     //Tests C3
     @Test
-    public void testSampleBoard3_C3(){
+    public void testSampleBoard3_C3() throws Exception{
         Board myBoard = GrammarFactory.parse(new File("src/../Boards/board3.txt"));
         String ExpectedAnswer = "......................\n"
                 + ".                    .\n"
@@ -212,7 +214,7 @@ public class FileParsingTest {
     
     //Tests B3, C4
     @Test
-    public void testSampleBoard4_B3_C4(){
+    public void testSampleBoard4_B3_C4() throws Exception{
         Board myBoard = GrammarFactory.parse(new File("src/../Boards/board4.txt"));
         String ExpectedAnswer = "......................\n"
                 + ".                    .\n"
@@ -243,7 +245,7 @@ public class FileParsingTest {
     
     //Tests C5
     @Test
-    public void testSampleBoard5_C5(){
+    public void testSampleBoard5_C5() throws Exception{
         Board myBoard = GrammarFactory.parse(new File("src/../Boards/board5.txt"));
         String ExpectedAnswer = "......................\n"
                 + ".                    .\n"

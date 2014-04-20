@@ -40,11 +40,9 @@ public class PingballServer {
     /**
      * Run the server, listening for client connections and handling them.
      * Never returns unless an exception is thrown.
-     * 
-     * @throws IOException if the main server socket is broken
-     *                     (IOExceptions from individual clients do *not* terminate serve())   
+     * @throws Exception 
      */
-    public void serve() throws IOException {        
+    public void serve() throws Exception {        
         // reads server commands as they come in and updates boardHandler as necessary
         BufferedReader stream = new BufferedReader(new InputStreamReader(System.in));
         Thread addConnections = new Thread(new ServerReader(stream,lock,boardHandler));

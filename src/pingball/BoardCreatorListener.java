@@ -25,8 +25,9 @@ public class BoardCreatorListener extends GrammarBaseListener{
     * This method creates a new board.
     * 
     * @return board containing all the objects indicated in the file
+ * @throws Exception 
     */
-   public static Board getBoard(){
+   public static Board getBoard() throws Exception{
        
        for(Gadget gadget: gadgets) board.addGadget(gadget);
        for(Ball ball: balls) board.addBall(ball);

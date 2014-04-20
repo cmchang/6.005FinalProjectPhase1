@@ -56,8 +56,8 @@ public class Board {
                 switch (orient) {
                 case 0:
                     field[xcoord + 1][ycoord] = '-';
-                    if (side.equals(Side.RIGHT) && field[xcoord - 1 + 1][ycoord] != ' ') throw new Exception("Objects in same place");
-                    if (side.equals(Side.RIGHT)) field[xcoord - 1 + 1][ycoord] = '-';
+                    if (side.equals(Side.RIGHT) && field[xcoord - 1 + 1][ycoord+1] != ' ') throw new Exception("Objects in same place");
+                    if (side.equals(Side.RIGHT)) field[xcoord - 1 + 1][ycoord+1] = '-';
                     if (side.equals(Side.LEFT) && field[xcoord + 1 + 1][ycoord] != ' ') throw new Exception("Objects in same place");
                     if (side.equals(Side.LEFT)) field[xcoord + 1 + 1][ycoord] = '-';
                     break;
@@ -137,14 +137,14 @@ public class Board {
                 }
             } else if (gadget.getType().equals("absorber")) {
                 int xmin = ((Absorber) gadget).getX();
-                int ymin = ((Absorber) gadget).getY();
+                int ymin = ((Absorber) gadget).getY(); //
                 int width = ((Absorber) gadget).getWidth();
                 int height = ((Absorber) gadget).getHeight();
                 for (int j=0; j < width; j++) {
                     if (field[xmin+j+1][ymin] != ' ') throw new Exception("Objects in same place");
                     field[xmin + j + 1][ymin] = '=';
-                    if (field[xmin+j+1][ymin] != ' ') throw new Exception("Objects in same place");
-                    field[xmin + j + 1][ymin + height] = '=';
+                    if (field[xmin+j+1][ymin+1] != ' ') throw new Exception("Objects in same place");
+                    field[xmin + j + 1][ymin+1 + height] = '=';
                 }
             } else if (gadget.getType().equals("wall")){
                 String otherBoard;
@@ -311,9 +311,11 @@ public class Board {
 
     /**
      * mutator, add a given gadget to board
+     * @throws Exception 
      */
-    public void addGadget(Gadget gadget) {
+    public void addGadget(Gadget gadget) throws Exception {
         objects.add(gadget);
+        checkRep();
     }
     
     /**
@@ -498,9 +500,21 @@ public class Board {
     /**
      * mutator, add a ball to the board
      * @param ball
+     * @throws Exception 
      */
-    public void addBall(Ball ball) {
+    public void addBall(Ball ball) throws Exception {
         balls.add(ball);
+        checkRep();
+    }
+    
+    /**
+     * mutator, remove a the balls listed from the board
+     * @param ball
+     * @throws Exception 
+     */
+    public void removeAllBalls(List<Ball> balls) throws  Exception{
+        this.balls.removeAll(balls);
+        checkRep();
     }
     
     /**

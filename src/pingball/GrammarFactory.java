@@ -17,8 +17,9 @@ public class GrammarFactory {
      * This method takes in a file formatted as specified in the specifications in the 6.005 web page.
      * @param file containing the information about the board and the objects it should contain.
      * @return a new board.
+     * @throws Exception 
      */
-    public static Board parse(File file) {
+    public static Board parse(File file) throws Exception {
         String input = FileToString(file);
         
         // Create a stream of tokens using the lexer.
@@ -51,8 +52,9 @@ public class GrammarFactory {
      * @param String containing the file which has the information about the board and the objects it should contain.
      *        Note: there must be a "\n" at the end of each line in the file for this string to be parsed correctly.
      * @return a new board.
+     * @throws Exception 
      */
-    public static Board parse(String fileStr) {
+    public static Board parse(String fileStr) throws Exception {
         String input = fileStr;
         // Create a stream of tokens using the lexer.
         CharStream stream = new ANTLRInputStream(input);

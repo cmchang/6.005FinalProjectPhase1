@@ -108,7 +108,11 @@ class Update implements Runnable {
               //add in incoming balls
               synchronized(lock){
                   for (Ball ball: boardHandler.receiveBalls(board.name())){             
-                      board.addBall(ball);
+                      try {
+                        board.addBall(ball);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
                   }
               }
               
@@ -184,7 +188,11 @@ class Update implements Runnable {
                       }
                   }
                   //remove balls that left the board
-                  board.getBalls().removeAll(ballToRemove);
+                  try {
+                    board.removeAllBalls(ballToRemove);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
               }
               //move the flippers based on the timestep
               for (Gadget flipper:board.objects){

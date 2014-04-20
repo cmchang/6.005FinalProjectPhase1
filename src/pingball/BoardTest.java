@@ -32,7 +32,7 @@ public class BoardTest {
     }
     
     @Test 
-    public void testBalls() {
+    public void testBalls() throws Exception {
         Angle start = new Angle(2.0);
         Circle cir1 = new Circle(5.0, 3.0, .01);
         Vect v1 = new Vect(start, 10.0);

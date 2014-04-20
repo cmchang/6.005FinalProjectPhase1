@@ -9,8 +9,9 @@ public class Main {
     /**
      * Main Function that exposes functionality to command line usage
      * @param args
+     * @throws Exception 
      */
-    public static void main(String[] args) {
+    public static void main(String[] args) throws Exception {
         Board myBoard = GrammarFactory.parse(new File("src/pingball/Boards/board1.txt"));
         System.out.println(myBoard.toString());
     }
