@@ -342,11 +342,11 @@ public class Board {
             }
             int x = b.getX();
             int y = b.getY();
-            if (x == 20) {
-                x = 19;
+            if (x == 21) {
+                x = 20;
             }
-            if (y == 20) {
-                y = 19;
+            if (y == 21) {
+                y = 20;
             }
             field[x + 1][y + 1] = '*';
         }

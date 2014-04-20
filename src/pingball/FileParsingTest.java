@@ -83,7 +83,6 @@ public class FileParsingTest {
     //Tests A6
     @Test
     public void testOverlappingObjects_A6(){
-        //TODO: fix board - throw a message when objects overlap
         try{
             GrammarFactory.parse(new File("src/../Boards/boardD.txt"));
         }catch(Exception e){
