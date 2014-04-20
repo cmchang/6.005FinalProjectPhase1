@@ -37,7 +37,7 @@ public class FileParsingTest {
     //Tests A3, B1
     @Test
     public void testEmptyBoardNoObjects_A3_B1() throws Exception{
-        Board myBoard = GrammarFactory.parse(new File("src/../Boards/boardA.txt"));
+        Board myBoard = GrammarFactory.parse(new File("src/../boards/boardA.txt"));
         String ExpectedAnswer = "......................\n"
                 + ".                    .\n"
                 + ".                    .\n"
@@ -68,7 +68,7 @@ public class FileParsingTest {
     @Test
     public void testIncorrectBoard_A5() throws Exception{
         try{
-            GrammarFactory.parse(new File("src/../Boards/BoardC.txt"));
+            GrammarFactory.parse(new File("src/../boards/BoardC.txt"));
         }catch(Exception e){
             /*
              * Note: Coulnd't test this without having something printed out in the
@@ -84,7 +84,7 @@ public class FileParsingTest {
     @Test
     public void testOverlappingObjects_A6(){
         try{
-            GrammarFactory.parse(new File("src/../Boards/boardD.txt"));
+            GrammarFactory.parse(new File("src/../boards/boardD.txt"));
         }catch(Exception e){
             String expectedErrMsg = "Objects in same place";
             assertEquals(expectedErrMsg, e.getMessage());
@@ -94,7 +94,7 @@ public class FileParsingTest {
   //Tests B4, B5
     @Test
     public void testEmptyBoardNoBallJustObject_B4_B5() throws Exception{
-        Board myBoard = GrammarFactory.parse(new File("src/../Boards/BoardB.txt"));
+        Board myBoard = GrammarFactory.parse(new File("src/../boards/BoardB.txt"));
         String ExpectedAnswer = "......................\n"
                 + ".                    .\n"
                 + ".                    .\n"
@@ -124,7 +124,7 @@ public class FileParsingTest {
     // Tests A1, A2, A4, B2, B6, C1
     @Test
     public void testSampleBoard1_A1_A2_A4_B2_B6_C1() throws Exception{
-        Board myBoard = GrammarFactory.parse(new File("src/../Boards/board1.txt"));
+        Board myBoard = GrammarFactory.parse(new File("src/../boards/board1.txt"));
         String ExpectedAnswer = "......................\n"
                 + ".                    .\n"
                 + ". *                  .\n"
@@ -154,7 +154,7 @@ public class FileParsingTest {
     //test C2
     @Test
     public void testSampleBoard2_C2() throws Exception{
-        Board myBoard = GrammarFactory.parse(new File("src/../Boards/board2.txt"));
+        Board myBoard = GrammarFactory.parse(new File("src/../boards/board2.txt"));
         String ExpectedAnswer = "......................\n"
                 + ".                    .\n"
                 + ". *                  .\n"
@@ -184,7 +184,7 @@ public class FileParsingTest {
     //Tests C3
     @Test
     public void testSampleBoard3_C3() throws Exception{
-        Board myBoard = GrammarFactory.parse(new File("src/../Boards/board3.txt"));
+        Board myBoard = GrammarFactory.parse(new File("src/../boards/board3.txt"));
         String ExpectedAnswer = "......................\n"
                 + ".                    .\n"
                 + ".                    .\n"
@@ -214,7 +214,7 @@ public class FileParsingTest {
     //Tests B3, C4
     @Test
     public void testSampleBoard4_B3_C4() throws Exception{
-        Board myBoard = GrammarFactory.parse(new File("src/../Boards/board4.txt"));
+        Board myBoard = GrammarFactory.parse(new File("src/../boards/board4.txt"));
         String ExpectedAnswer = "......................\n"
                 + ".                    .\n"
                 + ".                    .\n"
@@ -245,7 +245,7 @@ public class FileParsingTest {
     //Tests C5
     @Test
     public void testSampleBoard5_C5() throws Exception{
-        Board myBoard = GrammarFactory.parse(new File("src/../Boards/board5.txt"));
+        Board myBoard = GrammarFactory.parse(new File("src/../boards/board5.txt"));
         String ExpectedAnswer = "......................\n"
                 + ".                    .\n"
                 + ".                    .\n"
