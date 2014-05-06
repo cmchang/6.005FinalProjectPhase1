@@ -12,7 +12,7 @@ public class Main {
      * @throws Exception 
      */
     public static void main(String[] args) throws Exception {
-        Board myBoard = GrammarFactory.parse(new File("src/pingball/Boards/board1.txt"));
+        Board myBoard = GrammarFactory.parse(new File("src/../boards/board1.txt"));
         System.out.println(myBoard.toString());
     }
     

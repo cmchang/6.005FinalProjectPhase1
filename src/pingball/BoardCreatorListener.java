@@ -83,17 +83,24 @@ public class BoardCreatorListener extends GrammarBaseListener{
     * in the file to create a new board.
     */
     public void exitBoard(GrammarParser.BoardContext ctx) {
-//        String ObjectType = ctx.getChild(0).toString();
-        String ObjectName = ctx.getChild(1).getChild(2).toString();
-        String gravity = ctx.getChild(2).getChild(2).toString();
-        if(ctx.getChildCount() == 4){ //if has 4 children, then friction was given
-            String friction1 = ctx.getChild(3).getChild(2).toString();
-            String friction2 = ctx.getChild(4).getChild(2).toString();
-            board = FileParser.CreateBoard(ObjectName, Double.parseDouble(gravity), Double.parseDouble(friction1), Double.parseDouble(friction2));
-        }else{
-            board = FileParser.CreateBoard(ObjectName, Double.parseDouble(gravity));
-
+        double friction1 = 0.025;
+        double friction2 = 0.025;
+        double gravity = 25.0;
+        
+        String ObjectName = ctx.objectName().getChild(2).getText();
+        
+        for(int x = ctx.getChildCount()-1; x > 0; x--){
+            if(ctx.getChild(x).getChild(0).getText().equals("friction1")){
+                friction1 = Double.parseDouble(ctx.getChild(x).getChild(2).getText());
+            }else if(ctx.getChild(x).getChild(0).getText().equals("friction2")){
+                friction2 = Double.parseDouble(ctx.getChild(x).getChild(2).getText());
+            }if(ctx.getChild(x).getChild(0).getText().equals("gravity")){
+                gravity = Double.parseDouble(ctx.getChild(x).getChild(2).getText());
+            }
         }
+        
+        board = FileParser.CreateBoard(ObjectName, gravity, friction1, friction2);
+        
     }
     
     /**
